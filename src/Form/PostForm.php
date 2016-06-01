@@ -76,6 +76,35 @@ class PostForm extends BaseForm
                 break;
         }
 
+        $userId = Pi::user()->getId();
+        $guestApprove = Pi::service('config')->get('guest_approve', 'comment');
+
+        if ($guestApprove === 1 && $userId === 0) {
+
+            $this->add(array(
+                'name' => 'identity',
+                'options' => array(
+                    'label' => __('Identity'),
+                ),
+                'attributes' => array(
+                    'type' => 'text',
+                    'required' => true,
+                )
+            ));
+
+            $this->add(array(
+                'name' => 'email',
+                'options' => array(
+                    'label' => __('Email'),
+                ),
+                'attributes' => array(
+                    'type' => 'text',
+                    'required' => true,
+                )
+            ));
+
+        }
+        
         $this->add(array(
             'name'          => 'content',
             'type'          => 'editor',

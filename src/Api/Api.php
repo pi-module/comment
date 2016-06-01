@@ -49,6 +49,8 @@ class Api extends AbstractApi
         'root',
         'reply',
         'uid',
+        'identity',
+        'email',
         'ip',
         'time',
         'time_updated',

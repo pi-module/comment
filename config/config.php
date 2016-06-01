@@ -46,6 +46,13 @@ $config = array(
         'filter'        => 'int',
     ),
 
+    'guest_approve'  => array(
+        'title'         => _t('Guest can send comment'),
+        'edit'          => 'checkbox',
+        'value'         => 0,
+        'filter'        => 'int',
+    ),
+
     'markup_format' => array(
         'title'         => _t('Content format'),
         'edit'          => array(

@@ -174,7 +174,10 @@ class PostController extends ActionController
      */
     public function submitAction()
     {
+        $this->view()->setTemplate(false);
+
         $result = $this->processPost();
+
         $redirect = '';
         if ($this->request->isPost()) {
             $return = (bool) $this->request->getPost('return');
@@ -219,6 +222,7 @@ class PostController extends ActionController
      */
     protected function processPost()
     {
+        $guestApprove   = Pi::service('config')->get('guest_approve', 'comment');
         $currentUser    = Pi::service('user')->getUser();
         $currentUid     = $currentUser->get('id');
 
@@ -227,7 +231,7 @@ class PostController extends ActionController
         $isNew          = false;
         $isEnabled      = false;
 
-        if (!$currentUid) {
+        if (!$currentUid && $guestApprove === 0) {
             $status = -1;
             $message = __('Operation denied.');
         } elseif (!$this->request->isPost()) {
@@ -254,6 +258,10 @@ class PostController extends ActionController
                         $status = -1;
                         $message = __('Comment is disabled.');
                     }
+                }
+                if (!$currentUid && !$guestApprove) {
+                    $status = -1;
+                    $message = __('Guest information not set.');
                 }
                 if (0 < $status) {
                     // For new post
@@ -392,6 +400,9 @@ class PostController extends ActionController
         if (!$post) {
             $status = 422;
             $message = __('Invalid parameters.');
+        } elseif (!$currentUid) {
+            $status = 403;
+            $message = __('Forbidden.');
         } elseif ($currentUid != $post['uid']
             && !$currentUser->isAdmin('comment')
         ) {

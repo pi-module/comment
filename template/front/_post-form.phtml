@@ -3,7 +3,16 @@ if (isset($root['active']) && empty($root['active'])) {
     echo '<div class="well well-sm">' . __('Comment is disabled.') . '</div>';
     return;
 }
-//$uid = Pi::user()->getId();
+
+$colClass = '';
+$userId = Pi::user()->getId();
+$guestApprove = Pi::service('config')->get('guest_approve', 'comment');
+$url = Pi::service('url')->assemble('default', array(
+    'module'        => 'system',
+    'controller'    => 'index',
+    'action'        => 'user',
+));
+
 if (!empty($root['id'])) {
     $formData = array(
         'root' => $root['id']
@@ -19,30 +28,48 @@ $formData['redirect'] = rawurlencode($uri);
 $form = Pi::service('comment')->getForm($formData);
 ?>
 <div class="comment-item" id="js-comment-form">
-    <textarea placeholder="<?php _e('Type your content'); ?>" class="form-control js-comment-txt" rows="3"></textarea>
+    <?php echo $this->form()->openTag($form); ?>
+    <div class="form-group">
+        <label><?php _e('Content'); ?></label>
+        <textarea placeholder="<?php _e('Type your content'); ?>" class="form-control js-comment-txt" rows="3"></textarea>
+    </div>
+    <div class="hide clearfix comment-form">
+        <?php echo $this->formElement($form->get('content')); ?>
+    </div>
+    <br />
+    <?php if ($guestApprove === 1 && $userId === 0) { ?>
+    <div class="row hide clearfix comment-form-guest col-md-8">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label><?php _e('Identity'); ?></label>
+                <?php echo $this->formElement($form->get('identity')); ?>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label><?php _e('Email'); ?></label>
+                <?php echo $this->formElement($form->get('email')); ?>
+            </div>
+        </div>
+    </div>
+        <?php $colClass = 'col-md-4'; ?>
+    <?php } ?>
+    <div class="hide clearfix comment-form <?php echo $colClass; ?>">
+        <?php echo $this->formElement($form->get('submit')); ?>
+    </div>
     <div class="hide clearfix comment-form">
         <?php
-        echo $this->form()->openTag($form);
-        echo $this->formElement($form->get('content'));
-        echo $this->formElement($form->get('submit'));
         $elements = $form->elementList();
         foreach ($elements['hidden'] as $element) {
             echo $this->formElement($element);
         }
-        echo $this->form()->closeTag();
         ?>
     </div>
-    <div class="hide well well-sm">
+    <?php echo $this->form()->closeTag(); ?>
+    <div class="hide well well-sm comment-login">
         <?php echo sprintf(__('Please <a href="%s">login</a> to leave comments.'), Pi::service('authentication')->getUrl('login', $uri)); ?>
     </div>
 </div>
-<?php
-$url = Pi::service('url')->assemble('default', array(
-    'module'        => 'system',
-    'controller'    => 'index',
-    'action'        => 'user',
-));
-?>
 <script>
     (function ($) {
         var comment = {
@@ -56,14 +83,19 @@ $url = Pi::service('url')->assemble('default', array(
             },
             events: function () {
                 var self = this;
+                var guest = <?php echo $guestApprove; ?>;
                 this.textarea.focus(function () {
                     $.getJSON('<?php echo $url; ?>?' + new Date().getTime()).done(function (data) {
                         self.textarea.hide();
                         if (data.uid) {
                             self.$('.comment-form').removeClass('hide');
                             self.$('[name=content]').focus();
+                        } else if (guest == 1) {
+                            self.$('.comment-form').removeClass('hide');
+                            self.$('.comment-form-guest').removeClass('hide');
+                            self.$('[name=content]').focus();
                         } else {
-                            self.$('.well').removeClass('hide');
+                            self.$('.comment-login').removeClass('hide');
                         }
                     });
                 });

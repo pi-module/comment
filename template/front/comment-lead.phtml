@@ -19,6 +19,7 @@
 EOT;
             ?>
             <?php foreach ($posts as $item) { ?>
+                <?php $url = ($item['uid'] > 0) ? $item['user']['url'] : '#comments'; ?>
                 <div class="media comment-item clearfix" id="comment-<?php echo $item['id']; ?>">
                     <a class="pull-left" href="<?php echo $item['user']['url']; ?>" target="_blank">
                         <?php echo $item['user']['avatar']; ?>
@@ -26,14 +27,14 @@ EOT;
                     <div class="media-body">
                         <?php echo sprintf(
                             $template,
-                            $item['user']['url'],
+                            $url,
                             $item['user']['name'],
                             _date($item['time']),
                             $item['content'],
                             date("Y-m-d H:i:s", $item['time'])
                         ); ?>
                         <div class="comment-operation">
-                            <?php if ($uid == $item['uid']) {
+                            <?php if ($uid > 0 && $uid == $item['uid']) {
                                 echo sprintf(
                                     '<a href="%s#comments" onclick="return confirm(\'%s\')">%s</a>',
                                     $this->url('comment', array('controller' => 'post', 'action' => 'delete', 'id' => $item['id'])),

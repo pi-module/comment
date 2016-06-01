@@ -9,56 +9,58 @@
 
 # Comment type
 CREATE TABLE `{type}` (
-  `id`              int(10)         unsigned    NOT NULL    auto_increment,
-  `module`          varchar(64)     NOT NULL    default '',
-  `controller`      varchar(64)     NOT NULL    default '',
-  `action`          varchar(64)     NOT NULL    default '',
-  `identifier`      varchar(64)     NOT NULL    default '',
-  `params`          varchar(255)    NOT NULL    default '',
-  `name`            varchar(64)     NOT NULL    default '',
-  `title`           varchar(255)    NOT NULL    default '',
+  `id`         INT(10) UNSIGNED    NOT NULL    AUTO_INCREMENT,
+  `module`     VARCHAR(64)         NOT NULL    DEFAULT '',
+  `controller` VARCHAR(64)         NOT NULL    DEFAULT '',
+  `action`     VARCHAR(64)         NOT NULL    DEFAULT '',
+  `identifier` VARCHAR(64)         NOT NULL    DEFAULT '',
+  `params`     VARCHAR(255)        NOT NULL    DEFAULT '',
+  `name`       VARCHAR(64)         NOT NULL    DEFAULT '',
+  `title`      VARCHAR(255)        NOT NULL    DEFAULT '',
   -- Callback to fetch source meta data
-  `callback`        varchar(255)    NOT NULL    default '',
+  `callback`   VARCHAR(255)        NOT NULL    DEFAULT '',
   -- Locator to identify root meta data
-  `locator`         varchar(255)    NOT NULL    default '',
-  `active`          tinyint(1)      unsigned    NOT NULL default '1',
-  `icon`            varchar(255)    NOT NULL    default '',
+  `locator`    VARCHAR(255)        NOT NULL    DEFAULT '',
+  `active`     TINYINT(1) UNSIGNED NOT NULL    DEFAULT '1',
+  `icon`       VARCHAR(255)        NOT NULL    DEFAULT '',
 
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY  `module_type` (`module`, `name`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `module_type` (`module`, `name`)
 );
 
 # Comment root
 CREATE TABLE `{root}` (
-  `id`              int(10)         unsigned    NOT NULL    auto_increment,
-  `module`          varchar(64)     NOT NULL,
-  `type`            varchar(64)     NOT NULL    default '',
-  `item`            int(10)         unsigned    NOT NULL,
-  `active`          tinyint(1)      unsigned    NOT NULL default '1',
+  `id`     INT(10) UNSIGNED    NOT NULL    AUTO_INCREMENT,
+  `module` VARCHAR(64)         NOT NULL,
+  `type`   VARCHAR(64)         NOT NULL    DEFAULT '',
+  `item`   INT(10) UNSIGNED    NOT NULL,
+  `active` TINYINT(1) UNSIGNED NOT NULL    DEFAULT '1',
   -- User id of root item author
-  `author`          int(10)         unsigned    NOT NULL default '0',
+  `author` INT(10) UNSIGNED    NOT NULL    DEFAULT '0',
 
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY  `module_item` (`module`, `type`, `item`),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `module_item` (`module`, `type`, `item`),
   KEY `author` (`author`)
 );
 
 # Comment posts
 CREATE TABLE `{post}` (
-  `id`              int(10)         unsigned    NOT NULL    auto_increment,
-  `uid`             int(10)         unsigned    NOT NULL default '0',
-  `root`            int(10)         unsigned    NOT NULL,
-  `reply`           int(10)         unsigned    NOT NULL default '0',
-  `content`         text,
+  `id`           INT(10) UNSIGNED    NOT NULL    AUTO_INCREMENT,
+  `uid`          INT(10) UNSIGNED    NOT NULL    DEFAULT '0',
+  `identity`     VARCHAR(64)         NOT NULL    DEFAULT '',
+  `email`        VARCHAR(64)         NOT NULL    DEFAULT '',
+  `root`         INT(10) UNSIGNED    NOT NULL,
+  `reply`        INT(10) UNSIGNED    NOT NULL    DEFAULT '0',
+  `content`      TEXT,
   -- Content markup: text, html, markdown
-  `markup`          varchar(64)     NOT NULL    default '',
-  `time`            int(10)         unsigned    NOT NULL default '0',
-  `time_updated`    int(10)         unsigned    NOT NULL default '0',
-  `active`          tinyint(1)      unsigned    NOT NULL default '1',
-  `ip`              varchar(15)     NOT NULL    default '',
-  `module`          varchar(64)     NOT NULL,
+  `markup`       VARCHAR(64)         NOT NULL    DEFAULT '',
+  `time`         INT(10) UNSIGNED    NOT NULL    DEFAULT '0',
+  `time_updated` INT(10) UNSIGNED    NOT NULL    DEFAULT '0',
+  `active`       TINYINT(1) UNSIGNED NOT NULL    DEFAULT '1',
+  `ip`           VARCHAR(15)         NOT NULL    DEFAULT '',
+  `module`       VARCHAR(64)         NOT NULL,
 
-  PRIMARY KEY  (`id`),
-  KEY  `uid` (`uid`),
-  KEY  `root` (`root`)
+  PRIMARY KEY (`id`),
+  KEY `uid` (`uid`),
+  KEY `root` (`root`)
 );

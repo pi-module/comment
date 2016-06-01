@@ -9,7 +9,9 @@
 
 namespace Module\Comment\Form;
 
+use Pi;
 use Zend\InputFilter\InputFilter;
+use Module\System\Validator\UserEmail as UserEmailValidator;
 
 class PostFilter extends InputFilter
 {
@@ -24,6 +26,47 @@ class PostFilter extends InputFilter
                 ),
             ),
         ));
+
+        $userId = Pi::user()->getId();
+        $guestApprove = Pi::service('config')->get('guest_approve', 'comment');
+
+        if ($guestApprove === 1 && $userId === 0) {
+
+            $this->add(array(
+                'name' => 'identity',
+                'required' => true,
+                'filters' => array(
+                    array(
+                        'name' => 'StringTrim',
+                    ),
+                ),
+            ));
+
+            $this->add(array(
+                'name' => 'email',
+                'required' => true,
+                'filters' => array(
+                    array(
+                        'name' => 'StringTrim',
+                    ),
+                ),
+                'validators' => array(
+                    array(
+                        'name' => 'EmailAddress',
+                        'options' => array(
+                            'useMxCheck' => false,
+                            'useDeepMxCheck' => false,
+                            'useDomainCheck' => false,
+                        ),
+                    ),
+                    new UserEmailValidator(array(
+                        'blacklist' => false,
+                        'check_duplication' => false,
+                    )),
+                ),
+            ));
+
+        }
 
         foreach (array(
                      'id',

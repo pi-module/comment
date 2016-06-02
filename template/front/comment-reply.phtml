@@ -33,16 +33,18 @@ $style = <<<'EOT'
         min-height: 75px;
     }
     textarea:focus {
-        border: 0px;
-        box-shadow: none;
+
     }
     .media-body .form-textarea {
-        margin-top: 20px;
+        margin-top: 10px;
         border: 1px solid #dddddd;
         padding: 4px 6px;
         box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
         border-radius: 4px;
         height: 75px;
+    }
+    .well {
+        margin-top: 20px;
     }
 EOT;
 $this->headStyle()->appendStyle($style);
@@ -58,37 +60,51 @@ $this->headStyle()->appendStyle($style);
         </a>
         <div class="media-body">
             <?php if ($post) { ?>
-                <div class="clearfix">
-                <span class="pi-comment-user">
-                    <a href="<?php echo $post['user']['url']; ?>" target="_blank" title="<?php echo $post['user']['name']; ?>" class="highlight">
-                        <?php echo $post['user']['name']; ?>
-                    </a>
-                </span>
-                    <span class="pull-right muted pi-comment-time"><?php echo _date($post['time']); ?></span>
+                <div class="pi-comment-single clearfix">
+                    <ul class="list-inline">
+                        <li class="pi-comment-user">
+                            <a href="<?php echo $post['user']['url']; ?>" target="_blank" title="<?php echo $post['user']['name']; ?>" class="highlight">
+                                <?php echo $post['user']['name']; ?>
+                            </a>
+                        </li>
+                        <li class="pull-right muted pi-comment-time"><?php echo _date($post['time']); ?></li>
+                    </ul>
                 </div>
                 <div class="pi-comment-desc">
-                    <span class="muted pull-left"><?php _e('Commented on '); ?></span>
-                    <a class="highlight comment-title-hidden" href="<?php echo $target['url']; ?>" title="<?php echo _escape($target['title']); ?>" style="max-width: 70%">
-                        <?php echo _escape($target['title']); ?>
-                    </a>
+                    <ul>
+                        <li class="muted"><?php _e('Commented on '); ?></li>
+                        <li>
+                            <a class="highlight" href="<?php echo $target['url']; ?>" title="<?php echo _escape($target['title']); ?>">
+                                <?php echo _escape($target['title']); ?>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
                 <div class="pi-comment-content">
                     <?php echo $post['content']; ?>
                 </div>
-                <?php
-                echo $this->form()->openTag($form);
-                echo $this->formElement($form->get('content'));
-                echo $this->formElement($form->get('submit'));
-
-                $elements = $form->elementList();
-                foreach ($elements['hidden'] as $element) {
-                    echo $this->formElement($element);
-                }
-                echo $this->form()->closeTag();
-                ?>
             <?php } else { ?>
                 <div class="pi-comment-none"><?php _e('No content.'); ?></div>
             <?php } ?>
         </div>
     </div>
+    <?php if ($post) { ?>
+        <div class="well well-sm ">
+            <?php echo $this->form()->openTag($form); ?>
+            <div class="form-group">
+                <?php echo $this->formElement($form->get('content')); ?>
+            </div>
+            <div class="form-group">
+                <?php echo $this->formElement($form->get('submit')); ?>
+            </div>
+            <?php
+            $elements = $form->elementList();
+            foreach ($elements['hidden'] as $element) {
+                echo $this->formElement($element);
+            }
+            echo $this->form()->closeTag();
+            ?>
+        </div>
+    <?php } ?>
 </div>
+

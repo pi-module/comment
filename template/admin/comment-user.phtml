@@ -19,26 +19,16 @@ $active = $comment['active'];
     <button type="submit" class="btn"><?php echo _a('Submit'); ?></button>
 </form>
 <div id="pi-js-comment">
-    <?php
-        if ($posts) {
-    ?>
+    <?php if ($posts) { ?>
     <div class="pi-comment-batch-operation">
         <input type="checkbox" class="check-all" style="margin-right: 20px">
-    <?php
-        if (0 === $active || null === $active) {
-    ?>
+    <?php if (0 === $active || null === $active) {  ?>
         <input type="button" name="enable" class="btn disabled" value="<?php echo _a('Enable'); ?>">
-    <?php
-        }
-        if (1 === $active || null === $active) {
-    ?>
+    <?php  } if (1 === $active || null === $active) {  ?>
         <input type="button" name="disable" class="btn disabled" value="<?php echo _a('Disable'); ?>">
-    <?php
-        }
-    ?>
+    <?php} ?>
         <input type="button" name="delete" class="btn disabled" value="<?php echo _a('Delete'); ?>">
     </div>
-
     <div class="pi-comment-list">
         <table style="width: 100%" class="table table-striped">
         <?php 
@@ -51,9 +41,15 @@ $active = $comment['active'];
                 </td>
                 <td style="text-align: center; width: 50px"><?php echo $user['avatar']; ?></td>
                 <td style="width: 100px">
-                    <a class="<?php echo 0 === $post['active'] && 0 !== $active ? ' muted' : ''; ?>" href="<?php echo $user['url']; ?>">
-                        <strong><?php echo _escape($user['name']); ?></strong>
-                    </a>
+                    <?php if ($post['uid'] > 0) { ?>
+                        <a class="<?php echo 0 === $post['active'] && 0 !== $active ? ' muted' : ''; ?>" href="<?php echo $post['user']['url']; ?>">
+                            <strong><?php echo _escape($post['user']['name']); ?></strong>
+                        </a>
+                    <?php } else { ?>
+                        <div class="<?php echo 0 === $post['active'] && 0 !== $active ? ' muted' : ''; ?>">
+                            <strong><?php echo _escape($post['identity']); ?></strong>
+                        </div>
+                    <?php } ?>
                     <div class="muted"><?php echo _escape($post['ip']); ?></div>
                 </td>
                 <td>
@@ -64,65 +60,50 @@ $active = $comment['active'];
                         <?php echo $post['content']; ?>
                     </div>
                     <div class="one-action">
-                    <?php
-                        foreach ($post['operations'] as $op => $value) {
-                            $class = '';
-                            switch ($op) {
-                                case 'approve':
-                                    $class = 'icon-ban-circle';
-                                    break;
-                                case 'edit':
-                                    $class = 'icon-pencil';
-                                    break;
-                                case 'delete':
-                                    $class = 'icon-trash';
-                                    break;
-                                case 'reply':
-                                    $class = 'icon-share-alt';
-                                    break;
-                            }
-                    ?>
-                        <span class="operation">
-                            <a class="muted" href="<?php echo $value['url']; ?>"<?php echo 'delete' == $op ? sprintf(' onclick="return confirm(\'%s\')"', __('Are you sure to delete this comment?')) : ''; ?>>
-                                <i class="<?php echo $class; ?>" style="text-decoration: none"></i>
-                                    <?php echo _escape($value['title']); ?>
-                            </a>
-                        </span>
-                    <?php
-                        }
-                    ?>
+                        <ul class="list-inline">
+                            <?php foreach ($post['operations'] as $op => $value) {
+                                $class = '';
+                                switch ($op) {
+                                    case 'approve':
+                                        $class = 'icon-ban-circle';
+                                        break;
+                                    case 'edit':
+                                        $class = 'icon-pencil';
+                                        break;
+                                    case 'delete':
+                                        $class = 'icon-trash';
+                                        break;
+                                    case 'reply':
+                                        $class = 'icon-share-alt';
+                                        break;
+                                } ?>
+                                <li class="operation">
+                                    <a class="muted" href="<?php echo $value['url']; ?>"<?php echo 'delete' == $op ? sprintf(' onclick="return confirm(\'%s\')"', __('Are you sure to delete this comment?')) : ''; ?>>
+                                        <i class="<?php echo $class; ?>" style="text-decoration: none"></i>
+                                        <?php echo $value['title']; ?>
+                                    </a>
+                                </li>
+                            <?php } ?>
+                        </ul>
                     </div>
                 </td>
                 <td style="width: 140px" class="muted"><?php echo _date($post['time']); ?></td>
                 <td style="width: 60px">
-                <?php if (0 === $post['active'] && 0 !== $active) {
-                ?>
+                <?php if (0 === $post['active'] && 0 !== $active) { ?>
                     <span style="color: #999999"><strong><?php echo _a('Pending'); ?></strong></span>
-                <?php
-                }
-                ?>
+                <?php } ?>
                 </td>
             </tr>
-        <?php 
-            }
-        ?>
+        <?php } ?>
         </table>
     </div>
-    <?php
-        } else {
-    ?>
+    <?php } else { ?>
     <div class="pi-comment-none"><?php echo _a('No comments available yet.'); ?></div>
-    <?php
-        }
-    ?>
-
-    <?php
-        if ($posts && $paginator) {
+    <?php } ?>
+    <?php if ($posts && $paginator) {
             echo $this->pagination($paginator);
-        }
-    ?>
+        } ?>
 </div>
-
 <script>
 (function($) {
     var page = {

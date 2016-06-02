@@ -4,3 +4,12 @@ Change log for `comment` module
 Dec 28th, 2013
 ---------------
 1. Changed `category` to `type`
+
+
+1.2.0
+---------------
+1. removed files
+  * src/Controller/Front/DemoController.php
+  * src/Controller/Front/CustomController.php
+  * src/Controller/Front/TestController.php
+  * template/front/demo.phtml

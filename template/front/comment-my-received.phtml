@@ -30,7 +30,7 @@ if (empty($user)) {
         <?php if ($posts) { ?>
             <div class="pi-comment-list">
                 <?php foreach ($posts as $post) { ?>
-                    <div class="media<?php echo 0 == $post['active'] ? ' muted' : ''; ?>">
+                    <div class="pi-comment-single media<?php echo 0 == $post['active'] ? ' muted' : ''; ?>">
                         <a class="pull-left" href="<?php echo $user['url']; ?>" target="_blank">
                             <img src="<?php echo $user['avatar']; ?>">
                         </a>
@@ -42,9 +42,9 @@ if (empty($user)) {
                                             <?php echo $post['user']['name']; ?>
                                         </a>
                                     </li>
-                                    <li class="muted pull-left"><?php _e('commented on '); ?></li>
+                                    <li class="muted"><?php _e('commented on '); ?></li>
                                     <li>
-                                        <a class="highlight comment-title-hidden pull-left" href="<?php echo $post['target']['url']; ?>" title="<?php echo $post['target']['title']; ?>" style="max-width: 30%">
+                                        <a class="highlight" href="<?php echo $post['target']['url']; ?>" title="<?php echo $post['target']['title']; ?>">
                                             <?php echo $post['target']['title']; ?>
                                         </a>
                                     </li>

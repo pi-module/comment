@@ -22,43 +22,10 @@ class IndexController extends ActionController
         //$this->redirect('', array('controller' => 'demo'));
         $title = sprintf(__('Comment portal for %s'), Pi::config('sitename'));
         $links = array(
-                /*
-            'build'   => array(
-                'title' => __('Build comment data for demo articles'),
-                'url'   => $this->url('', array(
-                    'controller'    => 'demo',
-                    'action'        => 'build'
-                )),
-            ),
-            */
-            /* 'demo'   => array(
-                'title' => __('Demo article with comments'),
-                'url'   => $this->url('', array(
-                    'controller'    => 'demo'
-                )),
-            ), */
-            /*
-            'all'   => array(
-                'title' => __('All comment posts'),
-                'url'   => Pi::api('api', 'comment')->getUrl('list', array(
-                    'active'  => null,
-                )),
-            ),
-            */
             'all-active'   => array(
                 'title' => __('All active comment posts'),
-                'url'   => Pi::api('api', 'comment')->getUrl('list', array(
-                    'active'  => 1,
-                )),
+                'url'   => Pi::api('api', 'comment')->getUrl('list', array()),
             ),
-            /*
-            'all-inactive'   => array(
-                'title' => __('All inactive comment posts'),
-                'url'   => Pi::api('api', 'comment')->getUrl('list', array(
-                    'active'  => 0,
-                )),
-            ),
-            */
             'article'   => array(
                 'title' => __('Commented articles'),
                 'url'   => $this->url('', array(

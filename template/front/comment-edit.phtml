@@ -44,15 +44,18 @@ if ($uid) {
                 </div>
                 <div class="pi-comment-desc">
                     <span class="muted pull-left"><?php _e('Commented on '); ?></span>
-                    <a class="highlight comment-title-hidden" href="<?php echo $target['url']; ?>" title="<?php echo _escape($target['title']); ?>" style="max-width: 70%">
+                    <a class="highlight" href="<?php echo $target['url']; ?>" title="<?php echo _escape($target['title']); ?>">
                         <?php echo $target['title']; ?>
                     </a>
                 </div>
+                <?php echo $this->form()->openTag($form); ?>
+                <div class="form-group">
+                    <?php echo $this->formElement($form->get('content')); ?>
+                </div>
+                <div class="form-group">
+                    <?php echo $this->formElement($form->get('submit')); ?>
+                </div>
                 <?php
-                echo $this->form()->openTag($form);
-                echo $this->formElement($form->get('content'));
-                echo $this->formElement($form->get('submit'));
-
                 $elements = $form->elementList();
                 foreach ($elements['hidden'] as $element) {
                     echo $this->formElement($element);

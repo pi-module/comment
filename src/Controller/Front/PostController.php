@@ -69,6 +69,7 @@ class PostController extends ActionController
      */
     public function editAction()
     {
+        Pi::service('authentication')->requireLogin();
         $currentUser    = Pi::service('user')->getUser();
         $currentUid     = $currentUser->get('id');
         $id             = _get('id', 'int') ?: 1;
@@ -121,6 +122,7 @@ class PostController extends ActionController
      */
     public function replyAction()
     {
+        Pi::service('authentication')->requireLogin();
         $currentUser    = Pi::service('user')->getUser();
         $currentUid     = $currentUser->get('id');
         $id             = _get('id', 'int') ?: 1;
@@ -389,6 +391,7 @@ class PostController extends ActionController
      */
     public function deleteAction()
     {
+        Pi::service('authentication')->requireLogin();
         $currentUser    = Pi::service('user')->getUser();
         $currentUid     = $currentUser->get('id');
 

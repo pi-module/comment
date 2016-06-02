@@ -233,7 +233,7 @@ class Api extends AbstractApi
             $params['return'] = $options['return'];
         }
         */
-        $url = Pi::service('url')->assemble('comment', $params);
+        $url = Pi::url(Pi::service('url')->assemble('comment', $params));
 
         return $url;
     }
@@ -523,10 +523,10 @@ class Api extends AbstractApi
                                 array('uid' => $uid)
                             );
                         } else {
-                            $data['url'] = Pi::service('user')->getUrl(
+                            $data['url'] = Pi::url(Pi::service('user')->getUrl(
                                 'profile',
                                 $uid
-                            );
+                            ));
                         }
                         if (null !== $avatars) {
                             $data['avatar'] = $avatars[$uid];
@@ -614,7 +614,7 @@ class Api extends AbstractApi
                         case 'edit':
                         case 'delete':
                             if ('admin' == $section) {
-                                $url = Pi::service('url')->assemble(
+                                $url = Pi::url(Pi::service('url')->assemble(
                                     'admin',
                                     array(
                                         'module'        => 'comment',
@@ -622,7 +622,7 @@ class Api extends AbstractApi
                                         'action'        => $op,
                                         'id'            => $post['id'],
                                     )
-                                );
+                                ));
                             } else {
                                 $url = $this->getUrl($op, array(
                                     'post' => $post['id']
@@ -639,7 +639,7 @@ class Api extends AbstractApi
                                 $title = __('Enable');
                             }
                             if ('admin' == $section) {
-                                $url = Pi::service('url')->assemble(
+                                $url = Pi::url(Pi::service('url')->assemble(
                                     'admin',
                                     array(
                                         'module'        => 'comment',
@@ -648,7 +648,7 @@ class Api extends AbstractApi
                                         'id'            => $post['id'],
                                         'flag'          => $flag,
                                     )
-                                );
+                                ));
                             } else {
                                 $url = $this->getUrl($op, array(
                                     'post'  => $post['id'],

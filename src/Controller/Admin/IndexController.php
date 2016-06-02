@@ -22,19 +22,6 @@ class IndexController extends ActionController
         // Portal
         $title = sprintf(_a('Comment portal for %s'), Pi::config('sitename'));
         $links = array(
-            'build'   => array(
-                'title' => _a('Build comment data for demo articles'),
-                'url'   => $this->url('', array(
-                    'controller'    => 'index',
-                    'action'        => 'build',
-                )),
-            ),
-            'demo'   => array(
-                'title' => _a('Demo article with comments'),
-                'url'   => $this->url('comment', array(
-                    'controller'    => 'demo',
-                )),
-            ),
             'all'   => array(
                 'title' => _a('All comment posts'),
                 'url'   => $this->url('', array(
@@ -119,9 +106,11 @@ class IndexController extends ActionController
         );
         $users = array();
         foreach ($rowset as $row) {
-            $users[$row['uid']] = array(
-                'count' => (int) $row['count'],
-            );
+            if ($row['uid'] > 0) {
+                $users[$row['uid']] = array(
+                    'count' => (int) $row['count'],
+                );
+            }
         }
         if ($users) {
             $userNames = Pi::service('user')->mget(array_keys($users), 'name');
@@ -224,67 +213,5 @@ class IndexController extends ActionController
         ));
 
         $this->view()->setTemplate('comment-index');
-    }
-
-    /**
-     * Build demo comment post data
-     */
-    public function buildAction()
-    {
-        /*
-        $roots = Pi::model('root', 'comment')->delete(array(
-            'module'    => 'comment',
-        ));
-        foreach ($roots as $root) {
-            Pi::api('api', 'comment')->delete($root->id);
-        }
-        */
-        Pi::model('root', 'comment')->delete(array(
-            'module'    => 'comment',
-        ));
-        Pi::model('post', 'comment')->delete(array(
-            'module'    => 'comment',
-        ));
-
-        $rootIds = array();
-        //$key = 1;
-        for ($i = 1; $i <= 10; $i++) {
-            $root = array(
-                'module'    => 'comment',
-                'item'      => $i,
-                'type'  => 'article',
-                'active'    => rand(0, 1),
-            );
-            $rootIds[] = Pi::api('api', 'comment')->addRoot($root);
-        }
-
-        for ($i = 1; $i <= 5; $i++) {
-            $root = array(
-                'module'    => 'comment',
-                'item'      => $i,
-                'type'  => 'custom',
-                'active'    => rand(0, 1),
-            );
-            $rootIds[] = Pi::api('api', 'comment')->addRoot($root);
-        }
-
-        for ($i = 0; $i < 1000; $i++) {
-            $post = array(
-                'root'      => $rootIds[rand(0, 14)],
-                'uid'       => rand(1, 5),
-                'ip'        => Pi::service('user')->getIp(),
-                'active'    => rand(0, 1),
-                'content'   => sprintf(_a('Demo comment %d.'), $i + 1),
-                'time'      => time() - rand(100, 100000),
-            );
-            Pi::api('api', 'comment')->addPost($post);
-        }
-
-        //exit();
-        $this->redirect('comment', array(
-            'action'    => 'index',
-            'id'        => rand(1, 5),
-            'enable'    => 'yes',
-        ));
     }
 }

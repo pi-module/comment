@@ -21,7 +21,7 @@ $paginator = $comment['paginator'];
                     <?php echo sprintf('%s\'s comments ', $user['name']) . "({$count})"; ?>
                 </h1>
                 <?php foreach ($posts as $post) { ?>
-                    <div class="media">
+                    <div class="pi-comment-single media">
                         <a class="pull-left" href="<?php echo $user['url']; ?>" target="_blank">
                             <?php echo $user['avatar']; ?>
                         </a>
@@ -30,7 +30,7 @@ $paginator = $comment['paginator'];
                                 <ul class="list-inline">
                                     <li class="muted pull-left"><?php _e('Commented on '); ?></li>
                                     <li>
-                                        <a class="highlight comment-title-hidden pull-left" href="<?php echo $post['target']['url']; ?>" title="<?php echo _escape($post['target']['title']); ?>">
+                                        <a class="highlight" href="<?php echo $post['target']['url']; ?>" title="<?php echo _escape($post['target']['title']); ?>">
                                             <?php echo _escape($post['target']['title']); ?>
                                         </a>
                                     </li>

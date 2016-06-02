@@ -9,30 +9,63 @@
         <?php include $this->template('./_post-form.phtml'); ?>
         <?php if (count($posts)) { ?>
             <?php
-            $template =<<<'EOT'
-<div class="media-heading" itemprop="creator" itemscope itemtype="http://schema.org/Person">
-    <a href="%s" target="_blank" style="margin-right: 20px; margin-left: 20px;" itemprop="name">%s</a>
-    <span class="muted">%s</span>
-</div>
-<div class="clearfix" itemprop="commentText">%s</div>
-<meta itemprop="commentTime" content="%s" />
+            $templateUser =<<<'EOT'
+    <div class="media-heading" itemprop="creator" itemscope itemtype="http://schema.org/Person">
+        <ul class="list-inline">
+            <li><a href="%s" target="_blank" style="margin-right: 20px; margin-left: 20px;" itemprop="name">%s</a></li>
+            <li class="muted small">%s</li>
+            <li class="muted small"><a href="%s" target="_blank"><i class="fa fa-external-link"></i></a></li>
+        </ul>
+    </div>
+    <div class="clearfix" itemprop="commentText">%s</div>
+    <meta itemprop="commentTime" content="%s" />
+EOT;
+
+            $templateGuest =<<<'EOT'
+    <div class="media-heading" itemprop="creator" itemscope itemtype="http://schema.org/Person">
+        <ul class="list-inline">
+            <li>%s</li>
+            <li class="muted small">%s</li>
+            <li class="muted small"><a href="%s" target="_blank"><i class="fa fa-external-link"></i></a></li>
+        </ul>
+    </div>
+    <div class="clearfix" itemprop="commentText">%s</div>
+    <meta itemprop="commentTime" content="%s" />
 EOT;
             ?>
             <?php foreach ($posts as $item) { ?>
                 <?php $url = ($item['uid'] > 0) ? $item['user']['url'] : '#comments'; ?>
-                <div class="media comment-item clearfix" id="comment-<?php echo $item['id']; ?>">
-                    <a class="pull-left" href="<?php echo $item['user']['url']; ?>" target="_blank">
-                        <?php echo $item['user']['avatar']; ?>
-                    </a>
+                <div class="pi-comment-single media comment-item clearfix" id="comment-<?php echo $item['id']; ?>">
+                    <?php if ($item['uid'] > 0) { ?>
+                        <a class="pull-left" href="<?php echo $item['user']['url']; ?>" target="_blank">
+                            <?php echo $item['user']['avatar']; ?>
+                        </a>
+                    <?php } else { ?>
+                        <p class="pull-left">
+                            <?php echo $item['user']['avatar']; ?>
+                        </p>
+                    <?php } ?>
                     <div class="media-body">
-                        <?php echo sprintf(
-                            $template,
-                            $url,
-                            $item['user']['name'],
-                            _date($item['time']),
-                            $item['content'],
-                            date("Y-m-d H:i:s", $item['time'])
-                        ); ?>
+                        <?php if ($item['uid'] > 0) {
+                            echo sprintf(
+                                $templateUser,
+                                $url,
+                                $item['user']['name'],
+                                _date($item['time']),
+                                $item['url'],
+                                $item['content'],
+                                date("Y-m-d H:i:s", $item['time'])
+                            );
+                        } else {
+                            echo sprintf(
+                                $templateGuest,
+                                $item['identity'],
+                                _date($item['time']),
+                                $item['url'],
+                                $item['content'],
+                                date("Y-m-d H:i:s", $item['time'])
+                            );
+                        } ?>
                         <div class="comment-operation">
                             <?php if ($uid > 0 && $uid == $item['uid']) {
                                 echo sprintf(

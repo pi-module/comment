@@ -232,3 +232,12 @@ a.pi-comment-count:hover {
 .comment-btn-all {
   margin-top: 20px;
 }
+
+/* Comment single */
+.pi-comment-single {
+    border-bottom: 1px solid #dddddd;
+}
+
+.pi-comment-single:last-child {
+    border-bottom: 0px;
+}

@@ -35,25 +35,35 @@ $uid = Pi::user()->getId();
         </div>
         <?php if (count($comment['posts'])) { ?>
             <?php foreach ($comment['posts'] as $item) { ?>
-                <div class="media comment-item" id="comment-<?php echo $item['id']; ?>">
-                    <a class="pull-left" href="<?php echo $item['user']['url']; ?>" target="_blank">
-                        <?php echo $item['user']['avatar']; ?>
-                    </a>
+                <div class="pi-comment-single media comment-item" id="comment-<?php echo $item['id']; ?>">
+                    <?php if ($item['uid'] > 0) { ?>
+                        <a class="pull-left" href="<?php echo $item['user']['url']; ?>" target="_blank">
+                            <?php echo $item['user']['avatar']; ?>
+                        </a>
+                    <?php } else { ?>
+                        <p class="pull-left">
+                            <?php echo $item['user']['avatar']; ?>
+                        </p>
+                    <?php } ?>
                     <div class="media-body">
-                        <?php echo sprintf('
-                <div class="media-heading">
-                    <a href="%s" target="_blank" style="margin-right: 20px;">%s</a>
-                    <span class="muted">%s</span>
-                </div>
-                <p>%s
-                ',
-                            $item['user']['url'],
-                            $item['user']['name'],
-                            _date($item['time']),
-                            $item['content']
-                        ); ?>
+                        <div class="media-heading">
+                            <ul class="list-inline">
+                                <li>
+                                    <?php if ($item['uid'] > 0) { ?>
+                                        <a href="<?php echo $item['user']['url']; ?>" target="_blank" ><?php echo $item['user']['name']; ?></a>
+                                    <?php } else { ?>
+                                        <?php echo $item['identity']; ?>
+                                    <?php } ?>
+                                </li>
+                                <li class="muted small"><?php echo _date($item['time']); ?></li>
+                                <li class="muted small"><a href="<?php echo $item['url']; ?>" target="_blank"><i class="fa fa-external-link"></i></a></li>
+                            </ul>
+                        </div>
+                        <div class="pi-comment-content">
+                            <?php echo $item['content']; ?>
+                        </div>
                         <div class="comment-operation">
-                            <?php if ($uid == $item['uid']) {
+                            <?php if ($uid > 0 && $uid == $item['uid']) {
                                 echo sprintf(
                                     '<a href="%s#comments" onclick="return confirm(\'%s\')">%s</a>',
                                     $this->url('', array('controller' => 'post', 'action' => 'delete', 'id' => $item['id'])),

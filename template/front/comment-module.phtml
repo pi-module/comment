@@ -23,21 +23,31 @@ $paginator = $comment['paginator'];
         <?php if ($posts) { ?>
             <div class="pi-comment-list">
                 <?php foreach ($posts as $post) { ?>
-                    <div class="media">
-                        <a class="pull-left" href="<?php echo $post['user']['url']; ?>" target="_blank">
-                            <?php echo $post['user']['avatar']; ?>
-                        </a>
+                    <div class="pi-comment-single media">
+                        <?php if ($post['uid'] > 0) { ?>
+                            <a class="pull-left" href="<?php echo $post['user']['url']; ?>">
+                                <?php echo $post['user']['avatar']; ?>
+                            </a>
+                        <?php } else { ?>
+                            <p class="pull-left">
+                                <?php echo $post['user']['avatar']; ?>
+                            </p>
+                        <?php } ?>
                         <div class="media-body">
                             <div class="pi-comment-desc" style="margin-top: 0">
                                 <ul class="list-inline">
                                     <li>
-                                        <a href="<?php echo $post['user']['url']; ?>" target="_blank" title="<?php echo $post['user']['name']; ?>" class="pi-comment-user highlight pull-left" style="margin-right: 10px">
-                                            <?php echo $post['user']['name']; ?>
-                                        </a>
+                                        <?php if ($post['uid'] > 0) { ?>
+                                            <a href="<?php echo $post['user']['url']; ?>" target="_blank" title="<?php echo $post['user']['name']; ?>" class="highlight">
+                                                <?php echo $post['user']['name']; ?>
+                                            </a>
+                                        <?php } else { ?>
+                                            <?php echo $post['identity']; ?>
+                                        <?php } ?>
                                     </li>
-                                    <li class="muted pull-left"><?php _e('commented on '); ?></li>
+                                    <li class="muted"><?php _e('commented on '); ?></li>
                                     <li>
-                                        <a class="highlight comment-title-hidden pull-left" href="<?php echo $post['target']['url']; ?>" title="<?php echo $post['target']['title']; ?>">
+                                        <a class="highlight" href="<?php echo $post['target']['url']; ?>" title="<?php echo $post['target']['title']; ?>">
                                             <?php echo $post['target']['title']; ?>
                                         </a>
                                     </li>

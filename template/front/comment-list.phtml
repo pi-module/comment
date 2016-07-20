@@ -50,7 +50,7 @@ $paginator = $comment['paginator'];
                                 </ul>
                             </div>
                             <div class="pi-comment-content">
-                                <?php echo mb_substr(strip_tags($post['content']), 0, 60, 'utf-8') . " ..."; ?>
+                                <?php echo $post['content']; ?>
                             </div>
                             <?php if ($post['uid'] > 0) { ?>
                                 <div class="pi-comment-operation">

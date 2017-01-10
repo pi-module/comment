@@ -19,13 +19,15 @@
     border-radius: 3px;
 }
 .pi-comment-list .media {
-    margin-top: 5px;
     border-bottom: 1px solid #dddddd;
 }
+
+.pi-comment-list .media:last-child{
+    border:0;
+}
+
 .pi-comment-user {
     font-weight: bold;
-    margin-right: 5px;
-    margin-left: 5px;
     font-size: 14px;
 }
 .pi-comment-time {
@@ -39,6 +41,7 @@
     color: #333333;
     font-size: 14px;
     display: inline-block;
+    margin-bottom:15px;
     width: 100%;
 }
 .pi-comment-operation {
@@ -79,7 +82,7 @@ a.muted:hover,
 }
 
 .pi-comment-desc {
-    margin: 10px 0 0 0;
+    margin: 2px 0 0 0;
     font-size: 13px;
 }
 

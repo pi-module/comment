@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Pi-comment\n"
-"POT-Creation-Date: 2016-10-14 07:52+0200\n"
-"PO-Revision-Date: 2016-10-14 07:52+0200\n"
+"POT-Creation-Date: 2017-01-10 21:30+0100\n"
+"PO-Revision-Date: 2017-01-10 21:33+0100\n"
 "Last-Translator: Marc Desrousseaux\n"
 "Language-Team: Marc Desrousseaux\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.9\n"
+"X-Generator: Poedit 1.8.11\n"
 "X-Poedit-KeywordsList: __;_e\n"
 "X-Poedit-Basepath: ../..\n"
 "X-Poedit-SourceCharset: UTF-8\n"
@@ -272,7 +272,7 @@ msgstr "Le commentaire est désactivé."
 
 #: src/Controller/Front/PostController.php:266
 msgid "Guest information not set."
-msgstr "Les informations invité n'ont pas été saisies"
+msgstr "Les informations Invité n'ont pas été saisies"
 
 #: src/Controller/Front/PostController.php:299
 msgid "Comment post saved successfully."
@@ -323,11 +323,11 @@ msgstr "Commenter"
 
 #: src/Form/PostForm.php:117 template/front/_post-form.phtml:33
 msgid "Type your content"
-msgstr "Saisir ici ton texte"
+msgstr "Saisir ici le texte de votre commentaire"
 
 #: src/Form/PostForm.php:128
-msgid "Save"
-msgstr "Enregistrer"
+msgid "Publish"
+msgstr "Publier"
 
 #: template/admin/comment-list.phtml:74 template/admin/comment-module.phtml:80
 #: template/admin/comment-user.phtml:81 template/front/comment-lead.phtml:74
@@ -338,7 +338,7 @@ msgstr "Enregistrer"
 #: template/front/comment-user-received.phtml:53
 #: template/front/comment-user.phtml:48 template/front/comment-view.phtml:70
 msgid "Are you sure to delete this comment?"
-msgstr "Es-tu sûr de vouloir supprimer ce commentaire?"
+msgstr "Etes-vous sûr de vouloir supprimer ce commentaire?"
 
 #: template/front/_post-form.phtml:42
 msgid "Name"
@@ -347,7 +347,7 @@ msgstr "Nom"
 #: template/front/_post-form.phtml:69
 #, php-format
 msgid "Please <a href=\"%s\">login</a> to leave comments."
-msgstr "Connecte-toi pour laisser un commentaire !"
+msgstr "Connectez-vous pour laisser un commentaire !"
 
 #: template/front/comment-404.phtml:6 template/front/comment-view.phtml:17
 msgid "Comment detail"
@@ -401,7 +401,7 @@ msgstr "Voir tous les commentaires"
 
 #: template/front/comment-lead.phtml:87 template/front/comment-root.phtml:80
 msgid "No one has commented yet."
-msgstr "Personne n'a encore laissé de commentaires ici. Lance-toi !"
+msgstr "Personne n'a encore laissé de commentaires ici. Lancez-vous !"
 
 #: template/front/comment-list.phtml:17
 msgid "All active comments "
@@ -452,6 +452,9 @@ msgstr "Cliquer pour ouvrir"
 #, php-format
 msgid "Comment #%d"
 msgstr "Commentaire n°%d"
+
+#~ msgid "Save"
+#~ msgstr "Enregistrer"
 
 #~ msgid "Demo custom article #%d"
 #~ msgstr "Article personnalisé Demo n°%d"

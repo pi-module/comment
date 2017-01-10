@@ -125,7 +125,7 @@ class PostForm extends BaseForm
             //'type'          => 'button',
             'attributes'    => array(
                 'type'  => 'submit',
-                'value' => __('Save'),
+                'value' => __('Publish'),
                 'class' => 'btn btn-primary',
             ),
         ));

@@ -20,10 +20,12 @@
                     <meta itemprop="commentTime" content="<?php echo date("Y-m-d H:i:s", $post['time']); ?>" />
                 </div>
                 <div class="pi-comment-desc">
-                    <span class="muted pull-left"><?php echo _b('On '); ?></span>
-                    <a class="comment-title-hidden highlight pull-left" href="<?php echo $post['target']['url']; ?>" title="<?php echo $post['target']['title']; ?>">
-                        <?php echo $post['target']['title']; ?>
-                    </a>
+                    <span class="muted pull-left">
+                        <?php echo _b('On '); ?>
+                        <a class="highlight" href="<?php echo $post['target']['url']; ?>" title="<?php echo $post['target']['title']; ?>">
+                            <?php echo $post['target']['title']; ?>
+                        </a>
+                    </span>
                 </div>
                 <div class="pi-comment-content" itemprop="commentText">
                     <?php echo mb_substr(strip_tags($post['content']), 0, 300, 'utf-8') . " ..."; ?>

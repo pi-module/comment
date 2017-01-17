@@ -12,7 +12,7 @@
             $templateUser =<<<'EOT'
     <div class="media-heading" itemprop="creator" itemscope itemtype="http://schema.org/Person">
         <ul class="list-inline">
-            <li><a href="%s" target="_blank" style="margin-right: 20px; margin-left: 20px;" itemprop="name">%s</a></li>
+            <li><a href="%s" target="_blank" itemprop="name">%s</a></li>
             <li class="muted small">%s</li>
             <li class="muted small"><a href="%s" target="_blank"><i class="fa fa-external-link"></i></a></li>
         </ul>
@@ -37,11 +37,11 @@ EOT;
                 <?php $url = ($item['uid'] > 0) ? $item['user']['url'] : '#comments'; ?>
                 <div class="pi-comment-single media comment-item clearfix" id="comment-<?php echo $item['id']; ?>">
                     <?php if ($item['uid'] > 0) { ?>
-                        <a class="pull-left" href="<?php echo $item['user']['url']; ?>" target="_blank">
+                        <a class="pull-left avatar-img-wrapper" href="<?php echo $item['user']['url']; ?>" target="_blank">
                             <?php echo $item['user']['avatar']; ?>
                         </a>
                     <?php } else { ?>
-                        <p class="pull-left">
+                        <p class="pull-left avatar-img-wrapper">
                             <?php echo $item['user']['avatar']; ?>
                         </p>
                     <?php } ?>
@@ -79,7 +79,7 @@ EOT;
                     </div>
                 </div>
             <?php } ?>
-            <a href="<?php echo $url_list; ?>" class="btn btn-default btn-block" style="margin-top: 10px;">
+            <a href="<?php echo $url_list; ?>" class="btn btn-default btn-block view-all-comments-btn" style="margin-top: 10px;">
                 <?php _e('View all comments'); ?>
             </a>
         <?php } else { ?>

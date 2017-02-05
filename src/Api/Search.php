@@ -50,9 +50,10 @@ class Search extends AbstractSearch
         Model $model,
         Where $where,
         $limit  = 0,
-        $offset = 0
+        $offset = 0,
+        $table = ''
     ) {
-        $result = parent::fetchResult($model, $where, $limit, $offset);
+        $result = parent::fetchResult($model, $where, $limit, $offset, $table);
 
         // Fetch users
         $users = array();

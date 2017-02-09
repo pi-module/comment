@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Pi-comment\n"
-"POT-Creation-Date: 2017-01-10 21:30+0100\n"
-"PO-Revision-Date: 2017-01-10 21:33+0100\n"
+"POT-Creation-Date: 2017-02-09 09:52+0100\n"
+"PO-Revision-Date: 2017-02-09 09:53+0100\n"
 "Last-Translator: Marc Desrousseaux\n"
 "Language-Team: Marc Desrousseaux\n"
 "Language: fr\n"
@@ -74,7 +74,7 @@ msgstr "Article Demo %d"
 msgid "Custom article %d"
 msgstr "Article personnalisé %d"
 
-#: src/Api/Search.php:66
+#: src/Api/Search.php:67
 #, php-format
 msgid "Comment by %s"
 msgstr "Commentaire de %s"
@@ -347,7 +347,7 @@ msgstr "Nom"
 #: template/front/_post-form.phtml:69
 #, php-format
 msgid "Please <a href=\"%s\">login</a> to leave comments."
-msgstr "Connectez-vous pour laisser un commentaire !"
+msgstr "Connectez-vous <a href=\"%s\">ici</a> pour laisser un commentaire !"
 
 #: template/front/comment-404.phtml:6 template/front/comment-view.phtml:17
 msgid "Comment detail"

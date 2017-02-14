@@ -67,7 +67,7 @@ $form = Pi::service('comment')->getForm($formData);
     <?php if (!$userId && !$guestApprove) { ?>
         <div class="hide well well-sm comment-login">
             <?php $modalEnabled = Pi::user()->config('enable_modal'); ?>
-            <?php echo sprintf(__('Please <a href="%s" data-target="#loginRegisterModal" data-action="login" data-toggle="%s">login</a> to leave comments.'), $modalEnabled ? '#' : Pi::service('authentication')->getUrl('login', $uri), $modalEnabled ? 'modal' : ''); ?>
+            <?php echo sprintf(__('Please <a href="%s" data-target="#loginRegisterModal" data-redirect-anchor="#pi-comment-lead-anchor" data-action="login" data-toggle="%s">login</a> to leave comments.'), $modalEnabled ? '#' : Pi::service('authentication')->getUrl('login', $uri), $modalEnabled ? 'modal' : ''); ?>
         </div>
     <?php } ?>
 </div>

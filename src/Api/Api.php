@@ -1150,7 +1150,10 @@ class Api extends AbstractApi
                 foreach ($targets as $target) {
                     $item = $target['id'];
                     $root = $cList[$item]['root'];
-                    $targetList[$root] = array_merge($target, $cList[$item]);
+
+                    if(is_array($cList[$item])){
+                        $targetList[$root] = array_merge($target, $cList[$item]);
+                    }
                 }
             }
         }

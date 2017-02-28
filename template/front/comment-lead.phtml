@@ -5,12 +5,12 @@
             <strong>(<?php echo _number($count) ?: _number(0); ?>)</strong>
         </h2>
     </div>
-    <div class="panel-body" itemscope itemtype="http://schema.org/UserComments">
+    <div class="panel-body" itemscope itemtype="https://schema.org/UserComments">
         <?php include $this->template('./_post-form.phtml'); ?>
         <?php if (count($posts)) { ?>
             <?php
             $templateUser =<<<'EOT'
-    <div class="media-heading" itemprop="creator" itemscope itemtype="http://schema.org/Person">
+    <div class="media-heading" itemprop="creator" itemscope itemtype="https://schema.org/Person">
         <ul class="list-inline">
             <li><a href="%s" target="_blank" itemprop="name">%s</a></li>
             <li class="muted small">%s</li>
@@ -22,7 +22,7 @@
 EOT;
 
             $templateGuest =<<<'EOT'
-    <div class="media-heading" itemprop="creator" itemscope itemtype="http://schema.org/Person">
+    <div class="media-heading" itemprop="creator" itemscope itemtype="https://schema.org/Person">
         <ul class="list-inline">
             <li>%s</li>
             <li class="muted small">%s</li>

@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Pi-comment\n"
-"POT-Creation-Date: 2017-02-09 09:52+0100\n"
-"PO-Revision-Date: 2017-02-09 09:53+0100\n"
+"POT-Creation-Date: 2017-04-20 19:23+0200\n"
+"PO-Revision-Date: 2017-04-20 19:24+0200\n"
 "Last-Translator: Marc Desrousseaux\n"
 "Language-Team: Marc Desrousseaux\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.11\n"
+"X-Generator: Poedit 2.0.1\n"
 "X-Poedit-KeywordsList: __;_e\n"
 "X-Poedit-Basepath: ../..\n"
 "X-Poedit-SourceCharset: UTF-8\n"
@@ -344,10 +344,16 @@ msgstr "Etes-vous sûr de vouloir supprimer ce commentaire?"
 msgid "Name"
 msgstr "Nom"
 
-#: template/front/_post-form.phtml:69
+#: template/front/_post-form.phtml:70
 #, php-format
-msgid "Please <a href=\"%s\">login</a> to leave comments."
-msgstr "Connectez-vous <a href=\"%s\">ici</a> pour laisser un commentaire !"
+msgid ""
+"Please <a href=\"%s\" data-target=\"#loginRegisterModal\" data-redirect-"
+"anchor=\"#pi-comment-lead-anchor\" data-action=\"login\" data-toggle=\"%s"
+"\">login</a> to leave comments."
+msgstr ""
+"Pour laisser un commentaire, <a href=\"%s\" data-target=\"#loginRegisterModal"
+"\" data-redirect-anchor=\"#pi-comment-lead-anchor\" data-action=\"login\" "
+"data-toggle=\"%s\">connectez-vous</a> !"
 
 #: template/front/comment-404.phtml:6 template/front/comment-view.phtml:17
 msgid "Comment detail"
@@ -355,7 +361,7 @@ msgstr "Détail du commentaire"
 
 #: template/front/comment-404.phtml:8
 msgid "The comment post is not found."
-msgstr "Le commentaire n'a pas été trouvé"
+msgstr "Le commentaire n'a pas été trouvé."
 
 #: template/front/comment-article.phtml:27
 #, php-format
@@ -393,7 +399,7 @@ msgstr "Pas de contenu."
 
 #: template/front/comment-lead.phtml:4 template/front/comment-root.phtml:34
 msgid "All comments "
-msgstr "Tous les commentaires"
+msgstr "Tous les commentaires "
 
 #: template/front/comment-lead.phtml:83
 msgid "View all comments"
@@ -452,6 +458,9 @@ msgstr "Cliquer pour ouvrir"
 #, php-format
 msgid "Comment #%d"
 msgstr "Commentaire n°%d"
+
+#~ msgid "Please <a href=\"%s\">login</a> to leave comments."
+#~ msgstr "Connectez-vous <a href=\"%s\">ici</a> pour laisser un commentaire !"
 
 #~ msgid "Save"
 #~ msgstr "Enregistrer"

@@ -34,7 +34,7 @@ class Block
         // Set render options
         $renderOptions = array(
             'user'      => array(
-                'avatar'    => 'medium',
+                'avatar'    => isset($options['avatar']) ? $options['avatar'] : 'medium',
                 'attributes'    => array(
                     'alt'   => __('View profile'),
                 ),

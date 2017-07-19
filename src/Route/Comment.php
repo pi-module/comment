@@ -57,6 +57,7 @@ class Comment extends Standard
 
         $parts = array_filter(explode($this->structureDelimiter, $path));
         //$count = count($parts);
+        
         if ($parts) {
             $term = array_shift($parts);
             // /list/<root-id>
@@ -79,7 +80,7 @@ class Comment extends Standard
                     );
                 }
 
-            }
+            } 
 
             if ($matches && $parts) {
                 $matches = array_merge($matches, $this->parseParams($parts));

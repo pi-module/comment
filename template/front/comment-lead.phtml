@@ -1,4 +1,219 @@
-<div class="panel panel-default" id="comments">
+<style>
+    .rating {
+   direction: rtl;
+   width:80px;
+}
+.rating span,
+.rating a {
+   color: #aaa;
+   text-decoration: none;
+   transition: color .4s;
+}
+.rating a:hover,
+.rating a:focus,
+.rating span.active,
+.rating a.active,
+.rating span.active ~ span,
+.rating a.active ~ a,
+.rating a:hover ~ a,
+.rating a:focus ~ a {
+   color: orange;
+   cursor: pointer;
+}
+
+.is-reply {margin-left:50px}
+
+.ratings div {display:inline-block; margin-right:10px}
+.images a {float:left}
+.images a img {height:75px}
+</style>
+<style>
+.inline label {display:inline-block;  }
+.inline input,
+.inline .rating {display:inline-block;}
+#ratings .inline label { width:100px; }
+.inline input {width:50%; margin-left:20px}
+
+</style>
+<style>
+    .is-reply{margin-left:60px}
+</style>
+<?php 
+    $script = <<<'EOT'
+        $('.gallery').each(function() {
+            $(this).magnificPopup({
+                delegate: 'a',
+                type: 'image',
+                gallery: {
+                    enabled:true
+                }
+            });
+        });
+EOT;
+    $this->jQuery(array(
+        'extension/jquery.magnific-popup.min.js',
+        'extension/magnific-popup.css',
+    ));
+    $this->footScript()->appendScript($script);
+?>
+<script>
+    $(function() {
+        
+        var cancel = function() {
+            $('form#comment-post [name=time_experience]').attr("required", true);
+            $('form#comment-post [name=id]').val(null);
+            $('form#comment-post [name=reply]').val(null);
+            $('textarea[name=content]').html('');
+            
+            $('.cancel').addClass('hide');
+            $('#special-review').show();
+        }
+        var initCancel = function() {
+            $('.btn.cancel').click(
+                function(e) {
+                    e.preventDefault();
+                    cancel();
+                    return false;
+                }
+            );
+        }
+        
+        var reply = function () {
+            $('form#comment-post [name=reply]').val($(this).data('reply'));
+            $('form#comment-post [name=time_experience]').attr("required", false);
+            $('.cancel').removeClass('hide');
+            $('#special-review').hide();
+            $('textarea.js-comment-txt')[0].focus();
+        };
+        
+        var initReply = function() {
+            $('.reply').click(
+                function(e) {
+                    e.preventDefault();
+                    cancel();
+                    reply(); 
+                    return false;
+                }
+                
+            );    
+        };
+        
+        var edit = function(elem) {
+            var html = $(elem).parent().parent().find(".commentText").html();
+            $('form#comment-post [name=id]').val($(elem).data('id'));
+            var isReply = $(elem).parent().parent().parent().hasClass('is-reply');
+            if (isReply) {
+                reply();
+                var replyId =  $(elem).parent().parent().parent().data('reply')
+                $('form#comment-post [name=reply]').val(replyId);
+                $('textarea[name=content]').html(html);
+            } else {
+                $('textarea.js-comment-txt')[0].focus();
+                $('textarea[name=content]').html(html);
+                var timeExperience = $(elem).parent().parent().find('.time-experience').data('time');
+                $('form#comment-post [name=time_experience]').datepicker("setDate", timeExperience);
+                var ratings = $(elem).parent().parent().find('.ratings div');
+                ratings.each(
+                    function (index)
+                    {
+                        var id = $(this).attr('for');
+                        var rating = $(this).data('value');
+                        $('form#comment-post [name=' + id + ']').val(rating);
+                        $('form#comment-post [for=' + id + '] a[data-value=' + rating + ']').addClass('active');
+                    }
+                    
+                );
+                var images = $(elem).parent().parent().find('.images');
+                $('form#comment-post [name=main_image]').val(images.data('main_image'));
+                $('form#comment-post [name=additional_images]').val(images.data('additional_images'));
+                $( ".media-form-list" ).each(function(){
+                    refreshFormList($(this));
+                });
+            }
+            
+        };
+        
+        var initEdit = function() {
+            $('.edit').click(
+                function (e) {
+                    e.preventDefault();
+                    cancel(e);
+                    edit(this);
+                    return false;
+                }
+            );    
+        };
+        
+        initReply();
+        initEdit();
+        cancel();
+        
+        $('.rating a').click(
+            function () {
+                  var id = $(this).parent().attr('for');
+                  $('[name=' + id + ']').val($(this).data('value'));
+                  $(this).parent().find('a').removeClass('active');
+                  $(this).addClass('active');
+                  return false;  
+            }
+        );
+        
+        $('.paginator').click(
+            function () {
+                  var page = $(this).data('page');
+                  $('.pagination li').removeClass('active');
+                  $(this).parent().addClass('active');
+                   
+                  var uri = "<?php echo Pi::service('url')->assemble('comment', array(
+                    'module'        => 'comment',
+                    'controller'    => 'index',
+                    'action'        => 'page',
+                    
+                 ));?>";
+                  $.getJSON(uri, {
+                    uri: $(location).attr('href'),
+                    page: page
+                })
+                .done(function (data) {
+                    if (data.content) {
+                        var el = $('#paginate-comments');
+                       
+                        el.attr('class','show').html(data.content);
+                        initReply();
+                        initEdit();
+                    }
+                });
+                
+                return false;
+            }
+        );
+        
+        $('.subscription').change(
+            function () {
+                var subscription = $('.subscription').prop('checked') == true ? 1 : 0;
+                var uri = "<?php echo Pi::service('url')->assemble('comment', array(
+                    'module'        => 'comment',
+                    'controller'    => 'index',
+                    'action'        => 'subscription',
+                    
+                ));?>";
+                 
+                $.getJSON(uri, {
+                    uri: $(location).attr('href'),
+                    subscription: subscription
+                })
+                .done(function (data) {
+                    
+                });
+                
+                return false;
+            }
+        );
+        
+            
+    });
+</script>
+<div class="panel panel-default nodeco" id="comments">
     <div class="panel-heading">
         <h2 class="panel-title">
             <?php _e('All comments '); ?>
@@ -6,82 +221,30 @@
         </h2>
     </div>
     <div class="panel-body" itemscope itemtype="https://schema.org/UserComments">
-        <?php include $this->template('./_post-form.phtml'); ?>
+        
+        <?php include realpath(__FILE__) . './../_post-form.phtml' ?>
+        <?php if (Pi::user()->getId() > 0) { ?>
+            <div class="clearfix">
+                <input class="subscription" type="checkbox" /> <span class="text-muted"><?php _e('Subscribe to the thread') ?></span>
+            </div>
+        <?php } ?>
         <?php if (count($posts)) { ?>
-            <?php
-            $templateUser =<<<'EOT'
-    <div class="media-heading" itemprop="creator" itemscope itemtype="https://schema.org/Person">
-        <ul class="list-inline">
-            <li><a href="%s" target="_blank" itemprop="name">%s</a></li>
-            <li class="muted small">%s</li>
-            <li class="muted small"><a href="%s" target="_blank"><i class="fa fa-external-link"></i></a></li>
-        </ul>
-    </div>
-    <div class="clearfix" itemprop="commentText">%s</div>
-    <meta itemprop="commentTime" content="%s" />
-EOT;
-
-            $templateGuest =<<<'EOT'
-    <div class="media-heading" itemprop="creator" itemscope itemtype="https://schema.org/Person">
-        <ul class="list-inline">
-            <li>%s</li>
-            <li class="muted small">%s</li>
-            <li class="muted small"><a href="%s" target="_blank"><i class="fa fa-external-link"></i></a></li>
-        </ul>
-    </div>
-    <div class="clearfix" itemprop="commentText">%s</div>
-    <meta itemprop="commentTime" content="%s" />
-EOT;
-            ?>
-            <?php foreach ($posts as $item) { ?>
-                <?php $url = ($item['uid'] > 0) ? $item['user']['url'] : '#comments'; ?>
-                <div class="pi-comment-single media comment-item clearfix" id="comment-<?php echo $item['id']; ?>">
-                    <?php if ($item['uid'] > 0) { ?>
-                        <a class="pull-left avatar-img-wrapper" href="<?php echo $item['user']['url']; ?>" target="_blank">
-                            <?php echo $item['user']['avatar']; ?>
-                        </a>
-                    <?php } else { ?>
-                        <p class="pull-left avatar-img-wrapper">
-                            <?php echo $item['user']['avatar']; ?>
-                        </p>
-                    <?php } ?>
-                    <div class="media-body">
-                        <?php if ($item['uid'] > 0) {
-                            echo sprintf(
-                                $templateUser,
-                                $url,
-                                $item['user']['name'],
-                                _date($item['time']),
-                                $item['url'],
-                                $item['content'],
-                                date("Y-m-d H:i:s", $item['time'])
-                            );
-                        } else {
-                            echo sprintf(
-                                $templateGuest,
-                                $item['identity'],
-                                _date($item['time']),
-                                $item['url'],
-                                $item['content'],
-                                date("Y-m-d H:i:s", $item['time'])
-                            );
-                        } ?>
-                        <div class="comment-operation">
-                            <?php if ($uid > 0 && $uid == $item['uid']) {
-                                echo sprintf(
-                                    '<a href="%s#comments" onclick="return confirm(\'%s\')">%s</a>',
-                                    $this->url('comment', array('controller' => 'post', 'action' => 'delete', 'id' => $item['id'])),
-                                    __('Are you sure to delete this comment?'),
-                                    __('Delete')
-                                );
-                            } ?>
-                        </div>
-                    </div>
-                </div>
-            <?php } ?>
-            <a href="<?php echo $url_list; ?>" class="btn btn-default btn-block view-all-comments-btn" style="margin-top: 10px;">
-                <?php _e('View all comments'); ?>
-            </a>
+            <div id="paginate-comments">
+                <?php include realpath(__FILE__) . './../partial/paginate-comments.phtml' ?>
+            </div>    
+            <div class="text-center">
+                <ul class="pagination">
+                    <?php 
+                    $pageNumber = $count % 5 == 0 ? $count / 5  : ((int) ($count / 5))  +1;
+                    for ($i = 1; $i <= $pageNumber; ++$i) { ?>
+                        <li class="<?php echo $i == 1 ? 'active' : '' ?>">
+                            <a class="paginator" href="#" data-page="<?php echo $i ?>">
+                                <?php echo $i ?>
+                            </a>
+                        </li>
+                     <?php } ?> 
+                 </ul>
+             </div>
         <?php } else { ?>
             <div class="text-center comment-none">
                 <strong class="text-muted"><?php _e('No one has commented yet.'); ?></strong>

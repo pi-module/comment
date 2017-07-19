@@ -241,3 +241,58 @@ a.pi-comment-count:hover {
 .pi-comment-single:last-child {
     border-bottom: 0px;
 }
+
+/* RATINGS */ 
+.rating {
+   direction: rtl;
+   width:80px;
+}
+.rating span,
+.rating a {
+   color: #aaa;
+   text-decoration: none;
+   transition: color .4s;
+}
+.rating a:hover,
+.rating a:focus,
+.rating span.active,
+.rating a.active,
+.rating span.active ~ span,
+.rating a.active ~ a,
+.rating a:hover ~ a,
+.rating a:focus ~ a {
+   color: orange;
+   cursor: pointer;
+}
+
+.ratings div {
+    display:inline-block; 
+    margin-right:10px
+}
+
+/* POST FORM */
+.inline label {
+    display:inline-block;  
+}
+.inline input,
+.inline .rating {
+    display:inline-block;
+}
+#ratings .inline label {
+    width:100px; 
+}
+.inline input {
+    width:50%; 
+    margin-left:20px
+}
+
+/* COMMENT LIST */
+.is-reply {
+    margin-left:50px
+}
+.images a {
+    float:left
+}
+.images a img {
+    height:75px
+}

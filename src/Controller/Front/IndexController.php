@@ -11,7 +11,9 @@ namespace Module\Comment\Controller\Front;
 
 use Pi;
 use Pi\Mvc\Controller\ActionController;
-
+use Module\Comment\Form\PostForm;
+use Module\Comment\Form\PostFilter;
+use Module\Media\Form\View\Helper\FormMedia;
 class IndexController extends ActionController
 {
     /**
@@ -84,13 +86,62 @@ class IndexController extends ActionController
      */
     public function loadAction()
     {
+        $options['review'] = true;
+        
         $uri = $this->params('uri');
-        $content = Pi::service('comment')->loadContent($uri);
+        $review = $this->params('review');
+        $content = Pi::service('comment')->loadContent(array('uri' => $uri, 'review' => $review));
         $result = array(
             'status'    => 1,
             'content'   => $content,
         );
-
         return $result;
     }
+    
+    public function pageAction()
+    {
+        $uri = $this->params('uri');
+        $page  = $this->params('page', 1);
+        $content  = Pi::service('comment')->loadComments(array('uri' => $uri, 'page' => $page));
+        $result = array(
+            'status'    => 1,
+            'content'   => $content,
+        );  
+        return $result;
+    }
+    
+    public function subscriptionAction()
+    {
+        $uri = $this->params('uri');
+        $subscription = $this->params('subscription');
+        $routeMatch = Pi::service('url')->match($uri);
+        $params = $routeMatch->getParams();
+        $data = Pi::api('api', 'comment')->findRoot($params);
+        $root = $data['root'];
+        if (!$root) {
+            return false;
+        }
+
+        // Load translations
+        Pi::service('i18n')->load('module/comment:default');
+
+        $rootData = Pi::api('api', 'comment')->getRoot($root);
+        
+        $rowData = array(
+                'uid' => Pi::user()->getId(),
+                'root' => $rootData['id']                 
+        );
+        Pi::model('subscription', 'comment')->delete($rowData);
+        
+        if ($subscription) {
+            $row = Pi::model('subscription', 'comment')->createRow();
+            $row->assign($rowData);
+            $row->save();
+        }
+        
+        $result = array(
+            'status'    => 1,
+        );  
+        return $result;
+    }   
 }

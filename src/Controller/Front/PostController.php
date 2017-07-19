@@ -246,8 +246,10 @@ class PostController extends ActionController
             //$data['markup'] = 'text';
 
             $markup = $data['markup'];
-            $form = new PostForm('comment-post', $markup);
-            $form->setInputFilter(new PostFilter);
+            $ratings = isset($data['review']) && $data['review'] ? Pi::api('api', 'comment')->getRatings() : array();
+            $form = new PostForm('comment-post', $markup, $ratings);
+            $options = array('reply' => $data['reply'], 'review' => $data['review'], 'ratings' => $ratings);
+            $form->setInputFilter(new PostFilter($options));
             $form->setData($data);
             if ($form->isValid()) {
                 $values = $form->getData();
@@ -293,7 +295,7 @@ class PostController extends ActionController
                     }
                 }
                 if (0 < $status) {
-                    $id = Pi::api('api', 'comment')->addPost($values);
+                    $id = Pi::api('api', 'comment')->addPost($values, $currentUid);
                     if ($id) {
                         $status = 1;
                         $message = __('Comment post saved successfully.');

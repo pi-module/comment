@@ -15,7 +15,7 @@ $paginator = $comment['paginator'];
         <?php if ($posts) { ?>
             <div class="pi-comment-list">
                 <h1 class="pi-comment-header"><?php echo __('All active comments ') . "({$count})"; ?></h1>
-                <?php foreach ($posts as $post) { ?>
+                <?php foreach ($posts[0] as $post) { ?>
                     <div class="pi-comment-single media">
                         <?php if ($post['uid'] > 0) { ?>
                             <a class="pull-left" href="<?php echo $post['user']['url']; ?>">

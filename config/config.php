@@ -84,6 +84,13 @@ $config = array(
         ),
         'filter'        => 'array',
     ),
+    
+     'time_to_edit' => array(
+        'title'         => _t('Time to edit '),
+        'description'   => _t('Time to edit a comment, in second'),
+        'value'         => 300,
+        'filter'        => 'int',
+    ),
 
      /*
     'user_domain'   => array(

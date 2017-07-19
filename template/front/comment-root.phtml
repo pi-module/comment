@@ -24,6 +24,7 @@ if (!$target) {
 $this->css($this->assetModule('css/front.css', 'comment'));
 $uid = Pi::user()->getId();
 ?>
+
     <h4 class="comment-target-title">
         <a href="<?php echo $target['url']; ?>" title="<?php echo _escape($target['title']); ?>">
             <?php echo _escape($target['title']); ?>
@@ -34,7 +35,7 @@ $uid = Pi::user()->getId();
             <h4><?php _e('All comments '); ?> (<?php echo $comment['count'] ?: 0; ?>)</h4>
         </div>
         <?php if (count($comment['posts'])) { ?>
-            <?php foreach ($comment['posts'] as $item) { ?>
+            <?php foreach ($comment['posts'][0] as $item) { ?>
                 <div class="pi-comment-single media comment-item" id="comment-<?php echo $item['id']; ?>">
                     <?php if ($item['uid'] > 0) { ?>
                         <a class="pull-left" href="<?php echo $item['user']['url']; ?>" target="_blank">
@@ -71,9 +72,52 @@ $uid = Pi::user()->getId();
                                     __('Delete')
                                 );
                             } ?>
+                            <a href="#" class="reply" data-reply="<?php echo $item['id'] ?>"><?php _e('Reply') ?></a>
+
                         </div>
                     </div>
                 </div>
+                <?php foreach ($comment['posts'][$item['id']] as $reply) { ?>
+                    <div class="pi-comment-single media comment-item is-reply" id="comment-<?php echo $reply['id']; ?>">
+                        <?php if ($reply['uid'] > 0) { ?>
+                            <a class="pull-left" href="<?php echo $reply['user']['url']; ?>" target="_blank">
+                                <?php echo $reply['user']['avatar']; ?>
+                            </a>
+                        <?php } else { ?>
+                            <p class="pull-left">
+                                <?php echo $reply['user']['avatar']; ?>
+                            </p>
+                        <?php } ?>
+                        <div class="media-body">
+                            <div class="media-heading">
+                                <ul class="list-inline">
+                                    <li>
+                                        <?php if ($reply['uid'] > 0) { ?>
+                                            <a href="<?php echo $reply['user']['url']; ?>" target="_blank" ><?php echo $reply['user']['name']; ?></a>
+                                        <?php } else { ?>
+                                            <?php echo $reply['identity']; ?>
+                                        <?php } ?>
+                                    </li>
+                                    <li class="muted small"><?php echo _date($reply['time']); ?></li>
+                                    <li class="muted small"><a href="<?php echo $reply['url']; ?>" target="_blank"><i class="fa fa-external-link"></i></a></li>
+                                </ul>
+                            </div>
+                            <div class="pi-comment-content">
+                                <?php echo $reply['content']; ?>
+                            </div>
+                            <div class="comment-operation">
+                                <?php if ($uid > 0 && $uid == $reply['uid']) {
+                                    echo sprintf(
+                                        '<a href="%s#comments" onclick="return confirm(\'%s\')">%s</a>',
+                                        $this->url('', array('controller' => 'post', 'action' => 'delete', 'id' => $reply['id'])),
+                                        __('Are you sure to delete this comment?'),
+                                        __('Delete')
+                                    );
+                                } ?>
+                            </div>
+                        </div>
+                    </div>
+                <?php } ?>
             <?php } ?>
         <?php } else { ?>
             <div class="text-center comment-none">

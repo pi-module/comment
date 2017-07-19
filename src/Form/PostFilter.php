@@ -15,7 +15,7 @@ use Module\System\Validator\UserEmail as UserEmailValidator;
 
 class PostFilter extends InputFilter
 {
-    public function __construct()
+    public function __construct($options)
     {
         $this->add(array(
             'name'          => 'content',
@@ -26,7 +26,22 @@ class PostFilter extends InputFilter
                 ),
             ),
         ));
-
+        
+        foreach ($options['ratings'] as $key => $rating) {
+            $this->add(array(
+                'name'          => 'rating-' . $key,
+                'required' => false,
+            ));
+        }
+        $this->add(array(
+            'name'          => 'review',
+            'required' => true,
+        ));
+        $this->add(array(
+            'name'          => 'time_experience',
+            'required' => $options['review'] && !$options['reply'] ? true : false,
+        ));
+        
         $userId = Pi::user()->getId();
         $guestApprove = Pi::service('config')->get('guest_approve', 'comment');
 
@@ -67,7 +82,17 @@ class PostFilter extends InputFilter
             ));
 
         }
+        
+        $this->add(array(
+            'name' => 'main_image',
+            'required' => false,
+        ));
 
+        $this->add(array(
+            'name' => 'additional_images',
+            'required' => false,
+        ));
+        
         foreach (array(
                      'id',
                      'root',

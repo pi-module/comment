@@ -240,17 +240,13 @@
 
 <div class="panel panel-default nodeco" id="comments">
     <div class="row panel-heading">
-        <h2 class="panel-title col-md-8">
+        <h2 class="panel-title inline-block">
             <?php _e('All comments '); ?>
             <strong>(<?php echo _number($count) ?: _number(0); ?>)</strong>
         </h2>
-        <div class="pull-right col-md-4">       
-             <?php if (Pi::user()->getId() > 0 && method_exists(Pi::api('comment', Pi::service('module')->current()), 'canonize')) { ?>
-            <div class="clearfix">
-                <input class="subscription" type="checkbox" <?php echo $subscribe ? 'CHECKED=CHECKED' : '' ?> /> <span class="text-muted"><?php _e('Subscribe to the thread') ?></span>
-            </div>
+        <?php if (Pi::user()->getId() > 0 && method_exists(Pi::api('comment', Pi::service('module')->current()), 'canonize')) { ?>
+            <input class="subscription" type="checkbox" <?php echo $subscribe ? 'CHECKED=CHECKED' : '' ?> /> <span class="text-muted"><?php _e('Subscribe to the thread') ?></span>
         <?php } ?>
-        </div>
     </div>
     
     <?php if ($review) { ?>

@@ -982,12 +982,22 @@ class Api extends AbstractApi
             $information
         );
         foreach ($uids as $uid) {
+            $user = Pi::user()->getUser($uid)->toArray();
+                
             // Message Notification
-            Pi::api('api', 'message')->notify(
-                $uid, $data['body'], $data['subject']
+            $to = array(
+               $user['email'] => $user['name'],
+            );
+
+            // Send mail and notif
+            Pi::service('notification')->send(
+                $to,
+                'notify_comment.txt',
+                $information,
+                Pi::service('module')->current(),
+                $uid
             );
         }
-    
     }
 
     /**
@@ -1377,7 +1387,7 @@ class Api extends AbstractApi
         $postTable = Pi::model('post', 'comment')->getTable();
         $order = null === $order ? 'time desc' : $order;
         
-        $whereType = "%";
+        $whereType = null;
         switch ($type) {
             case \Module\Comment\Model\Post::TYPE_REVIEW :
                 $whereType = "REVIEW";
@@ -1389,8 +1399,11 @@ class Api extends AbstractApi
         
         $select = Pi::db()->select();
         $select->from(array('post' => $postTable))
-        ->where('post.type = "' . $whereType . '"')
         ->group('post.id');
+        
+        if ($whereType != null) {
+            $select->where('post.type = "' . $whereType . '"');
+        }
                 
         if ($specialCondition) {
             $order = null === $order ? 'post.time desc' : $order;
@@ -1415,7 +1428,6 @@ class Api extends AbstractApi
             $select->offset($offset);
         }
         $rowset = Pi::db()->query($select);
-        
         $ids = array();
         foreach ($rowset as $row) {
             $post = (array) $row;
@@ -1498,7 +1510,7 @@ class Api extends AbstractApi
             }
         }
 
-        $whereType = "%";
+        $whereType = null;
         switch ($type) {
             case \Module\Comment\Model\Post::TYPE_REVIEW :
                 $whereType = "REVIEW";
@@ -1507,7 +1519,11 @@ class Api extends AbstractApi
                 $whereType = "SIMPLE";
                 break;
         } 
-        $where['type'] = $whereType; 
+        
+        if ($whereType != null) {
+            $where['type'] = $whereType;
+        }
+        
 
         if (!$isJoin) {
             $count = Pi::model('post', 'comment')->count($where);

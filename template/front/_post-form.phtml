@@ -107,11 +107,13 @@ $form = Pi::service('comment')->getForm($formData, $options);
         <?php $colClass = 'col-md-4'; ?>
     <?php } ?>
     
-    <div class="<?php echo $review ? '' : 'hide' ?>  clearfix comment-form <?php echo $colClass; ?> text-right">
-                <?php echo $this->formElement($form->get('subscribe')); ?>
-                <span class="text-muted"><?php _e('Subscribe to the thread') ?></span><br/>
-                <br/>
-    </div>
+    <?php if (method_exists(Pi::api('comment', Pi::service('module')->current()), 'canonize')) { ?> 
+        <div class="<?php echo $review ? '' : 'hide' ?>  clearfix comment-form <?php echo $colClass; ?> text-right">
+            <?php echo $this->formElement($form->get('subscribe')); ?>
+            <span class="text-muted"><?php _e('Subscribe to the thread') ?></span><br/>
+            <br/>
+        </div>
+    <?php } ?>
     <div class="<?php echo $review ? '' : 'hide' ?>  clearfix comment-form <?php echo $colClass; ?> text-right">
         <a href="#" class="hide cancel btn btn-primary"><?php _e('Cancel') ?></a>
         <?php echo $this->formElement($form->get('submit')); ?>

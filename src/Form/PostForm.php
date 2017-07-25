@@ -125,17 +125,19 @@ class PostForm extends BaseForm
                 'rows'          => 5,
             ),
         ));
-
-        $this->add(array(
-                'name' => 'subscribe',
-                'type' => 'checkbox',
-                'options' => array(
-                    'label' => __('Subscribe to the thread'),
-                ),
-                'attributes'    => array(
-                    'checked' => 'checked'
-                )
-        ));
+        
+        if (method_exists(Pi::api('comment', Pi::service('module')->current()), 'canonize')) {
+            $this->add(array(
+                    'name' => 'subscribe',
+                    'type' => 'checkbox',
+                    'options' => array(
+                        'label' => __('Subscribe to the thread'),
+                    ),
+                    'attributes'    => array(
+                        'checked' => 'checked'
+                    )
+            ));
+        }
         
         $this->add(array(
             'name'          => 'submit',

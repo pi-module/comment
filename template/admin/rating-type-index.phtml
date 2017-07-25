@@ -1,0 +1,34 @@
+<?php $this->css($this->assetModule('script/admin.css')); ?>
+<div class="clearfix">
+    <h3><?php _e('Rating type'); ?></h3>
+    <?php echo $this->form ($form); ?>
+    <hr />
+    <table class="table table-striped table-bordered table-condensed">
+        <tr>
+            <th><?php _e('Title') ?></th>
+            <th></th>
+        </tr>
+        <?php if (count($types)) { ?>
+            <?php foreach ($types as $type) { ?>
+                <tr>
+                    <td><?php echo $type['type'] ?></td>
+                    <td>
+                        <a class="btn btn-primary btn-xs" title="<?php _e('Edit'); ?>" href="<?php echo $this->url('', array('action' => 'index', 'id' => $type['id'])); ?>">
+                             <i class="fa fa-edit"></i> <?php _e('Manage'); ?>
+                         </a>
+                         <a class="btn btn-primary btn-xs" title="<?php _e('Edit'); ?>" href="<?php echo $this->url('', array('action' => 'delete', 'id' => $type['id'])); ?>">
+                             <i class="fa fa-edit"></i> <?php _e('Delete'); ?>
+                         </a>
+                    </td>
+                    
+                </tr>    
+            <?php } ?> 
+        <?php } else { ?>
+            <tr>
+                <td colspan="3" class="text-center">
+                    <?php _e('No rating type'); ?>
+                </td>
+            </tr>
+        <?php } ?>
+    </table>
+</div>

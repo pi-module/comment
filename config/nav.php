@@ -143,5 +143,11 @@ return array(
                 ),
             ),
         ),
+        'ratingtype'  => array(
+            'route'         => 'admin',
+            'label'         => _t('Rating types'),
+            'controller'    => 'ratingtype',
+            'action'        => 'index',
+        ),
     ),
 );

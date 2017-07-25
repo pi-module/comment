@@ -402,6 +402,13 @@ class PostController extends ActionController
         $redirect       = _get('redirect');
 
         $post           = Pi::api('api', 'comment')->getPost($id);
+        
+        $time = $post['time_updated'] ? $post['time_updated'] : $post['time'];
+        $canDelete = false;
+        if (time() - $time <= Pi::service('config')->get('time_to_edit', 'comment')) {
+            $canDelete = true;    
+        }
+        
         if (!$post) {
             $status = 422;
             $message = __('Invalid parameters.');
@@ -411,6 +418,9 @@ class PostController extends ActionController
         } elseif ($currentUid != $post['uid']
             && !$currentUser->isAdmin('comment')
         ) {
+            $status = 403;
+            $message = __('Forbidden.');
+        } elseif (!$canDelete && !$currentUser->isAdmin('comment')) {
             $status = 403;
             $message = __('Forbidden.');
         } else {

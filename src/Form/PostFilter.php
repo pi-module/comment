@@ -41,7 +41,10 @@ class PostFilter extends InputFilter
             'name'          => 'time_experience',
             'required' => $options['review'] && !$options['reply'] ? true : false,
         ));
-        
+        $this->add(array(
+            'name'          => 'subscribe',
+            'required' => false,
+        ));
         $userId = Pi::user()->getId();
         $guestApprove = Pi::service('config')->get('guest_approve', 'comment');
 

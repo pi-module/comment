@@ -102,7 +102,16 @@ class IndexController extends ActionController
     {
         $uri = $this->params('uri');
         $page  = $this->params('page', 1);
-        $content  = Pi::service('comment')->loadComments(array('uri' => $uri, 'page' => $page));
+        $type  = $this->params('type');
+
+        $content  = Pi::service('comment')->loadComments(
+            array(
+                'uri' => $uri, 
+                'page' => $page,
+                'review' => $type == 'review'  
+            )
+        );
+        
         $result = array(
             'status'    => 1,
             'content'   => $content,
@@ -125,19 +134,7 @@ class IndexController extends ActionController
         // Load translations
         Pi::service('i18n')->load('module/comment:default');
 
-        $rootData = Pi::api('api', 'comment')->getRoot($root);
-        
-        $rowData = array(
-                'uid' => Pi::user()->getId(),
-                'root' => $rootData['id']                 
-        );
-        Pi::model('subscription', 'comment')->delete($rowData);
-        
-        if ($subscription) {
-            $row = Pi::model('subscription', 'comment')->createRow();
-            $row->assign($rowData);
-            $row->save();
-        }
+        Pi::api('api', 'comment')->subscription($root, $subscription);
         
         $result = array(
             'status'    => 1,

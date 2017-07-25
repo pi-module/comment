@@ -127,6 +127,17 @@ class PostForm extends BaseForm
         ));
 
         $this->add(array(
+                'name' => 'subscribe',
+                'type' => 'checkbox',
+                'options' => array(
+                    'label' => __('Subscribe to the thread'),
+                ),
+                'attributes'    => array(
+                    'checked' => 'checked'
+                )
+        ));
+        
+        $this->add(array(
             'name'          => 'submit',
             //'type'          => 'button',
             'attributes'    => array(

@@ -19,6 +19,9 @@ use Pi\Application\Model\Model;
 class Post extends Model
 {
   
+    const TYPE_REVIEW = 1;
+    const TYPE_COMMENT = 2;
+    const TYPE_ALL = 3;
     
     protected $mediaLinks = array('main_image', 'additional_images');
     

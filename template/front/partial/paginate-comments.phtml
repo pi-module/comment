@@ -105,7 +105,7 @@ EOT;
                             $rating['rating'] == 2 ? 'active' : '',
                             $rating['rating'] == 1 ? 'active' : ''
                             );  
-                        $ratings .= '<div data-value="' . $rating['rating'] . '">' . $rating['type'] . ' : ';
+                        $ratings .= '<div data-value="' . $rating['rating'] . '" for="rating-' . $id . '">' . $rating['type'] . ' : ';
                         $ratings .=  $star;
                         $ratings .=  '</div>';
                     }
@@ -135,23 +135,24 @@ EOT;
                     date("Y-m-d H:i:s", $item['time'])
                 );
             } ?>
-            <div class="comment-operation">
-                <?php if ($uid > 0 && $uid == $item['uid']) {
-                    echo sprintf(
-                        '<a href="%s#comments" onclick="return confirm(\'%s\')">%s</a>',
-                        $this->url('comment', array('controller' => 'post', 'action' => 'delete', 'id' => $item['id'])),
-                        __('Are you sure to delete this comment?'),
-                        __('Delete')
-                    );
-                } ?>
+            <div class="comment-operation <?php echo $item['type'] == 'SIMPLE' ? 'is-comment' : 'is-review' ?>">
+                
                 <?php
                 $time = $item['time_updated'] ? $item['time_updated'] : $item['time'];
                 $canEdit = false;
-                if (time() - $time <= $timeToEdit) {
+                if (time() - $time <= $timeToEdit || Pi::service('user')->getUser()->isAdmin('comment')) {
                     $canEdit = true;    
                 }
                 ?>
                 <?php if ($uid > 0 && $uid == $item['uid'] && $canEdit) { ?>
+                    <?php if ($uid > 0 && $uid == $item['uid']) {
+                        echo sprintf(
+                            '<a href="%s#comments" onclick="return confirm(\'%s\')">%s</a>',
+                            $this->url('comment', array('controller' => 'post', 'action' => 'delete', 'id' => $item['id'])),
+                            __('Are you sure to delete this comment?'),
+                            __('Delete')
+                        );
+                    } ?>
                     <a href="#" class="edit" data-id="<?php echo $item['id'] ?>"><?php _e('Edit') ?></a>
                 <?php } ?>
                 
@@ -176,7 +177,7 @@ EOT;
                 <div class="media-body">
                     <?php if ($reply['uid'] > 0) {
                         echo sprintf(
-                            $templateUser,
+                            $templateUserComment,
                             $url,
                             $reply['user']['name'],
                             _date($reply['time']),
@@ -194,23 +195,23 @@ EOT;
                             date("Y-m-d H:i:s", $reply['time'])
                         );
                     } ?>
-                    <div class="comment-operation">
-                        <?php if ($uid > 0 && $uid == $reply['uid']) {
-                            echo sprintf(
-                                '<a href="%s#comments" onclick="return confirm(\'%s\')">%s</a>',
-                                $this->url('comment', array('controller' => 'post', 'action' => 'delete', 'id' => $reply['id'])),
-                                __('Are you sure to delete this comment?'),
-                                __('Delete')
-                            );
-                        } ?>
+                    <div class="comment-operation is-reply <?php echo $item['type'] == 'SIMPLE' ? 'is-comment' : 'is-review' ?>" >
                         <?php
                         $time = $reply['time_updated'] ? $reply['time_updated'] : $reply['time'];
                         $canEdit = false;
-                        if (time() - $time <= $timeToEdit) {
+                        if (time() - $time <= $timeToEdit || Pi::service('user')->getUser()->isAdmin('comment')) {
                             $canEdit = true;    
                         }
                         ?>
                         <?php if ($uid > 0 && $uid == $reply['uid'] && $canEdit) { ?>
+                             <?php if ($uid > 0 && $uid == $reply['uid']) {
+                                echo sprintf(
+                                    '<a href="%s#comments" onclick="return confirm(\'%s\')">%s</a>',
+                                    $this->url('comment', array('controller' => 'post', 'action' => 'delete', 'id' => $reply['id'])),
+                                    __('Are you sure to delete this comment?'),
+                                    __('Delete')
+                                );
+                            } ?>
                             <a href="#" class="edit" data-id="<?php echo $reply['id'] ?>"><?php _e('Edit') ?></a>
                         <?php } ?>
                         

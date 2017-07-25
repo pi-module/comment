@@ -335,13 +335,14 @@ class Api extends AbstractApi
      */
     public function load($routeMatch, array $options = array())
     {
+        $review = $options['review'];
         if ($routeMatch instanceof RouteMatch) {
             $params = $routeMatch->getParams();
         } else {
             $params = (array) $routeMatch;
         }
         $limit = Pi::config('leading_limit', 'comment') ?: 5;
-        $offset = $options['page'] >= 1 ? ($options['page'] - 1) * 5 : 0; 
+        $offset = isset($options['page']) && $options['page'] >= 1 ? ($options['page'] - 1) * $limit : 0; 
 
         // Look up root against route data
         $data = $this->findRoot($params);
@@ -362,7 +363,7 @@ class Api extends AbstractApi
         }
         // Check against cache
         if ($rootData['id']) {
-            $result = Pi::service('comment')->loadCache($rootData['id'] . '-' . $limit . $offset);
+            $result = Pi::service('comment')->loadCache($rootData['id'] . '-' . ($review ? \Module\Comment\Model\Post::TYPE_REVIEW : \Module\Comment\Model\Post::TYPE_COMMENT)  . '-' .  $limit . $offset);
             if ($result) {
                 if (Pi::service()->hasService('log')) {
                     Pi::service('log')->info(
@@ -386,11 +387,17 @@ class Api extends AbstractApi
         );
 
         if ($rootData) {
-            $result['count'] = $this->getCount($rootData['id']);
-
+            $result['count'] = $this->getCount($rootData['id'], $review ? \Module\Comment\Model\Post::TYPE_REVIEW : \Module\Comment\Model\Post::TYPE_COMMENT);
+            
             //vd($result['count']);
             if ($result['count']) {
-                $posts = $this->getList($rootData['id'], $limit, $offset);
+                $posts = $this->getList(
+                    $review ? \Module\Comment\Model\Post::TYPE_REVIEW : \Module\Comment\Model\Post::TYPE_COMMENT,
+                    $rootData['id'], 
+                    $limit, 
+                    $offset
+                );
+                
                 $opOption = isset($options['display_operation'])
                     ? $options['display_operation']
                     : Pi::service('config')->module('display_operation', 'comment');
@@ -412,7 +419,7 @@ class Api extends AbstractApi
                 );
 
                 $status = Pi::service('comment')->saveCache(
-                    $rootData['id'] . '-' . $limit . $offset,
+                    $rootData['id'] . '-' . $review . '-' . $limit . $offset,
                     $result
                 );
                 if ($status && Pi::service()->hasService('log')) {
@@ -422,6 +429,13 @@ class Api extends AbstractApi
                     ));
                 }
             }
+            
+            $subscribe = 0;
+            if (Pi::user()->getId() > 0) {
+                $select = Pi::model('subscription', 'comment')->select()->where(array('root' => $rootData['id'], 'uid' => Pi::user()->getId()));
+                $subscribe = Pi::model('subscription', 'comment')->selectWith($select)->count();
+            }
+            $result['subscribe'] = $subscribe;
         }
         
         return $result;
@@ -864,8 +878,9 @@ class Api extends AbstractApi
         } else {
             $row = Pi::model('post', 'comment')->find($id);
             $time = $row->time_updated ? $row->time_updated : $row->time;
+            
             $canEdit = false;
-            if (time() - $time <= Pi::service('config')->get('time_to_edit', 'comment')) {
+            if (time() - $time <= Pi::service('config')->get('time_to_edit', 'comment') || Pi::service('user')->getUser()->isAdmin('comment')) {
                 $canEdit = true;    
             }
             
@@ -883,13 +898,17 @@ class Api extends AbstractApi
                 }
             }
             $row->assign($postData);
+            $root = $postData['root'];
+            
         }
 
         try {
             $row->save();
-            $id = (int) $row->id;
+            $newId = (int) $row->id;
+            $root = $row->root;
+            
         } catch (\Exception $d) {
-            $id = false;
+            $newId = false;
         }
         
         $ratingData = $this->canonizeRating($data);
@@ -898,7 +917,7 @@ class Api extends AbstractApi
                 $ratingType = str_replace('rating-', '', $key);
                 $row = Pi::model('post_rating', 'comment')->createRow(
                     array(
-                        'post' => $id,
+                        'post' => $newId,
                         'rating_type' => $ratingType,
                         'rating' => $value
                     )
@@ -907,14 +926,34 @@ class Api extends AbstractApi
             }   
         }
         
+        // notify, except for edit 
         if (!$id) {
-            $this->notify($postData['root'], $uid);
+            $this->notify($root, $uid);
+        }
+        if ($newId) {
+            $this->subscription($root, $data['subscribe']);   
+        }
+
+        return $newId;
+    }
+    
+    public function subscription($root, $subscription)
+    {
+        $rootData = Pi::api('api', 'comment')->getRoot($root);
+        $rowData = array(
+                'uid' => Pi::user()->getId(),
+                'root' => $rootData['id']                 
+        );
+        Pi::model('subscription', 'comment')->delete($rowData);
+        
+        if ($subscription) {
+            $row = Pi::model('subscription', 'comment')->createRow();
+            $row->assign($rowData);
+            $row->save();
         }
         
-
-        return $id;
     }
-
+    
     private function notify($root, $exclude)
     {
         // Canonize item 
@@ -1293,7 +1332,7 @@ class Api extends AbstractApi
      *
      * @return array|bool
      */
-    public function getList($condition, $limit = null, $offset = 0, $order = null)
+    public function getList($type,  $condition, $limit = null, $offset = 0, $order = null)
     {
         $result = array();
         $specialCondition = false;
@@ -1338,8 +1377,19 @@ class Api extends AbstractApi
         $postTable = Pi::model('post', 'comment')->getTable();
         $order = null === $order ? 'time desc' : $order;
         
+        $whereType = "%";
+        switch ($type) {
+            case \Module\Comment\Model\Post::TYPE_REVIEW :
+                $whereType = "REVIEW";
+                break; 
+            case \Module\Comment\Model\Post::TYPE_COMMENT :
+                $whereType = "SIMPLE";
+                break;
+        } 
+        
         $select = Pi::db()->select();
         $select->from(array('post' => $postTable))
+        ->where('post.type = "' . $whereType . '"')
         ->group('post.id');
                 
         if ($specialCondition) {
@@ -1409,7 +1459,7 @@ class Api extends AbstractApi
      *
      * @return int|bool
      */
-    public function getCount($condition = array())
+    public function getCount($condition = array(), $type = \Module\Comment\Model\Post::TYPE_ALL)
     {
         $isJoin = false;
         if ($condition instanceof Where) {
@@ -1447,6 +1497,17 @@ class Api extends AbstractApi
                 $where = $wherePost;
             }
         }
+
+        $whereType = "%";
+        switch ($type) {
+            case \Module\Comment\Model\Post::TYPE_REVIEW :
+                $whereType = "REVIEW";
+                break; 
+            case \Module\Comment\Model\Post::TYPE_COMMENT :
+                $whereType = "SIMPLE";
+                break;
+        } 
+        $where['type'] = $whereType; 
 
         if (!$isJoin) {
             $count = Pi::model('post', 'comment')->count($where);

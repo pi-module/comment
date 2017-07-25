@@ -58,9 +58,6 @@ class Updator130 extends AbstractUpdator
      */
     protected function from130($version)
     {
-         ini_set('display_errors', 1);
- error_reporting(E_ALL);
-        
         
         $status = true;
         if (version_compare($version, '1.3.0', '<')) {

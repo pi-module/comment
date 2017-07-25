@@ -1,89 +1,76 @@
-<style>
-    .rating {
-   direction: rtl;
-   width:80px;
-}
-.rating span,
-.rating a {
-   color: #aaa;
-   text-decoration: none;
-   transition: color .4s;
-}
-.rating a:hover,
-.rating a:focus,
-.rating span.active,
-.rating a.active,
-.rating span.active ~ span,
-.rating a.active ~ a,
-.rating a:hover ~ a,
-.rating a:focus ~ a {
-   color: orange;
-   cursor: pointer;
-}
-
-.is-reply {margin-left:50px}
-
-.ratings div {display:inline-block; margin-right:10px}
-.images a {float:left}
-.images a img {height:75px}
-</style>
-<style>
-.inline label {display:inline-block;  }
-.inline input,
-.inline .rating {display:inline-block;}
-#ratings .inline label { width:100px; }
-.inline input {width:50%; margin-left:20px}
-
-</style>
-<style>
-    .is-reply{margin-left:60px}
-</style>
 <?php 
-    $script = <<<'EOT'
-        $('.gallery').each(function() {
-            $(this).magnificPopup({
-                delegate: 'a',
-                type: 'image',
-                gallery: {
-                    enabled:true
-                }
-            });
-        });
-EOT;
     $this->jQuery(array(
         'extension/jquery.magnific-popup.min.js',
         'extension/magnific-popup.css',
     ));
     $this->footScript()->appendScript($script);
+    $this->css($this->assetModule('css/front.css', 'comment')); 
+    
 ?>
 <script>
     $(function() {
-        
+        initGallery = function()
+        {
+            $('.gallery').each(function() {
+                $(this).magnificPopup({
+                    delegate: 'a',
+                    type: 'image',
+                    gallery: {
+                        enabled:true
+                    }
+                });
+            });
+        }
         var cancel = function() {
-            $('form#comment-post [name=time_experience]').attr("required", true);
+            // time experience
+            $('form#review-post [name=time_experience]').datepicker("setDate", null);
+            $('form#review-post [name=time_experience]').attr("required", true);
+            //
+            
+            $('form#comment-post textarea[name=content]').html('');
+            $('form#review-post textarea[name=content]').html(''); 
+             
             $('form#comment-post [name=id]').val(null);
+            $('form#review-post [name=id]').val(null);
+            
             $('form#comment-post [name=reply]').val(null);
-            $('textarea[name=content]').html('');
+            $('form#review-post [name=reply]').val(null);
+                        
+            // ratings
+            $('#ratings input[type=hidden]').val(null)
+            $('#ratings .active').removeClass('active')
+            //
+            
+            // images
+            $('form#review-post [name=main_image]').val(null);
+                $('form#review-post [name=additional_images]').val(null);
+                $( ".media-form-list" ).each(function(){
+                    refreshFormList($(this));
+                });
+            //
             
             $('.cancel').addClass('hide');
-            $('#special-review').show();
+            $('.special-review').show();
         }
+        
         var initCancel = function() {
             $('.btn.cancel').click(
                 function(e) {
                     e.preventDefault();
                     cancel();
+                    $('#modalForm').modal('hide');
                     return false;
                 }
             );
         }
         
-        var reply = function () {
-            $('form#comment-post [name=reply]').val($(this).data('reply'));
-            $('form#comment-post [name=time_experience]').attr("required", false);
-            $('.cancel').removeClass('hide');
-            $('#special-review').hide();
-            $('textarea.js-comment-txt')[0].focus();
+        var reply = function (elem, review) {
+            var form = review ? $('form#review-post') : $('form#comment-post');
+            form.find('[name=reply]').val($(elem).data('reply'));
+            form.find('[name=time_experience]').attr("required", false);
+             
+            form.find('.cancel').removeClass('hide');
+            $('.special-review').hide();
         };
         
         var initReply = function() {
@@ -91,7 +78,10 @@ EOT;
                 function(e) {
                     e.preventDefault();
                     cancel();
-                    reply(); 
+                    var review = $(this).parent().hasClass('is-review') == true;
+                    reply(this, review);
+                    showForm(review);
+                    
                     return false;
                 }
                 
@@ -99,33 +89,39 @@ EOT;
         };
         
         var edit = function(elem) {
+            var review = $(elem).parent().hasClass('is-review');
+            var form = review ? $('form#review-post') : $('form#comment-post');
+             
+            form.find('.cancel').removeClass('hide');
             var html = $(elem).parent().parent().find(".commentText").html();
-            $('form#comment-post [name=id]').val($(elem).data('id'));
-            var isReply = $(elem).parent().parent().parent().hasClass('is-reply');
+            form.find('[name=id]').val($(elem).data('id'));
+            var isReply = $(elem).parent().hasClass('is-reply');
             if (isReply) {
-                reply();
+                reply(elem);
                 var replyId =  $(elem).parent().parent().parent().data('reply')
-                $('form#comment-post [name=reply]').val(replyId);
-                $('textarea[name=content]').html(html);
+                form.find('[name=reply]').val(replyId);
+                form.find('textarea[name=content]').html(html);
+                form.find('[name=time_experience]').attr("required", false);
+
             } else {
-                $('textarea.js-comment-txt')[0].focus();
-                $('textarea[name=content]').html(html);
+                
+                form.find('textarea[name=content]').html(html);
                 var timeExperience = $(elem).parent().parent().find('.time-experience').data('time');
-                $('form#comment-post [name=time_experience]').datepicker("setDate", timeExperience);
+                form.find('[name=time_experience]').datepicker("setDate", timeExperience);
                 var ratings = $(elem).parent().parent().find('.ratings div');
                 ratings.each(
                     function (index)
                     {
                         var id = $(this).attr('for');
                         var rating = $(this).data('value');
-                        $('form#comment-post [name=' + id + ']').val(rating);
-                        $('form#comment-post [for=' + id + '] a[data-value=' + rating + ']').addClass('active');
+                        form.find('[name=' + id + ']').val(rating);
+                        form.find('[for=' + id + '] a[data-value=' + rating + ']').addClass('active');
                     }
                     
                 );
                 var images = $(elem).parent().parent().find('.images');
-                $('form#comment-post [name=main_image]').val(images.data('main_image'));
-                $('form#comment-post [name=additional_images]').val(images.data('additional_images'));
+                form.find('[name=main_image]').val(images.data('main_image'));
+                form.find('[name=additional_images]').val(images.data('additional_images'));
                 $( ".media-form-list" ).each(function(){
                     refreshFormList($(this));
                 });
@@ -139,6 +135,10 @@ EOT;
                     e.preventDefault();
                     cancel(e);
                     edit(this);
+                    
+                    var review = $(this).parent().hasClass('is-review') == true;
+                    showForm(review);
+                    
                     return false;
                 }
             );    
@@ -146,7 +146,7 @@ EOT;
         
         initReply();
         initEdit();
-        cancel();
+        initCancel();
         
         $('.rating a').click(
             function () {
@@ -161,7 +161,8 @@ EOT;
         $('.paginator').click(
             function () {
                   var page = $(this).data('page');
-                  $('.pagination li').removeClass('active');
+                  var type = $(this).data('type');
+                  $(this).parent().parent().find('li').removeClass('active');
                   $(this).parent().addClass('active');
                    
                   var uri = "<?php echo Pi::service('url')->assemble('comment', array(
@@ -172,15 +173,17 @@ EOT;
                  ));?>";
                   $.getJSON(uri, {
                     uri: $(location).attr('href'),
-                    page: page
+                    page: page,
+                    type: type
                 })
                 .done(function (data) {
                     if (data.content) {
-                        var el = $('#paginate-comments');
+                        var el = $('#paginate-' + type + 's');
                        
                         el.attr('class','show').html(data.content);
                         initReply();
                         initEdit();
+                        initGallery();
                     }
                 });
                 
@@ -209,27 +212,59 @@ EOT;
                 return false;
             }
         );
-        
+        var showForm = function(review)
+        {
+
+            if (review) {
+                $('#modalForm').modal();
+            } else {
+                $('textarea.js-comment-txt')[0].focus();
+            }
+        };
+            
+        <?php if ($review) { ?>
+            $('#js-review-form').removeClass('hide');
+            
+            $('.show-modal').click(
+                function(e)
+                {
+                    e.preventDefault();
+                    cancel();
+                    showForm(true);    
+                }
+            );
+        <?php } ?>
             
     });
 </script>
+
 <div class="panel panel-default nodeco" id="comments">
-    <div class="panel-heading">
-        <h2 class="panel-title">
+    <div class="row panel-heading">
+        <h2 class="panel-title col-md-8">
             <?php _e('All comments '); ?>
             <strong>(<?php echo _number($count) ?: _number(0); ?>)</strong>
         </h2>
+        <div class="pull-right col-md-4">
+             <?php if (Pi::user()->getId() > 0) { ?>
+            <div class="clearfix">
+                <input class="subscription" type="checkbox" <?php echo $subscribe ? 'CHECKED=CHECKED' : '' ?> /> <span class="text-muted"><?php _e('Subscribe to the thread') ?></span>
+            </div>
+        <?php } ?>
+        </div>
     </div>
+    
+    <?php if ($review) { ?>
+        <div class="write-review clearfix text-center">
+            <a href="#" class="show-modal"><?php _e("Write a review") ?></a>
+        </div>
+    <?php } ?>
+
     <div class="panel-body" itemscope itemtype="https://schema.org/UserComments">
         
         <?php include realpath(__FILE__) . './../_post-form.phtml' ?>
-        <?php if (Pi::user()->getId() > 0) { ?>
-            <div class="clearfix">
-                <input class="subscription" type="checkbox" /> <span class="text-muted"><?php _e('Subscribe to the thread') ?></span>
-            </div>
-        <?php } ?>
+       
         <?php if (count($posts)) { ?>
-            <div id="paginate-comments">
+            <div id="<?php echo $review ? 'paginate-reviews' : 'paginate-comments' ?>">
                 <?php include realpath(__FILE__) . './../partial/paginate-comments.phtml' ?>
             </div>    
             <div class="text-center">
@@ -238,7 +273,7 @@ EOT;
                     $pageNumber = $count % 5 == 0 ? $count / 5  : ((int) ($count / 5))  +1;
                     for ($i = 1; $i <= $pageNumber; ++$i) { ?>
                         <li class="<?php echo $i == 1 ? 'active' : '' ?>">
-                            <a class="paginator" href="#" data-page="<?php echo $i ?>">
+                            <a class="paginator" href="#" data-page="<?php echo $i ?>" data-type="<?php echo $review ? 'review' : 'comment' ?>">
                                 <?php echo $i ?>
                             </a>
                         </li>

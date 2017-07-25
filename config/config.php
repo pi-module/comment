@@ -86,8 +86,8 @@ $config = array(
     ),
     
      'time_to_edit' => array(
-        'title'         => _t('Time to edit '),
-        'description'   => _t('Time to edit a comment, in second'),
+        'title'         => _t('Time to edit/delete '),
+        'description'   => _t('Time to edit/delete a comment, in second'),
         'value'         => 300,
         'filter'        => 'int',
     ),

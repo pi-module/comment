@@ -2,10 +2,10 @@
 
 [format]html[/format]
 
-[subject]A new comment or review was posted - %title%[/subject]
+[subject]Nouveau commentaire / nouvelle expérience publiés - %title%[/subject]
 
 [body]
 <div style="padding: 1px; direction: ltr;">
-    <div style="padding: 3px 0; margin: 1px 0;">A new comment / review was posted in <a href="%url%">%title%</a></div>
+    <div style="padding: 3px 0; margin: 1px 0;">Un nouveau commentaire / une nouvelle expérience ont été ajoutés sur <a href="%url%">%title%</a></div>
 </div>
 [/body]

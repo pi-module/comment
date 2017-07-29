@@ -1,0 +1,223 @@
+<?php
+$timeToEdit = Pi::service('config')->get('time_to_edit', 'comment');
+
+$templateUserComment =<<<'EOT'
+    <div class="media-heading" itemprop="creator" itemscope itemtype="https://schema.org/Person">
+        <ul class="list-inline">
+            <li><a href="%s" target="_blank" itemprop="name">%s</a></li>
+            <li class="muted small">%s</li>
+            <li class="muted small"><a href="%s" target="_blank"><i class="fa fa-external-link"></i></a></li>
+        </ul>
+    </div>
+    <div class="clearfix commentText" itemprop="commentText">%s</div>
+    <meta itemprop="commentTime" content="%s" />
+EOT;
+
+$templateUserReview =<<<'EOT'
+    <div class="media-heading" itemprop="creator" itemscope itemtype="https://schema.org/Person">
+        <ul class="list-inline">
+            <li><a href="%s" target="_blank" itemprop="name">%s</a></li>
+            <li class="muted small">%s</li>
+            <li class="muted small"><a href="%s" target="_blank"><i class="fa fa-external-link"></i></a></li>
+        </ul>
+    </div>
+    <div class="small ratings">%s</div>
+    <div class="small time-experience clearfix" data-time="%s">
+        %s : 
+        %s
+    </div>
+    <p>
+        <div class="clearfix commentText" itemprop="commentText">%s</div>
+    </p>
+    %s
+    <meta itemprop="commentTime" content="%s" />
+EOT;
+
+$templateGuest =<<<'EOT'
+    <div class="media-heading" itemprop="creator" itemscope itemtype="https://schema.org/Person">
+        <ul class="list-inline">
+            <li>%s</li>
+            <li class="muted small">%s</li>
+            <li class="muted small"><a href="%s" target="_blank"><i class="fa fa-external-link"></i></a></li>
+        </ul>
+    </div>
+    <div class="clearfix commentText" itemprop="commentText">%s</div>
+    <meta itemprop="commentTime" content="%s" />
+EOT;
+
+$templateRating =<<<'EOT'
+    <div class="rating">
+        <span class="fa fa-star %s"></span>
+        <span class="fa fa-star %s"></span>
+        <span class="fa fa-star %s"></span>
+        <span class="fa fa-star %s"></span>
+        <span class="fa fa-star %s"></span>
+    </div>
+EOT;
+
+            ?>
+<?php foreach ($posts[0] as $item) { ?>
+    <?php $url = ($item['uid'] > 0) ? $item['user']['url'] : '#comments'; ?>
+    <div class="pi-comment-single media comment-item clearfix <?php echo $item['type'] == 'SIMPLE' ? 'is-comment' : 'is-review' ?>" id="comment-<?php echo $item['id']; ?>">
+        <?php if ($item['uid'] > 0) { ?>
+            <a class="pull-left avatar-img-wrapper" href="<?php echo $item['user']['url']; ?>" target="_blank">
+                <?php echo $item['user']['avatar']; ?>
+            </a>
+        <?php } else { ?>
+            <p class="pull-left avatar-img-wrapper">
+                <?php echo $item['user']['avatar']; ?>
+            </p>
+        <?php } ?>
+        <div class="media-body">
+            <?php if ($item['uid'] > 0) {
+                if ($item['type'] == 'SIMPLE') {
+                    echo sprintf(
+                        $templateUserComment,
+                        $url,
+                        $item['user']['name'],
+                        _date($item['time']),
+                        $item['url'],
+                        $item['content'],
+                        date("Y-m-d H:i:s", $item['time'])
+                    );
+                } else {
+                    
+                    $galleryImages = Pi::api('doc','media')->getGalleryLinkData($item['additional_images'], 'thumbnail', null, null, true, $item['main_image'], 'comment');
+                    $images = '<div class="gallery images clearfix" data-main_image="' . $item['main_image'] . '" data-additional_images="' . $item['additional_images'] . '">';
+                    if ($item['main_image']) {
+                        $images .= '<a href="' . Pi::url((string) Pi::api('doc','media')->getSingleLinkUrl($item['main_image'])->setConfigModule('guide')->thumb('large')) . '">'; 
+                        $images .= '<img class="img-responsive main_image" src="' . Pi::url((string) Pi::api('doc','media')->getSingleLinkUrl($item['main_image'])->setConfigModule('guide')->thumb('thumbnail')) . '" />';
+                        $images .= '</a>';
+                    }
+                    foreach ($galleryImages as $key => $galleryImage) {
+                        $images .= '<a href="' . $galleryImage['url'] . '" title="' .  $this->escape($galleryImage['title']) . '">';
+                        $images .= '<img class="img-responsive" src="' . $galleryImage['resized_url'] . '" alt="' . $this->escape($galleryImage['title']) . '" itemprop="image"/>';
+                        $images .= '</a>';
+                    }
+                    $images .= '</div>';
+                        
+                    $ratings = '';
+                    foreach ($item['rating'] as $id => $rating) {
+                        $star = sprintf($templateRating, 
+                            $rating['rating'] == 5 ? 'active' : '',
+                            $rating['rating'] == 4 ? 'active' : '',
+                            $rating['rating'] == 3 ? 'active' : '',
+                            $rating['rating'] == 2 ? 'active' : '',
+                            $rating['rating'] == 1 ? 'active' : ''
+                            );  
+                        $ratings .= '<div data-value="' . $rating['rating'] . '" for="rating-' . $id . '">' . $rating['type'] . ' : ';
+                        $ratings .=  $star;
+                        $ratings .=  '</div>';
+                    }
+                    
+                    echo sprintf(
+                        $templateUserReview,
+                        $url,
+                        $item['user']['name'],
+                        _date($item['time']),
+                        $item['url'],
+                        $ratings,
+                        date('Y-m-d', $item['time_experience']),
+                        __('Experience time'),
+                        _date($item['time_experience']),
+                        $item['content'],
+                        $images,
+                        date("Y-m-d H:i:s", $item['time'])
+                    );
+                }
+            } else {
+                echo sprintf(
+                    $templateGuest,
+                    $item['identity'],
+                    _date($item['time']),
+                    $item['url'],
+                    $item['content'],
+                    date("Y-m-d H:i:s", $item['time'])
+                );
+            } ?>
+            <div class="comment-operation <?php echo $item['type'] == 'SIMPLE' ? 'is-comment' : 'is-review' ?>">
+                
+                <?php
+                $time = $item['time_updated'] ? $item['time_updated'] : $item['time'];
+                $canEdit = false;
+                if (time() - $time <= $timeToEdit || Pi::service('user')->getUser()->isAdmin('comment')) {
+                    $canEdit = true;    
+                }
+                ?>
+                <?php if ($uid > 0 && $uid == $item['uid'] && $canEdit) { ?>
+                    <?php if ($uid > 0 && $uid == $item['uid']) {
+                        echo sprintf(
+                            '<a href="%s#comments" onclick="return confirm(\'%s\')">%s</a>',
+                            $this->url('comment', array('controller' => 'post', 'action' => 'delete', 'id' => $item['id'])),
+                            __('Are you sure to delete this comment?'),
+                            __('Delete')
+                        );
+                    } ?>
+                    <a href="#" class="edit" data-id="<?php echo $item['id'] ?>"><?php _e('Edit') ?></a>
+                <?php } ?>
+                
+                <a href="#" class="reply" data-reply="<?php echo $item['id'] ?>"><?php _e('Reply') ?></a>
+                
+            </div>
+        </div>
+    </div>
+    <?php if (isset($posts[$item['id']])) { ?>
+        <?php foreach ($posts[$item['id']] as $reply) { ?>
+            <?php $url = ($reply['uid'] > 0) ? $reply['user']['url'] : '#comments'; ?>
+            <div class="pi-comment-single media comment-item clearfix is-reply" data-reply="<?php echo $reply['reply'] ?>" id="comment-<?php echo $reply['id']; ?>">
+                <?php if ($reply['uid'] > 0) { ?>
+                    <a class="pull-left avatar-img-wrapper" href="<?php echo $reply['user']['url']; ?>" target="_blank">
+                        <?php echo $reply['user']['avatar']; ?>
+                    </a>
+                <?php } else { ?>
+                    <p class="pull-left avatar-img-wrapper">
+                        <?php echo $reply['user']['avatar']; ?>
+                    </p>
+                <?php } ?>
+                <div class="media-body">
+                    <?php if ($reply['uid'] > 0) {
+                        echo sprintf(
+                            $templateUserComment,
+                            $url,
+                            $reply['user']['name'],
+                            _date($reply['time']),
+                            $reply['url'],
+                            $reply['content'],
+                            date("Y-m-d H:i:s", $reply['time'])
+                        );
+                    } else {
+                        echo sprintf(
+                            $templateGuest,
+                            $reply['identity'],
+                            _date($reply['time']),
+                            $reply['url'],
+                            $reply['content'],
+                            date("Y-m-d H:i:s", $reply['time'])
+                        );
+                    } ?>
+                    <div class="comment-operation is-reply <?php echo $item['type'] == 'SIMPLE' ? 'is-comment' : 'is-review' ?>" >
+                        <?php
+                        $time = $reply['time_updated'] ? $reply['time_updated'] : $reply['time'];
+                        $canEdit = false;
+                        if (time() - $time <= $timeToEdit || Pi::service('user')->getUser()->isAdmin('comment')) {
+                            $canEdit = true;    
+                        }
+                        ?>
+                        <?php if ($uid > 0 && $uid == $reply['uid'] && $canEdit) { ?>
+                             <?php if ($uid > 0 && $uid == $reply['uid']) {
+                                echo sprintf(
+                                    '<a href="%s#comments" onclick="return confirm(\'%s\')">%s</a>',
+                                    $this->url('comment', array('controller' => 'post', 'action' => 'delete', 'id' => $reply['id'])),
+                                    __('Are you sure to delete this comment?'),
+                                    __('Delete')
+                                );
+                            } ?>
+                            <a href="#" class="edit" data-id="<?php echo $reply['id'] ?>"><?php _e('Edit') ?></a>
+                        <?php } ?>
+                        
+                    </div>
+                </div>
+            </div>
+        <?php } ?>
+    <?php } ?>
+<?php } ?>

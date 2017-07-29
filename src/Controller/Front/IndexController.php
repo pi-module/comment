@@ -11,7 +11,9 @@ namespace Module\Comment\Controller\Front;
 
 use Pi;
 use Pi\Mvc\Controller\ActionController;
-
+use Module\Comment\Form\PostForm;
+use Module\Comment\Form\PostFilter;
+use Module\Media\Form\View\Helper\FormMedia;
 class IndexController extends ActionController
 {
     /**
@@ -84,13 +86,59 @@ class IndexController extends ActionController
      */
     public function loadAction()
     {
+        $options['review'] = true;
+        
         $uri = $this->params('uri');
-        $content = Pi::service('comment')->loadContent($uri);
+        $review = $this->params('review');
+        $content = Pi::service('comment')->loadContent(array('uri' => $uri, 'review' => $review));
         $result = array(
             'status'    => 1,
             'content'   => $content,
         );
-
         return $result;
     }
+    
+    public function pageAction()
+    {
+        $uri = $this->params('uri');
+        $page  = $this->params('page', 1);
+        $type  = $this->params('type');
+
+        $content  = Pi::service('comment')->loadComments(
+            array(
+                'uri' => $uri, 
+                'page' => $page,
+                'review' => $type == 'review'  
+            )
+        );
+        
+        $result = array(
+            'status'    => 1,
+            'content'   => $content,
+        );  
+        return $result;
+    }
+    
+    public function subscriptionAction()
+    {
+        $uri = $this->params('uri');
+        $subscription = $this->params('subscription');
+        $routeMatch = Pi::service('url')->match($uri);
+        $params = $routeMatch->getParams();
+        $data = Pi::api('api', 'comment')->findRoot($params);
+        $root = $data['root'];
+        if (!$root) {
+            return false;
+        }
+
+        // Load translations
+        Pi::service('i18n')->load('module/comment:default');
+
+        Pi::api('api', 'comment')->subscription($root, $subscription);
+        
+        $result = array(
+            'status'    => 1,
+        );  
+        return $result;
+    }   
 }

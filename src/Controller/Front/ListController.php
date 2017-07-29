@@ -40,6 +40,7 @@ class ListController extends ActionController
 
         $where = array('active' => $active);
         $posts = Pi::api('api', 'comment')->getList(
+            \Module\Comment\Model\Post::TYPE_ALL,
             $where,
             $limit,
             $offset
@@ -106,7 +107,7 @@ class ListController extends ActionController
             $page   = _get('page', 'int') ?: 1;
             $limit  = $this->config('list_limit') ?: 10;
             $offset = ($page - 1) * $limit;
-            $posts  = Pi::api('api', 'comment')->getList($rootId, $limit, $offset);
+            $posts  = Pi::api('api', 'comment')->getList(\Module\Comment\Model\Post::TYPE_ALL, $rootId, $limit, $offset);
             $renderOptions = array(
                 'operation' => $this->config('display_operation'),
                 'user'      => array(
@@ -178,6 +179,7 @@ class ListController extends ActionController
 
         $where = array('uid' => $uid, 'active' => $active);
         $posts = Pi::api('api', 'comment')->getList(
+            \Module\Comment\Model\Post::TYPE_ALL,
             $where,
             $limit,
             $offset
@@ -287,6 +289,7 @@ class ListController extends ActionController
             $where['type'] = $type;
         }
         $posts = Pi::api('api', 'comment')->getList(
+            \Module\Comment\Model\Post::TYPE_ALL,
             $where,
             $limit,
             $offset
@@ -541,6 +544,7 @@ class ListController extends ActionController
         );
 
         $posts = Pi::api('api', 'comment')->getList(
+            \Module\Comment\Model\Post::TYPE_ALL,
             $where,
             $limit,
             $offset

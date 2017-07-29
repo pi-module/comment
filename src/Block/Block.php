@@ -28,6 +28,7 @@ class Block
         );
         // Get posts list
         $posts = Pi::api('api', 'comment')->getList(
+            \Module\Comment\Model\Post::TYPE_ALL,
             $where,
             $limit
         );

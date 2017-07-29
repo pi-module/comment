@@ -37,7 +37,7 @@ class Event extends AbstractApi
     public function postpublish($id)
     {
         // Clear cache for leading comments
-        Pi::service('comment')->clearCache($id);
+        Pi::service('comment')->clearPagination($id);
 
         // Insert timeline item
         Pi::service('comment')->timeline($id);
@@ -53,7 +53,7 @@ class Event extends AbstractApi
     public function postupdate($id)
     {
         // Clear cache for leading comments
-        Pi::service('comment')->clearCache($id);
+        Pi::service('comment')->clearPagination($id);
 
         return;
     }
@@ -66,7 +66,7 @@ class Event extends AbstractApi
     public function postenable($id)
     {
         // Clear cache for leading comments
-        Pi::service('comment')->clearCache($id);
+        Pi::service('comment')->clearPagination($id);
 
         // Insert timeline item
         if (is_array($id)) {
@@ -88,7 +88,7 @@ class Event extends AbstractApi
     public function postdisable($id)
     {
         // Clear cache for leading comments
-        Pi::service('comment')->clearCache($id);
+        Pi::service('comment')->clearPagination($id);
 
         return;
     }
@@ -100,7 +100,7 @@ class Event extends AbstractApi
      */
     public function postdelete($root)
     {
-        Pi::service('comment')->clearCache($root, true);
+        Pi::service('comment')->clearPagination($root, true);
 
         return;
     }

@@ -34,7 +34,8 @@ class ListController extends ActionController
         $limit  = $this->config('list_limit') ?: 10;
         $offset = ($page - 1) * $limit;
 
-        $posts = Pi::api('api', 'comment')->getList(
+        $datas = Pi::api('api', 'comment')->getList(
+            \Module\Comment\Model\Post::TYPE_ALL,
             array('active' => $active),
             $limit,
             $offset
@@ -64,12 +65,19 @@ class ListController extends ActionController
         ));
         */
         // Default mode
-        $posts = Pi::api('api', 'comment')->renderList($posts, array(
+        $datas = Pi::api('api', 'comment')->renderList($datas, array(
             'operation'     => 'admin',
             'user'          => array(
                 'avatar'    => 'medium',
             ),
         ));
+        $posts = array();
+        foreach ($datas as $list) {
+            foreach ($list as $key => $data) {
+                $posts[$key] = $data;
+            }
+        }
+        
         $count = Pi::service('comment')->getCount(array('active' => $active));
 
         $paginator = Paginator::factory($count, array(
@@ -143,6 +151,7 @@ class ListController extends ActionController
         $offset = ($page - 1) * $limit;
         $where = array('uid' => $uid, 'active' => $active);
         $posts = Pi::api('api', 'comment')->getList(
+            \Module\Comment\Model\Post::TYPE_ALL,
             $where,
             $limit,
             $offset
@@ -306,6 +315,7 @@ class ListController extends ActionController
             $where['type'] = $type;
         }
         $posts = Pi::api('api', 'comment')->getList(
+            \Module\Comment\Model\Post::TYPE_ALL,
             $where,
             $limit,
             $offset
@@ -420,6 +430,7 @@ class ListController extends ActionController
         $offset = ($page - 1) * $limit;
 
         $targets = Pi::api('api', 'comment')->getTargetList(
+            \Module\Comment\Model\Post::TYPE_ALL,
             array('active' => $active),
             $limit,
             $offset

@@ -59,8 +59,34 @@ CREATE TABLE `{post}` (
   `active`       TINYINT(1) UNSIGNED NOT NULL    DEFAULT '1',
   `ip`           VARCHAR(15)         NOT NULL    DEFAULT '',
   `module`       VARCHAR(64)         NOT NULL,
-
+  `type` 	 ENUM ("SIMPLE", "REVIEW") NOT NULL DEFAULT  'SIMPLE',
+  `time_experience` INT( 11 ) NULL DEFAULT NULL,
+  `main_image`      VARCHAR(255),
+  `additional_images`   TEXT,
   PRIMARY KEY (`id`),
   KEY `uid` (`uid`),
   KEY `root` (`root`)
 );
+
+CREATE TABLE `{rating_type}` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `type` varchar(32)  NULL,
+  KEY `id` (`id`)
+);
+
+CREATE TABLE `{post_rating}` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `post` varchar(32)  NULL,
+  `rating_type` varchar(32)  NULL,
+  `rating` tinyint(1)  NOT NULL,
+  KEY `id` (`id`)
+);
+
+CREATE TABLE `{subscription}` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uid` int(10) unsigned NOT NULL,
+  `root`  int(10) unsigned NOT NULL,
+  KEY `id` (`id`)
+);
+
+

@@ -24,6 +24,7 @@ class IndexController extends FeedController
 
         $where = array('active' => 1);
         $posts = Pi::api('api', 'comment')->getList(
+            \Module\Comment\Model\Post::TYPE_ALL,
             $where,
             10
         );

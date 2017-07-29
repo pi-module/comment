@@ -33,10 +33,11 @@ class PostForm extends BaseForm
      * @param string|int    $name   Optional name for the element
      * @param string        $markup Page type: text, html, markdown
      */
-    public function __construct($name = '', $markup = '')
+    public function __construct($name = '', $markup = '', $ratings = array())
     {
         $name = $name ?: 'comment-post';
         $this->markup = $markup ?: $this->markup;
+        $this->ratings = $ratings;
         parent::__construct($name);
         $this->setAttribute('action', Pi::service('comment')->getUrl('submit'));
     }
@@ -49,7 +50,12 @@ class PostForm extends BaseForm
     public function getInputFilter()
     {
         if (!$this->filter) {
-            $this->filter = new PostFilter;
+            $options = array(
+                'ratings' => $ratings,
+                'review'  => count($ratings) ? 1 : 0
+            );
+            
+            $this->filter = new PostFilter($options);
         }
 
         return $this->filter;
@@ -119,7 +125,20 @@ class PostForm extends BaseForm
                 'rows'          => 5,
             ),
         ));
-
+        
+        if (method_exists(Pi::api('comment', Pi::service('module')->current()), 'canonize')) {
+            $this->add(array(
+                    'name' => 'subscribe',
+                    'type' => 'checkbox',
+                    'options' => array(
+                        'label' => __('Subscribe to the thread'),
+                    ),
+                    'attributes'    => array(
+                        'checked' => 'checked'
+                    )
+            ));
+        }
+        
         $this->add(array(
             'name'          => 'submit',
             //'type'          => 'button',
@@ -137,7 +156,104 @@ class PostForm extends BaseForm
                 'value' => $this->markup,
             ),
         ));
+        
+        if (!empty($this->ratings)) {
+$html =<<<'EOT'
+    <label>%s</label>
+    <div class="rating" for="%s">
+        <a href="#" data-value="5" class="fa fa-star"></a>
+        <a href="#" data-value="4" class="fa fa-star"></a>
+        <a href="#" data-value="3" class="fa fa-star"></a>
+        <a href="#" data-value="2" class="fa fa-star"></a>
+        <a href="#" data-value="1" class="fa fa-star"></a>
+    </div>
+EOT;
+        
+            foreach ($this->ratings as $key => $rating) {
+               $htmlStar = sprintf($html, $rating, 'rating-' .  $key);
+               $this->add(array(
+                    'name' => 'star-' . $key,
+                    'type' => 'Html',
+                    'options' => array(
+                        'label' => $rating,
+                    ),
+                    'attributes' => array(
+                        'value' => $htmlStar,
+                        'label' => $rating,
+                    )
+                ));
+                $this->add(array(
+                    'name'          => 'rating-' . $key,
+                    'attributes'    => array(
+                        'type'  => 'hidden',
+                    ),
+                ));
+            }
+            
+            
+              $this->add(array(
+            'name' => 'main_image',
+            'type' => 'Module\Media\Form\Element\Media',
+            'options' => array(
+                'label' => __('Main image'),
+                'media_season' => false,
+                'media_season_recommended' => true,
+                'is_freemium' => false,
+                'can_connect_lists' => true,
+                'module' => 'comment',
+            ),
+        ));
 
+        $this->add(array(
+            'name' => 'additional_images',
+            'type' => 'Module\Media\Form\Element\Media',
+            'options' => array(
+                'label' => __('Additional images'),
+                'media_gallery' => true,
+                'can_connect_lists' => true,
+                'is_freemium' => false,
+                'module' => 'comment',
+            ),
+        ));
+        
+            $this->add(array(
+                'name'          => 'review',
+                'attributes'    => array(
+                    'type'  => 'hidden',
+                    'value' => 1 
+                ),
+            ));
+            
+            $this->add(array(
+                'name'          => 'time_experience',
+                'type' => 'datepicker',
+                'options' => array(
+                    'label' => __('Time start'),
+                    'datepicker' => array(
+                        'format' => 'yyyy-mm-dd',
+                        'autoclose' => true,
+                        'todayBtn' => true,
+                        'todayHighlight' => true,
+                        'weekStart' => 1,
+                    ),
+                ),
+                'attributes' => array(
+                    'required' => true,
+                    'class' => "form-control"
+                    
+                )
+            ));
+            
+        } else {
+            $this->add(array(
+                'name'          => 'review',
+                'attributes'    => array(
+                    'type'  => 'hidden',
+                    'value' => 0
+                ),
+            ));
+        }
+        
         foreach (array(
                      'id',
                      'root',

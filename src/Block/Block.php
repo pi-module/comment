@@ -43,6 +43,12 @@ class Block
         );
         // Get render posts list
         $block['posts'] = Pi::api('api', 'comment')->renderList($posts, $renderOptions);
+        
+        foreach ($block['posts'] as &$apost) {
+            foreach ($apost as &$post) {
+                $post['globalRatings'] = Pi::api('api', 'comment')->globalRatings($post['root']);
+            }
+        }
         // return
         return $block;
     }

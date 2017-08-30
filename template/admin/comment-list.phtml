@@ -36,7 +36,7 @@ $active = $comment['active'];
                         <td style="width: 100px">
                             <?php if ($post['uid'] > 0) { ?>
                                 <a class="<?php echo 0 === $post['active'] && 0 !== $active ? ' muted' : ''; ?>" href="<?php echo $post['user']['url']; ?>">
-                                    <strong><?php echo _escape($post['user']['name']); ?></strong>
+                                    <strong><?php echo isset($post['user']['name']) ? _escape($post['user']['name']) : ''; ?></strong>
                                 </a>
                             <?php } else { ?>
                                 <div class="<?php echo 0 === $post['active'] && 0 !== $active ? ' muted' : ''; ?>">

@@ -227,6 +227,8 @@ a.pi-comment-count:hover {
 
 .comment-item {
   margin-top: 20px;
+  z-index:10;
+  position:relative;
 }
 
 .comment-operation {
@@ -243,8 +245,8 @@ a.pi-comment-count:hover {
 
 /* Comment single */
 .pi-comment-single {
-    margin-top:-50px!important;
-    padding-top:50px!important;
+    /*margin-top:-50px!important;
+    padding-top:50px!important;*/
     
 }
 
@@ -289,7 +291,7 @@ a.pi-comment-count:hover {
     display:inline-block;
 }
 #ratings .inline label {
-    width:100px; 
+    width:60px; 
 }
 .inline input {
     width:50%; 
@@ -317,3 +319,25 @@ a.pi-comment-count:hover {
 input.subscription {
     margin-left: 20px;
 }
+
+.comment-admin,
+.comment-owner {
+    background : #f5f5f5
+}
+
+.resume-ratings span.inline-block {
+    width:60px;
+    font-weight:bold;
+}
+
+.resume-ratings > div:first-child {margin-bottom:20px}
+/*
+.is-review,
+.is-comment,
+#write-review {
+    margin-top:-90px!important;
+    padding-top:90px!important;
+    z-index:1;
+    position:relative;
+}
+*/

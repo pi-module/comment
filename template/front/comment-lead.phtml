@@ -228,7 +228,10 @@
             $('.show-modal').click(
                 function(e)
                 {
-                    e.preventDefault();
+                    // Permet au bouton Dejà Fait d'aller se positionner sur l'ancre
+                    if ($(this).hasClass('noprevent') == 0) {
+                        e.preventDefault();
+                    }
                     cancel();
                     showForm(true);    
                 }
@@ -237,8 +240,58 @@
             
     });
 </script>
+<?php
 
-<div class="panel panel-default nodeco" id="comments">
+$templateRating =<<<'EOT'
+    <div class="rating inline-block">
+        <span class="fa fa-star %s"></span>
+        <span class="fa fa-star %s"></span>
+        <span class="fa fa-star %s"></span>
+        <span class="fa fa-star %s"></span>
+        <span class="fa fa-star %s"></span>
+    </div>
+EOT;
+
+?>
+<div class="panel panel-default nodeco" id="comments" style="margin-top:-90px; padding-top:90px">
+    <?php if ($review) { ?>
+        <div class="row panel-heading resume-ratings">
+            <div>
+                <?php  
+                    $star = sprintf($templateRating, 
+                        $globalRatings[0]['rating'] == 5 ? 'active' : '',
+                        $globalRatings[0]['rating'] == 4 ? 'active' : '',
+                        $globalRatings[0]['rating'] == 3 ? 'active' : '',
+                        $globalRatings[0]['rating'] == 2 ? 'active' : '',
+                        $globalRatings[0]['rating'] == 1 ? 'active' : ''
+                    );  
+                ?>
+                <strong><?php echo _number($count) . ' ' . __('comments')?>&nbsp;</strong> <?php echo $star; ?>
+            </div>
+            <div class="col-md-4 no-padding">Résumé</div>
+            <div class="col-md-8">
+                <?php foreach ($globalRatings as $key => $rating)  { ?>
+                    <?php if ($key ==0) {
+                        continue; 
+                    } ?>
+                    <div class="col-md-6">
+                        <?php  
+                            $star = sprintf($templateRating, 
+                                $rating['rating'] == 5 ? 'active' : '',
+                                $rating['rating'] == 4 ? 'active' : '',
+                                $rating['rating'] == 3 ? 'active' : '',
+                                $rating['rating'] == 2 ? 'active' : '',
+                                $rating['rating'] == 1 ? 'active' : ''
+                            );  
+                        ?>
+                       <span class="inline-block" style="width:70px"><?php echo $key == 0 ? __($rating['type']) : $rating['type'] ?></span>  
+                       <?php echo $star ?>
+                    </div>    
+                <?php } ?>  
+            </div>
+        </div>
+    <?php } ?>
+    
     <div class="row panel-heading">
         <h2 class="panel-title inline-block">
             <?php _e('All comments '); ?>
@@ -250,8 +303,10 @@
     </div>
     
     <?php if ($review) { ?>
-        <div class="write-review clearfix text-center">
-            <a href="#" class="show-modal"><?php _e("Write a review") ?></a>
+        <div id="write-review">
+            <div class="write-review clearfix text-center">
+                <a href="#" class="show-modal"><?php _e("Write a review") ?></a>
+            </div>
         </div>
     <?php } ?>
 
@@ -267,13 +322,18 @@
                 <ul class="pagination">
                     <?php 
                     $pageNumber = $count % 5 == 0 ? $count / 5  : ((int) ($count / 5))  +1;
-                    for ($i = 1; $i <= $pageNumber; ++$i) { ?>
-                        <li class="<?php echo $i == 1 ? 'active' : '' ?>">
-                            <a class="paginator" href="#" data-page="<?php echo $i ?>" data-type="<?php echo $review ? 'review' : 'comment' ?>">
-                                <?php echo $i ?>
-                            </a>
-                        </li>
-                     <?php } ?> 
+                    if ($pageNumber > 1) {
+                        for ($i = 1; $i <= $pageNumber; ++$i) { ?>
+                            <li class="<?php echo $i == 1 ? 'active' : '' ?>">
+                                <a class="paginator" href="#" data-page="<?php echo $i ?>" data-type="<?php echo $review ? 'review' : 'comment' ?>">
+                                    <?php echo $i ?>
+                                </a>
+                            </li>
+                            
+                     <?php
+                        }  
+                    } 
+                    ?> 
                  </ul>
              </div>
         <?php } else { ?>

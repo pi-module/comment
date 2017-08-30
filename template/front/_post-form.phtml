@@ -72,7 +72,7 @@ $form = Pi::service('comment')->getForm($formData, $options);
                 <div class="clearfix"></div>
                 
                 <div class="col-md-8 inline">
-                    <label><?php _e('Experience time') ?></label>
+                    <label><i class="text-danger" style="margin-right: 5px;" title="Requis">*</i><?php _e('Experience time') ?></label>
                         <?php echo $this->formElement($form->get('time_experience')); ?>
                 </div>
             <?php } ?>
@@ -186,7 +186,16 @@ $form = Pi::service('comment')->getForm($formData, $options);
             comment.init();
         <?php } ?>
             
-             
+        $.each($('textarea[data-autoresize]'), function() {
+            var offset = this.offsetHeight - this.clientHeight;
+         
+            $(this).css('overflow-y', 'hidden').css('resize', 'none');
+            var resizeTextarea = function(el) {
+                $(el).css('height', 'auto').css('height', el.scrollHeight + offset);
+                
+            };
+            $(this).on('keyup input', function() { resizeTextarea(this); }).removeAttr('data-autoresize');
+        });     
         
     })(jQuery)
 </script>

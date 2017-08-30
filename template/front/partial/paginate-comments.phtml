@@ -2,15 +2,17 @@
 $timeToEdit = Pi::service('config')->get('time_to_edit', 'comment');
 
 $templateUserComment =<<<'EOT'
-    <div class="media-heading" itemprop="creator" itemscope itemtype="https://schema.org/Person">
-        <ul class="list-inline">
-            <li><a href="%s" target="_blank" itemprop="name">%s</a></li>
-            <li class="muted small">%s</li>
-            <li class="muted small"><a href="%s" target="_blank"><i class="fa fa-external-link"></i></a></li>
-        </ul>
+    <div class="%s">
+        <div class="media-heading" itemprop="creator" itemscope itemtype="https://schema.org/Person">
+            <ul class="list-inline">
+                <li><a href="%s" target="_blank" itemprop="name">%s</a></li>
+                <li class="muted small">%s</li>
+                <li class="muted small"><a href="%s" target="_blank"><i class="fa fa-external-link"></i></a></li>
+            </ul>
+        </div>
+        <div class="clearfix commentText" itemprop="commentText">%s</div>
+        <meta itemprop="commentTime" content="%s" />
     </div>
-    <div class="clearfix commentText" itemprop="commentText">%s</div>
-    <meta itemprop="commentTime" content="%s" />
 EOT;
 
 $templateUserReview =<<<'EOT'
@@ -55,7 +57,7 @@ $templateRating =<<<'EOT'
     </div>
 EOT;
 
-            ?>
+?>
 <?php foreach ($posts[0] as $item) { ?>
     <?php $url = ($item['uid'] > 0) ? $item['user']['url'] : '#comments'; ?>
     <div class="pi-comment-single media comment-item clearfix <?php echo $item['type'] == 'SIMPLE' ? 'is-comment' : 'is-review' ?>" id="comment-<?php echo $item['id']; ?>">
@@ -73,6 +75,7 @@ EOT;
                 if ($item['type'] == 'SIMPLE') {
                     echo sprintf(
                         $templateUserComment,
+                        'comment-' . strtolower($item['writer']),
                         $url,
                         $item['user']['name'],
                         _date($item['time']),
@@ -97,19 +100,20 @@ EOT;
                     $images .= '</div>';
                         
                     $ratings = '';
-                    foreach ($item['rating'] as $id => $rating) {
-                        $star = sprintf($templateRating, 
-                            $rating['rating'] == 5 ? 'active' : '',
-                            $rating['rating'] == 4 ? 'active' : '',
-                            $rating['rating'] == 3 ? 'active' : '',
-                            $rating['rating'] == 2 ? 'active' : '',
-                            $rating['rating'] == 1 ? 'active' : ''
-                            );  
-                        $ratings .= '<div data-value="' . $rating['rating'] . '" for="rating-' . $id . '">' . $rating['type'] . ' : ';
-                        $ratings .=  $star;
-                        $ratings .=  '</div>';
+                    if (Pi::service('user')->getUser()->isAdmin('comment') || (Pi::user()->getId() > 0 && $item['user']['id'] == Pi::user()->getId())) { 
+                        foreach ($item['rating'] as $id => $rating) {
+                            $star = sprintf($templateRating, 
+                                $rating['rating'] == 5 ? 'active' : '',
+                                $rating['rating'] == 4 ? 'active' : '',
+                                $rating['rating'] == 3 ? 'active' : '',
+                                $rating['rating'] == 2 ? 'active' : '',
+                                $rating['rating'] == 1 ? 'active' : ''
+                                );  
+                            $ratings .= '<div data-value="' . $rating['rating'] . '" for="rating-' . $id . '">' . $rating['type'] . ' : ';
+                            $ratings .=  $star;
+                            $ratings .=  '</div>';
+                        }
                     }
-                    
                     echo sprintf(
                         $templateUserReview,
                         $url,
@@ -182,6 +186,7 @@ EOT;
                             $reply['user']['name'],
                             _date($reply['time']),
                             $reply['url'],
+                            'comment-' . strtolower($item['writer']),
                             $reply['content'],
                             date("Y-m-d H:i:s", $reply['time'])
                         );

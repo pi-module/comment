@@ -123,6 +123,7 @@ class PostForm extends BaseForm
                 'placeholder'   => __('Type your content'),
                 'class'         => 'form-control',
                 'rows'          => 5,
+                'data-autoresize' => true
             ),
         ));
         

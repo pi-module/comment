@@ -362,7 +362,7 @@ class Api extends AbstractApi
             $rootData['active'] = 0;
         }
         // Check against cache
-        if ($rootData['id']) {
+        if ($rootData['id']) { 
             $result = Pi::service('comment')->loadCache($rootData['id'] . '-' . ($review ? \Module\Comment\Model\Post::TYPE_REVIEW : \Module\Comment\Model\Post::TYPE_COMMENT)  . '-' .  $limit . $offset);
             if ($result) {
                 if (Pi::service()->hasService('log')) {
@@ -430,12 +430,21 @@ class Api extends AbstractApi
                 }
             }
             
+            // Subscription
             $subscribe = 0;
             if (Pi::user()->getId() > 0) {
                 $select = Pi::model('subscription', 'comment')->select()->where(array('root' => $rootData['id'], 'uid' => Pi::user()->getId()));
                 $subscribe = Pi::model('subscription', 'comment')->selectWith($select)->count();
             }
             $result['subscribe'] = $subscribe;
+            
+            // Rating 
+            $globalRatings = array();
+            if ($review) {
+                $globalRatings = $this->globalRatings($rootData['id']);
+            }
+            
+            $result['globalRatings'] = $globalRatings; 
         }
         
         return $result;
@@ -551,7 +560,7 @@ class Api extends AbstractApi
                 }
                 if ($uids) {
                     $uids = array_unique($uids);
-                    $users = Pi::service('user')->mget($uids, array($label));
+                    $users = Pi::service('user')->mget($uids, array($label, 'role'));
                     $avatars = null;
                     if (false !== $avatar) {
                         $avatars = Pi::service('avatar')->getList(
@@ -848,7 +857,8 @@ class Api extends AbstractApi
                     return false;
                 }
                 $postData['root'] = $rootId;
-
+                $root = Pi::model('root', 'comment')->find($postData['root']);
+                
             // Verify root
             } else {
                 $root = Pi::model('root', 'comment')->find($postData['root']);
@@ -874,6 +884,17 @@ class Api extends AbstractApi
             if (isset($postData['time_updated'])) {
                 unset($postData['time_updated']);
             }
+            
+            $postData['writer'] = 'USER';
+            if (Pi::service('permission')->isAdmin('comment', $uid)) {
+                $postData['writer'] = 'ADMIN'; 
+            } else if ($postData['module'] == 'guide') {
+                $item = Pi::api('item', 'guide')->getItem($root['item']);
+                $owner = Pi::api('owner', 'guide')->getOwner($item['owner']);
+                if ($owner['uid'] == $uid) {
+                    $postData['writer'] = 'OWNER';    
+                }
+            } 
             $row = Pi::model('post', 'comment')->createRow($postData);
         } else {
             $row = Pi::model('post', 'comment')->find($id);
@@ -982,8 +1003,10 @@ class Api extends AbstractApi
             $information
         );
         foreach ($uids as $uid) {
-            $user = Pi::user()->getUser($uid)->toArray();
-                
+            $user = Pi::user()->getUser($uid);
+            if ($user == null) {
+                continue;
+            }
             // Message Notification
             $to = array(
                $user['email'] => $user['name'],
@@ -1400,7 +1423,7 @@ class Api extends AbstractApi
         $select = Pi::db()->select();
         $select->from(array('post' => $postTable))
         ->group('post.id');
-        
+
         if ($whereType != null) {
             $select->where('post.type = "' . $whereType . '"');
         }
@@ -1438,6 +1461,10 @@ class Api extends AbstractApi
             $result[$post['reply']][$post['id']] = $post;
             $ids[] = $post['id'];
             
+        }
+        
+        if (count($ids) == 0) {
+            return $result;
         }
         // Find rating for posts
         $select = Pi::db()->select();
@@ -1705,6 +1732,61 @@ class Api extends AbstractApi
             $result = false;
         }
 
+        return $result;
+    }
+    
+    public function globalRatings ($root)
+    {
+        
+        $postRatingTable = Pi::model('post_rating', 'comment')->getTable();
+        $ratingTypeTable = Pi::model('rating_type', 'comment')->getTable();
+        $postTable = Pi::model('post', 'comment')->getTable();
+        
+        $select = Pi::db()->select();
+        $select->from(array('post' => $postTable))->columns(array('id'))
+        ->join(
+            array('post_rating' => $postRatingTable),
+            'post_rating.post = post.id',
+            array('avgrating' => Pi::db()->expression('AVG(rating)'))
+        )
+        ->join(
+            array('rating_type' => $ratingTypeTable),
+            'rating_type.id = post_rating.rating_type',
+            array('rating_type_id' => 'id', 'type')
+        )->group('post.root')
+        ->where(array('post.root = ' . $root));
+        
+        $rowset = Pi::db()->query($select);
+        foreach ($rowset as $row) {
+            $result['0'] = array(
+                'type' => 'resume',
+                'rating' => round($row['avgrating']) 
+            );
+        }
+        
+       $select = Pi::db()->select();
+       $select->from(array('post' => $postTable))->columns(array('id'))
+        ->join(
+            array('post_rating' => $postRatingTable),
+            'post_rating.post = post.id',
+            array('avgrating' => Pi::db()->expression('AVG(rating)'))
+        )
+        ->join(
+            array('rating_type' => $ratingTypeTable),
+            'rating_type.id = post_rating.rating_type',
+            array('rating_type_id' => 'id', 'type')
+        )->group('rating_type.id')
+        ->where(array('post.root = ' . $root));
+        
+        $rowset = Pi::db()->query($select);
+        foreach ($rowset as $row) {
+            $result[$row['rating_type_id']] = array(
+                'type' => $row['type'],
+                'rating' => round($row['avgrating']) 
+            );
+        }
+
+        
         return $result;
     }
 }

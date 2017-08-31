@@ -3,7 +3,9 @@
         'extension/jquery.magnific-popup.min.js',
         'extension/magnific-popup.css',
     ));
-    $this->footScript()->appendScript($script);
+    if (!empty($script)) {
+        $this->footScript()->appendScript($script);
+    }
     $this->css($this->assetModule('css/front.css', 'comment')); 
     
 ?>
@@ -23,8 +25,10 @@
         }
         var cancel = function() {
             // time experience
-            $('form#review-post [name=time_experience]').datepicker("setDate", null);
-            $('form#review-post [name=time_experience]').attr("required", true);
+            if ($('form#review-post [name=time_experience]').length) {
+                $('form#review-post [name=time_experience]').datepicker("setDate", null);
+                $('form#review-post [name=time_experience]').attr("required", true);
+            }
             //
             
             $('form#comment-post textarea[name=content]').html('');
@@ -106,8 +110,10 @@
             } else {
                 
                 form.find('textarea[name=content]').html(html);
-                var timeExperience = $(elem).parent().parent().find('.time-experience').data('time');
-                form.find('[name=time_experience]').datepicker("setDate", timeExperience);
+                if (form.find('[name=time_experience]').length) {
+                    var timeExperience = $(elem).parent().parent().find('.time-experience').data('time');
+                    form.find('[name=time_experience]').datepicker("setDate", timeExperience);
+                }
                 var ratings = $(elem).parent().parent().find('.ratings div');
                 ratings.each(
                     function (index)
@@ -148,15 +154,6 @@
         initEdit();
         initCancel();
         
-        $('.rating a').click(
-            function () {
-                  var id = $(this).parent().attr('for');
-                  $('[name=' + id + ']').val($(this).data('value'));
-                  $(this).parent().find('a').removeClass('active');
-                  $(this).addClass('active');
-                  return false;  
-            }
-        );
         
         $('.paginator').click(
             function () {
@@ -253,7 +250,7 @@ $templateRating =<<<'EOT'
 EOT;
 
 ?>
-<div class="panel panel-default nodeco" id="comments" style="margin-top:-90px; padding-top:90px">
+<div class="panel panel-default nodeco" id="comments">
     <?php if ($review) { ?>
         <div class="row panel-heading resume-ratings">
             <div>
@@ -266,7 +263,7 @@ EOT;
                         $globalRatings[0]['rating'] == 1 ? 'active' : ''
                     );  
                 ?>
-                <strong><?php echo _number($count) . ' ' . __('comments')?>&nbsp;</strong> <?php echo $star; ?>
+                <strong><?php echo _number($count) . ' ' . __('comments')?>&nbsp;</strong> <?php echo $star; ?> (<?php echo $globalRatings[0]['number'] ?>)
             </div>
             <div class="col-md-4 no-padding">Résumé</div>
             <div class="col-md-8">

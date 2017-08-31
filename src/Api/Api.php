@@ -373,79 +373,82 @@ class Api extends AbstractApi
                 if (!$active) {
                     $result['root']['active'] = 0;
                 }
-                return $result;
+               
             }
         }
-
-        $result = array(
-            'root'          => $rootData ?: $root,
-            'count'         => 0,
-            'posts'         => array(),
-            'users'         => array(),
-            'url_list'      => '',
-            'url_submit'    => $this->getUrl('submit'),
-        );
-
-        if ($rootData) {
-            $result['count'] = $this->getCount($rootData['id'], $review ? \Module\Comment\Model\Post::TYPE_REVIEW : \Module\Comment\Model\Post::TYPE_COMMENT);
-            
-            //vd($result['count']);
-            if ($result['count']) {
-                $posts = $this->getList(
-                    $review ? \Module\Comment\Model\Post::TYPE_REVIEW : \Module\Comment\Model\Post::TYPE_COMMENT,
-                    $rootData['id'], 
-                    $limit, 
-                    $offset
-                );
+        
+        if (!$result) {
+            $result = array(
+                'root'          => $rootData ?: $root,
+                'count'         => 0,
+                'posts'         => array(),
+                'users'         => array(),
+                'url_list'      => '',
+                'url_submit'    => $this->getUrl('submit'),
+            );
+    
+            if ($rootData) {
+                $result['count'] = $this->getCount($rootData['id'], $review ? \Module\Comment\Model\Post::TYPE_REVIEW : \Module\Comment\Model\Post::TYPE_COMMENT);
                 
-                $opOption = isset($options['display_operation'])
-                    ? $options['display_operation']
-                    : Pi::service('config')->module('display_operation', 'comment');
-                $avatarOption = isset($options['avatar'])
-                    ? $options['avatar']
-                    : 'medium';
-                $renderOptions = array(
-                    'target'    => false,
-                    'operation' => $opOption,
-                    'user'      => array(
-                        'avatar'    => $avatarOption,
-                    ),
-                );
-                $posts = $this->renderList($posts, $renderOptions);
-                $result['posts'] = $posts;
-                $result['url_list'] = $this->getUrl(
-                    'root',
-                    array('root'  => $rootData['id'])
-                );
-
-                $status = Pi::service('comment')->saveCache(
-                    $rootData['id'] . '-' . $review . '-' . $limit . $offset,
-                    $result
-                );
-                if ($status && Pi::service()->hasService('log')) {
-                    Pi::service('log')->info(sprintf(
-                        'Comment root %d is saved to cache.',
-                        $rootData['id']
-                    ));
+                //vd($result['count']);
+                if ($result['count']) {
+                    $posts = $this->getList(
+                        $review ? \Module\Comment\Model\Post::TYPE_REVIEW : \Module\Comment\Model\Post::TYPE_COMMENT,
+                        $rootData['id'], 
+                        $limit, 
+                        $offset
+                    );
+                    
+                    $opOption = isset($options['display_operation'])
+                        ? $options['display_operation']
+                        : Pi::service('config')->module('display_operation', 'comment');
+                    $avatarOption = isset($options['avatar'])
+                        ? $options['avatar']
+                        : 'medium';
+                    $renderOptions = array(
+                        'target'    => false,
+                        'operation' => $opOption,
+                        'user'      => array(
+                            'avatar'    => $avatarOption,
+                        ),
+                    );
+                    $posts = $this->renderList($posts, $renderOptions);
+                    $result['posts'] = $posts;
+                    $result['url_list'] = $this->getUrl(
+                        'root',
+                        array('root'  => $rootData['id'])
+                    );
+    
+                    $status = Pi::service('comment')->saveCache(
+                        $rootData['id'] . '-' . $review . '-' . $limit . $offset,
+                        $result
+                    );
+                    if ($status && Pi::service()->hasService('log')) {
+                        Pi::service('log')->info(sprintf(
+                            'Comment root %d is saved to cache.',
+                            $rootData['id']
+                        ));
+                    }
                 }
+                 
             }
-            
-            // Subscription
-            $subscribe = 0;
-            if (Pi::user()->getId() > 0) {
-                $select = Pi::model('subscription', 'comment')->select()->where(array('root' => $rootData['id'], 'uid' => Pi::user()->getId()));
-                $subscribe = Pi::model('subscription', 'comment')->selectWith($select)->count();
-            }
-            $result['subscribe'] = $subscribe;
-            
-            // Rating 
-            $globalRatings = array();
-            if ($review) {
-                $globalRatings = $this->globalRatings($rootData['id']);
-            }
-            
-            $result['globalRatings'] = $globalRatings; 
         }
+        
+        // Subscription
+        $subscribe = 0;
+        if (Pi::user()->getId() > 0) {
+            $select = Pi::model('subscription', 'comment')->select()->where(array('root' => $rootData['id'], 'uid' => Pi::user()->getId()));
+            $subscribe = Pi::model('subscription', 'comment')->selectWith($select)->count();
+        }
+        $result['subscribe'] = $subscribe;
+        
+        // Rating 
+        $globalRatings = array();
+        if ($review) {
+            $globalRatings = $this->globalRatings($rootData['id']);
+        }
+        
+        $result['globalRatings'] = $globalRatings;
         
         return $result;
     }
@@ -901,7 +904,7 @@ class Api extends AbstractApi
             $time = $row->time_updated ? $row->time_updated : $row->time;
             
             $canEdit = false;
-            if (time() - $time <= Pi::service('config')->get('time_to_edit', 'comment') || Pi::service('user')->getUser()->isAdmin('comment')) {
+            if (time() - $time <= Pi::service('config')->get('time_to_edit_or_delete', 'comment') || Pi::service('user')->getUser()->isAdmin('comment')) {
                 $canEdit = true;    
             }
             
@@ -936,20 +939,23 @@ class Api extends AbstractApi
         foreach ($ratingData as $key => $value) {
             if (strstr($key, 'rating-')) {
                 $ratingType = str_replace('rating-', '', $key);
-                $row = Pi::model('post_rating', 'comment')->createRow(
+                $rowRating = Pi::model('post_rating', 'comment')->createRow(
                     array(
                         'post' => $newId,
                         'rating_type' => $ratingType,
                         'rating' => $value
                     )
                 );  
-                $row->save();
+                $rowRating->save();
             }   
         }
         
         // notify, except for edit 
         if (!$id) {
             $this->notify($root, $uid);
+            if ($row->module == 'guide' && $row->type =='REVIEW') {
+                $this->notifyOwner($root, $uid);
+            }
         }
         if ($newId) {
             $this->subscription($root, $data['subscribe']);   
@@ -974,7 +980,39 @@ class Api extends AbstractApi
         }
         
     }
-    
+    private function notifyOwner($root, $exclude)
+    {
+        // Canonize item 
+        $select = Pi::model('root', 'comment')->select()->where(array('id' => $root));
+        $row = Pi::model('root', 'comment')->selectWith($select)->current();
+        
+        $information  = Pi::api ('comment', $row['module'])->canonize($row['item']);
+        
+        // Find uid
+        $item = Pi::api('item', 'guide')->getItem($row->item);
+        $owner = Pi::api('owner', 'guide')->getOwner($item['owner']);
+        $uid = $owner['uid'];
+       
+        $user = Pi::user()->getUser($uid);
+        if ($user == null || $uid == $exclude) {
+            return;
+        }
+        
+        // Message Notification
+        $to = array(
+           $user['email'] => $user['name'],
+        );
+
+        // Send mail and notif
+        Pi::service('notification')->send(
+            $to,
+            'notify_owner_review.txt',
+            $information,
+            Pi::service('module')->current(),
+            $uid
+        );
+        
+    }
     private function notify($root, $exclude)
     {
         // Canonize item 
@@ -1760,7 +1798,8 @@ class Api extends AbstractApi
         foreach ($rowset as $row) {
             $result['0'] = array(
                 'type' => 'resume',
-                'rating' => round($row['avgrating']) 
+                'rating' => round($row['avgrating']),
+                'number' => round($row['avgrating'], 1)  
             );
         }
         
@@ -1782,11 +1821,31 @@ class Api extends AbstractApi
         foreach ($rowset as $row) {
             $result[$row['rating_type_id']] = array(
                 'type' => $row['type'],
-                'rating' => round($row['avgrating']) 
+                'rating' => round($row['avgrating']),
             );
         }
-
         
         return $result;
+    }
+
+    public function globalRatingByPost ($post)
+    {
+        
+        $postRatingTable = Pi::model('post_rating', 'comment')->getTable();
+        $ratingTypeTable = Pi::model('rating_type', 'comment')->getTable();
+        $postTable = Pi::model('post', 'comment')->getTable();
+        
+        $select = Pi::db()->select();
+        $select->from(array('post' => $postTable))->columns(array('id'))
+        ->join(
+            array('post_rating' => $postRatingTable),
+            'post_rating.post = post.id',
+            array('avgrating' => Pi::db()->expression('AVG(rating)'))
+        )
+        ->group('post.id')
+        ->where(array('post.id = ' . $post));
+        
+        $row = Pi::db()->query($select)->current();
+        return round($row['avgrating']);
     }
 }

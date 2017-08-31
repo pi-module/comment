@@ -85,11 +85,18 @@ $config = array(
         'filter'        => 'array',
     ),
     
-     'time_to_edit' => array(
+     'time_to_edit_or_delete' => array(
         'title'         => _t('Time to edit/delete '),
         'description'   => _t('Time to edit/delete a comment, in second'),
         'value'         => 300,
         'filter'        => 'int',
+    ),
+
+     'datetime_format' => array(
+        'title'         => _t('Date & Time format '),
+        'description'   => _t('Date & Time format'),
+        'value'         => "d/m/Y H:i",
+        'filter'        => 'text',
     ),
 
      /*

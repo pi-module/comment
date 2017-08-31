@@ -405,7 +405,7 @@ class PostController extends ActionController
         
         $time = $post['time_updated'] ? $post['time_updated'] : $post['time'];
         $canDelete = false;
-        if (time() - $time <= Pi::service('config')->get('time_to_edit', 'comment')) {
+        if (time() - $time <= Pi::service('config')->get('time_to_edit_or_delete', 'comment')) {
             $canDelete = true;    
         }
         

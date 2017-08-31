@@ -46,7 +46,7 @@ class Block
         
         foreach ($block['posts'] as &$apost) {
             foreach ($apost as &$post) {
-                $post['globalRatings'] = Pi::api('api', 'comment')->globalRatings($post['root']);
+                $post['globalRating'] = Pi::api('api', 'comment')->globalRatingByPost($post['id']);
             }
         }
         // return

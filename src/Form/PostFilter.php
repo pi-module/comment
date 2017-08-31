@@ -30,7 +30,7 @@ class PostFilter extends InputFilter
         foreach ($options['ratings'] as $key => $rating) {
             $this->add(array(
                 'name'          => 'rating-' . $key,
-                'required' => false,
+                'required' => true,
             ));
         }
         $this->add(array(

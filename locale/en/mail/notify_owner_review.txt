@@ -1,0 +1,16 @@
+[comment]New comment / review[/comment]
+
+[format]html[/format]
+
+[subject]%site_name% - A new review was posted on your item - %title%[/subject]
+
+[body]
+<div style="padding: 1px; direction: ltr;">
+    <div style="padding: 3px 0; margin: 1px 0;">A new review was posted on your item in <a href="%url%">%title%</a></div>
+    <div style="padding: 3px 0; margin: 1px 0;">Regards,</div>
+    <div style="padding: 3px 0; margin: 1px 0;">Don't reply to this email</div>
+    <div style="margin-top: 10px">
+        <a href="%site_url%" title="%site_name%">%site_name%</a>
+    </div>
+</div>
+[/body]

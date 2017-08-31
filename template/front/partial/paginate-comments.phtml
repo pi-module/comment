@@ -1,5 +1,5 @@
 <?php
-$timeToEdit = Pi::service('config')->get('time_to_edit', 'comment');
+$timeToEdit = Pi::service('config')->get('time_to_edit_or_delete', 'comment');
 
 $templateUserComment =<<<'EOT'
     <div class="%s">
@@ -78,7 +78,7 @@ EOT;
                         'comment-' . strtolower($item['writer']),
                         $url,
                         $item['user']['name'],
-                        _date($item['time']),
+                        _date($item['time'], null, null, null, null, null, null,  Pi::config('datetime_format', 'comment')),
                         $item['url'],
                         $item['content'],
                         date("Y-m-d H:i:s", $item['time'])

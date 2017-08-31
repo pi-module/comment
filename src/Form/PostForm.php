@@ -123,7 +123,8 @@ class PostForm extends BaseForm
                 'placeholder'   => __('Type your content'),
                 'class'         => 'form-control',
                 'rows'          => 5,
-                'data-autoresize' => true
+                'data-autoresize' => true,
+                'required' => true
             ),
         ));
         
@@ -160,13 +161,18 @@ class PostForm extends BaseForm
         
         if (!empty($this->ratings)) {
 $html =<<<'EOT'
-    <label>%s</label>
+    <div class="col-md-6 no-padding">
+    <label><i class="text-danger" style="margin-right: 5px;" title="Requis">*</i>%s</label>
+    </div>
+    <div class="col-md-6 no-padding">
+    
     <div class="rating" for="%s">
         <a href="#" data-value="5" class="fa fa-star"></a>
         <a href="#" data-value="4" class="fa fa-star"></a>
         <a href="#" data-value="3" class="fa fa-star"></a>
         <a href="#" data-value="2" class="fa fa-star"></a>
         <a href="#" data-value="1" class="fa fa-star"></a>
+    </div>
     </div>
 EOT;
         
@@ -187,6 +193,7 @@ EOT;
                     'name'          => 'rating-' . $key,
                     'attributes'    => array(
                         'type'  => 'hidden',
+                        'required' => true
                     ),
                 ));
             }

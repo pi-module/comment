@@ -290,9 +290,7 @@ a.pi-comment-count:hover {
 .inline .rating {
     display:inline-block;
 }
-#ratings .inline label {
-    width:60px; 
-}
+
 .inline input {
     width:50%; 
     margin-left:20px
@@ -341,3 +339,12 @@ input.subscription {
     position:relative;
 }
 */
+
+#rating_fakeinput {
+    width:1px; 
+    position:absolute; 
+    top:0; 
+    border:none; 
+    background:transparent; 
+    outline:none;
+}

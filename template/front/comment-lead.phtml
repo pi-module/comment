@@ -263,7 +263,15 @@ EOT;
                         $globalRatings[0]['rating'] == 1 ? 'active' : ''
                     );  
                 ?>
-                <strong><?php echo _number($count) . ' ' . __('comments')?>&nbsp;</strong> <?php echo $star; ?> (<?php echo $globalRatings[0]['number'] ?>)
+                
+                <h2 class="panel-title inline-block">
+                    <?php _e('All comments '); ?>
+                    <strong>(<?php echo _number($count) ?: _number(0); ?>)</strong>
+                </h2>
+                &nbsp;<?php echo $star; ?> <?php echo $globalRatings[0]['number'] >= 1 ? $globalRatings[0]['number'] : '' ?>
+                <?php if (Pi::user()->getId() > 0 && method_exists(Pi::api('comment', Pi::service('module')->current()), 'canonize')) { ?>
+                    <input class="subscription" type="checkbox" <?php echo $subscribe ? 'CHECKED=CHECKED' : '' ?> /> <span class="text-muted"><?php _e('Subscribe to the thread') ?></span>
+                <?php } ?>
             </div>
             <div class="col-md-4 no-padding">Résumé</div>
             <div class="col-md-8">
@@ -287,18 +295,18 @@ EOT;
                 <?php } ?>  
             </div>
         </div>
-    <?php } ?>
-    
-    <div class="row panel-heading">
-        <h2 class="panel-title inline-block">
-            <?php _e('All comments '); ?>
-            <strong>(<?php echo _number($count) ?: _number(0); ?>)</strong>
-        </h2>
-        <?php if (Pi::user()->getId() > 0 && method_exists(Pi::api('comment', Pi::service('module')->current()), 'canonize')) { ?>
-            <input class="subscription" type="checkbox" <?php echo $subscribe ? 'CHECKED=CHECKED' : '' ?> /> <span class="text-muted"><?php _e('Subscribe to the thread') ?></span>
-        <?php } ?>
-    </div>
-    
+    <?php } else { ?>
+        <div class="row panel-heading">
+            <h2 class="panel-title inline-block">
+                <?php _e('All comments '); ?>
+                <strong>(<?php echo _number($count) ?: _number(0); ?>)</strong>
+            </h2>
+            &nbsp;<?php echo $star; ?> <?php echo $globalRatings[0]['number'] ?>
+            <?php if (Pi::user()->getId() > 0 && method_exists(Pi::api('comment', Pi::service('module')->current()), 'canonize')) { ?>
+                <input class="subscription" type="checkbox" <?php echo $subscribe ? 'CHECKED=CHECKED' : '' ?> /> <span class="text-muted"><?php _e('Subscribe to the thread') ?></span>
+            <?php } ?>
+        </div>
+    <?php } ?> 
     <?php if ($review) { ?>
         <div id="write-review">
             <div class="write-review clearfix text-center">

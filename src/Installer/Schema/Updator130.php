@@ -97,6 +97,8 @@ CREATE TABLE `{subscription}` (
   `root`  int(10) unsigned NOT NULL,
   KEY `author` (`id`)
 );
+
+INSERT INTO `{post_rating}` (`id`, `type`) VALUES (NULL, 'Global');
 EOD;
 
             SqlSchema::setType("comment");

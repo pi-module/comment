@@ -1775,6 +1775,25 @@ class Api extends AbstractApi
     
     public function globalRatings ($root)
     {
+        if (!$root) {
+            $select = Pi::model('rating_type', 'comment')->select();
+            $rowset = Pi::model('rating_type', 'comment')->selectWith($select);
+    
+            $ratings = array();        
+            foreach ($rowset as $row) {
+                $result[$row['id']] = array(
+                    'type' => $row['type'],
+                    'rating' => 0,
+                );
+            }
+            $result['0'] = array(
+                'type' => 'resume',
+                'rating' => 0,
+                'number' => 0  
+            );
+            return $result;
+            
+        }
         
         $postRatingTable = Pi::model('post_rating', 'comment')->getTable();
         $ratingTypeTable = Pi::model('rating_type', 'comment')->getTable();

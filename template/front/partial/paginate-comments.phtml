@@ -118,7 +118,7 @@ EOT;
                         $templateUserReview,
                         $url,
                         $item['user']['name'],
-                        _date($item['time']),
+                        _date($item['time'], null, null, null, null, null, null,  Pi::config('datetime_format', 'comment')),
                         $item['url'],
                         $ratings,
                         date('Y-m-d', $item['time_experience']),

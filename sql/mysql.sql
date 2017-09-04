@@ -81,6 +81,8 @@ CREATE TABLE `{post_rating}` (
   `rating` tinyint(1)  NOT NULL,
   KEY `id` (`id`)
 );
+INSERT INTO `{post_rating}` (`id`, `type`) VALUES (NULL, 'Global');
+
 
 CREATE TABLE `{subscription}` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,

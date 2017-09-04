@@ -362,7 +362,7 @@ class Api extends AbstractApi
             $rootData['active'] = 0;
         }
         // Check against cache
-        if ($rootData['id']) { 
+        if (isset($rootData['id'])) { 
             $result = Pi::service('comment')->loadCache($rootData['id'] . '-' . ($review ? \Module\Comment\Model\Post::TYPE_REVIEW : \Module\Comment\Model\Post::TYPE_COMMENT)  . '-' .  $limit . $offset);
             if ($result) {
                 if (Pi::service()->hasService('log')) {
@@ -1775,6 +1775,7 @@ class Api extends AbstractApi
     
     public function globalRatings ($root)
     {
+        $result = array();
         if (!$root) {
             $select = Pi::model('rating_type', 'comment')->select();
             $rowset = Pi::model('rating_type', 'comment')->selectWith($select);

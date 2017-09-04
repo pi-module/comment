@@ -72,9 +72,13 @@ $form = Pi::service('comment')->getForm($formData, $options);
                     <div class="clearfix"></div>
                 </div>
                 
-                <div class="col-md-8 inline form-group">
-                    <label><i class="text-danger" style="margin-right: 5px;" title="Requis">*</i><?php _e('Experience time') ?></label>
-                    <?php echo $this->formElement($form->get('time_experience')); ?>
+                <div class="col-md-12 inline form-group">
+                    <div class="col-md-3 no-padding">
+                        <label><i class="text-danger" style="margin-right: 5px;" title="Requis">*</i><?php _e('Experience time') ?></label>
+                    </div>
+                    <div class="col-md-9">
+                        <?php echo $this->formElement($form->get('time_experience')); ?>
+                    </div>
                 </div>
             <?php } ?>
         </div>

@@ -339,6 +339,14 @@ input.subscription {
 }
 */
 
+.fake-anchor {
+    margin-top:-90px!important;
+    padding-top:90px!important;
+    display:block;
+    visibility:hidden;
+}
+
+
 #rating_fakeinput {
     width:1px; 
     position:absolute; 

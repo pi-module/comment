@@ -60,7 +60,8 @@ EOT;
 ?>
 <?php foreach ($posts[0] as $item) { ?>
     <?php $url = ($item['uid'] > 0) ? $item['user']['url'] : '#comments'; ?>
-    <div class="pi-comment-single media comment-item clearfix <?php echo $item['type'] == 'SIMPLE' ? 'is-comment' : 'is-review' ?>" id="comment-<?php echo $item['id']; ?>">
+    <div class="fake-anchor" id="comment-<?php echo $item['id']; ?>"></div>
+    <div class="pi-comment-single media comment-item clearfix <?php echo $item['type'] == 'SIMPLE' ? 'is-comment' : 'is-review' ?>">
         <?php if ($item['uid'] > 0) { ?>
             <a class="pull-left avatar-img-wrapper" href="<?php echo $item['user']['url']; ?>" target="_blank">
                 <?php echo $item['user']['avatar']; ?>

@@ -360,10 +360,6 @@ msgstr "Image principale"
 msgid "Additional images"
 msgstr "Images complémentaires"
 
-#: src/Form/PostForm.php:231
-msgid "Time start"
-msgstr ""
-
 #: src/Form/RatingTypeForm.php:53 template/admin/rating-type-index.phtml:8
 msgid "Title"
 msgstr "Titre"

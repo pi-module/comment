@@ -236,7 +236,7 @@ EOT;
                 'name'          => 'time_experience',
                 'type' => 'datepicker',
                 'options' => array(
-                    'label' => __('Time start'),
+                    'label' => __('Experience time'),
                     'datepicker' => array(
                         'format' => 'yyyy-mm-dd',
                         'autoclose' => true,

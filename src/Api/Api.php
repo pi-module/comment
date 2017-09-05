@@ -362,6 +362,7 @@ class Api extends AbstractApi
             $rootData['active'] = 0;
         }
         // Check against cache
+        $result = null;
         if (isset($rootData['id'])) { 
             $result = Pi::service('comment')->loadCache($rootData['id'] . '-' . ($review ? \Module\Comment\Model\Post::TYPE_REVIEW : \Module\Comment\Model\Post::TYPE_COMMENT)  . '-' .  $limit . $offset);
             if ($result) {
@@ -850,7 +851,10 @@ class Api extends AbstractApi
         $postData['type'] = $postData['review'] == 0  ? 'SIMPLE' : 'REVIEW';
         if (isset($postData['time_experience'])) {
             $postData['time_experience'] = strtotime($postData['time_experience']);
-        } 
+            if ($postData['time_experience'] > strtotime('TODAY')) {
+                return false;
+            }
+        }
         unset($postData['review']);
         if (!$id) {
             // Add root if not exist

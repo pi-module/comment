@@ -86,7 +86,8 @@ $form = Pi::service('comment')->getForm($formData, $options);
         <?php echo $this->formElement($form->get('reply')); ?>
         <?php echo $this->formElement($form->get('id')); ?>
         <div class="col-md-12 ">
-            <label><i class="text-danger" style="margin-right: 5px;" title="Requis">*</i><?php _e('Your review') ?></label>
+            <label class="reply-hide"><i class="text-danger" style="margin-right: 5px;" title="Requis">*</i><?php echo $review ? __('Your review') : __('Your comment') ?></label>
+            <label class="reply-show"><i class="text-danger" style="margin-right: 5px;" title="Requis">*</i><?php _e('Your reply') ?></label>
             <?php echo $this->formElement($form->get('content')); ?>
         </div>
         <?php if ($review)  { ?>
@@ -115,7 +116,7 @@ $form = Pi::service('comment')->getForm($formData, $options);
         <?php $colClass = 'col-md-4'; ?>
     <?php } ?>
     
-    <?php if (method_exists(Pi::api('comment', Pi::service('module')->current()), 'canonize')) { ?> 
+    <?php if ($userId > 0 && method_exists(Pi::api('comment', Pi::service('module')->current()), 'canonize')) { ?> 
         <div class="<?php echo $review ? '' : 'hide' ?>  clearfix comment-form <?php echo $colClass; ?> text-right">
             <?php echo $this->formElement($form->get('subscribe')); ?>
             <span class="text-muted"><?php _e('Subscribe to the thread') ?></span><br/>
@@ -208,6 +209,9 @@ $form = Pi::service('comment')->getForm($formData, $options);
         
         // Form control for ratings
         var submitForm = function() {
+                if ($('form#review-post [name=reply]').val() != "") {
+                    return true;
+                }
                 var ratings = true;
                 $('#ratings input[type=hidden]').each(
                     function(el) {

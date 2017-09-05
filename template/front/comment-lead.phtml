@@ -44,6 +44,8 @@
             $('#ratings input[type=hidden]').val(null)
             $('#ratings .active').removeClass('active')
             //
+            $('.reply-hide').show();
+            $('.reply-show').hide();
             
             // images
             $('form#review-post [name=main_image]').val(null);
@@ -83,6 +85,9 @@
                     e.preventDefault();
                     cancel();
                     var review = $(this).parent().hasClass('is-review') == true;
+                    $('.reply-hide').hide();
+                    $('.reply-show').show();
+            
                     reply(this, review);
                     showForm(review);
                     
@@ -106,6 +111,9 @@
                 form.find('[name=reply]').val(replyId);
                 form.find('textarea[name=content]').html(html);
                 form.find('[name=time_experience]').attr("required", false);
+                $('.reply-hide').hide();
+                $('.reply-show').show();
+                
 
             } else {
                 
@@ -150,10 +158,19 @@
             );    
         };
         
+        var initForm = function() {
+            $('.reply-hide').show();
+            $('.reply-show').hide();
+            if ($('form#review-post [name=time_experience]').length) {
+                var maxDate = new Date();
+                $('form#review-post [name=time_experience]').datepicker('setEndDate', maxDate);
+            }
+        };
+        
         initReply();
         initEdit();
         initCancel();
-        
+        initForm();
         
         $('.paginator').click(
             function () {
@@ -256,11 +273,11 @@ EOT;
             <div>
                 <?php  
                     $star = sprintf($templateRating, 
-                        $globalRatings[0]['rating'] == 5 ? 'active' : '',
-                        $globalRatings[0]['rating'] == 4 ? 'active' : '',
-                        $globalRatings[0]['rating'] == 3 ? 'active' : '',
-                        $globalRatings[0]['rating'] == 2 ? 'active' : '',
-                        $globalRatings[0]['rating'] == 1 ? 'active' : ''
+                        isset($globalRatings[0]) && $globalRatings[0]['rating'] == 5 ? 'active' : '',
+                        isset($globalRatings[0]) && $globalRatings[0]['rating'] == 4 ? 'active' : '',
+                        isset($globalRatings[0]) && $globalRatings[0]['rating'] == 3 ? 'active' : '',
+                        isset($globalRatings[0]) && $globalRatings[0]['rating'] == 2 ? 'active' : '',
+                        isset($globalRatings[0]) && $globalRatings[0]['rating'] == 1 ? 'active' : ''
                     );  
                 ?>
                 
@@ -305,7 +322,7 @@ EOT;
     <?php } else { ?>
         <div class="row panel-heading">
             <h2 class="panel-title inline-block">
-                <?php _e('All comments '); ?>
+                <?php _e('All comments'); ?>
                 <strong>(<?php echo _number($count) ?: _number(0); ?>)</strong>
             </h2>
             &nbsp;<?php echo $star; ?> <?php echo $globalRatings[0]['number'] ?>
@@ -318,7 +335,13 @@ EOT;
         <div id="write-review" class="fake-anchor"></div>
         <div>
             <div class="write-review clearfix text-center">
-                <a href="#" class="show-modal"><?php _e("Write a review") ?></a>
+                <?php if (Pi::user()->getId() > 0) { ?>
+                    <a href="#" class="show-modal"><?php _e("Write a review") ?></a>
+                <?php } else { ?>
+                    <a href="<?php echo (Pi::user()->config('enable_modal')) ? '#' : Pi::service('authentication')->getUrl('login', $this->serverUrl(true)); ?>" <?php if(Pi::user()->config('enable_modal')) : ?>data-action="login" data-toggle="modal" data-target="#loginRegisterModal"<?php endif; ?>>
+                        <?php _e("Write a review") ?>
+                    </a>
+                <?php } ?>  
             </div>
         </div>
     <?php } ?>

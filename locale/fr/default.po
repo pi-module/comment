@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Pi-comment\n"
-"POT-Creation-Date: 2017-07-25 19:20+0200\n"
-"PO-Revision-Date: 2017-07-25 19:22+0200\n"
+"POT-Creation-Date: 2017-09-05 11:51+0200\n"
+"PO-Revision-Date: 2017-09-05 11:51+0200\n"
 "Last-Translator: Marc Desrousseaux\n"
 "Language-Team: Marc Desrousseaux\n"
 "Language: fr\n"
@@ -39,37 +39,37 @@ msgstr "Message désactivé"
 msgid "Post deleted"
 msgstr "Message supprimé"
 
-#: src/Api/Api.php:586 src/Controller/Front/ListController.php:422
+#: src/Api/Api.php:598 src/Controller/Front/ListController.php:422
 msgid "Guest"
 msgstr "Invité"
 
-#: src/Api/Api.php:628 src/Controller/Front/PostController.php:485
+#: src/Api/Api.php:640 src/Controller/Front/PostController.php:485
 #: src/Form/RatingTypeForm.php:67 template/admin/rating-type-index.phtml:16
 #: template/admin/rating-type-index.phtml:19
-#: template/front/partial/paginate-comments.phtml:156
-#: template/front/partial/paginate-comments.phtml:215
+#: template/front/partial/paginate-comments.phtml:161
+#: template/front/partial/paginate-comments.phtml:221
 msgid "Edit"
 msgstr "Editer"
 
-#: src/Api/Api.php:629 src/Api/Api.php:685
+#: src/Api/Api.php:641 src/Api/Api.php:697
 msgid "Enable"
 msgstr "Activer"
 
-#: src/Api/Api.php:630 src/Controller/Front/PostController.php:492
+#: src/Api/Api.php:642 src/Controller/Front/PostController.php:492
 #: template/admin/rating-type-index.phtml:20
 #: template/front/comment-root.phtml:72 template/front/comment-root.phtml:114
-#: template/front/partial/paginate-comments.phtml:153
-#: template/front/partial/paginate-comments.phtml:212
+#: template/front/partial/paginate-comments.phtml:158
+#: template/front/partial/paginate-comments.phtml:218
 msgid "Delete"
 msgstr "Supprimer"
 
-#: src/Api/Api.php:631 src/Controller/Front/PostController.php:499
+#: src/Api/Api.php:643 src/Controller/Front/PostController.php:499
 #: template/front/comment-root.phtml:75
-#: template/front/partial/paginate-comments.phtml:159
+#: template/front/partial/paginate-comments.phtml:164
 msgid "Reply"
 msgstr "Répondre"
 
-#: src/Api/Api.php:682
+#: src/Api/Api.php:694
 msgid "Disable"
 msgstr "Désactiver"
 
@@ -331,7 +331,7 @@ msgstr "Activer/Désactiver"
 msgid "Identity"
 msgstr "Identité"
 
-#: src/Form/PostForm.php:104 template/front/_post-form.phtml:102
+#: src/Form/PostForm.php:104 template/front/_post-form.phtml:110
 msgid "Email"
 msgstr "Email"
 
@@ -343,24 +343,24 @@ msgstr "Commenter"
 msgid "Type your content"
 msgstr "Saisir ici le texte de votre commentaire"
 
-#: src/Form/PostForm.php:134 template/front/_post-form.phtml:113
-#: template/front/comment-lead.phtml:248
+#: src/Form/PostForm.php:136 template/front/_post-form.phtml:121
+#: template/front/comment-lead.phtml:273 template/front/comment-lead.phtml:313
 msgid "Subscribe to the thread"
 msgstr "S'abonner pour suivre les échanges (notification)"
 
-#: src/Form/PostForm.php:147
+#: src/Form/PostForm.php:149
 msgid "Publish"
 msgstr "Publier"
 
-#: src/Form/PostForm.php:198
+#: src/Form/PostForm.php:206
 msgid "Main image"
 msgstr "Image principale"
 
-#: src/Form/PostForm.php:211
+#: src/Form/PostForm.php:219
 msgid "Additional images"
 msgstr "Images complémentaires"
 
-#: src/Form/PostForm.php:231
+#: src/Form/PostForm.php:239
 msgid "Time start"
 msgstr ""
 
@@ -372,7 +372,7 @@ msgstr "Titre"
 msgid "Add"
 msgstr "Ajouter"
 
-#: template/admin/comment-list.phtml:74 template/admin/comment-module.phtml:80
+#: template/admin/comment-list.phtml:105 template/admin/comment-module.phtml:80
 #: template/admin/comment-user.phtml:81 template/front/comment-list.phtml:60
 #: template/front/comment-module.phtml:65
 #: template/front/comment-my-post.phtml:60
@@ -380,8 +380,8 @@ msgstr "Ajouter"
 #: template/front/comment-root.phtml:71 template/front/comment-root.phtml:113
 #: template/front/comment-user-received.phtml:53
 #: template/front/comment-user.phtml:48 template/front/comment-view.phtml:70
-#: template/front/partial/paginate-comments.phtml:152
-#: template/front/partial/paginate-comments.phtml:211
+#: template/front/partial/paginate-comments.phtml:157
+#: template/front/partial/paginate-comments.phtml:217
 msgid "Are you sure to delete this comment?"
 msgstr "Etes-vous sûr de vouloir supprimer ce commentaire?"
 
@@ -403,22 +403,28 @@ msgstr "Fermer"
 
 #: template/front/_post-form.phtml:46
 msgid "Submit for review"
-msgstr ""
+msgstr "Publier votre expérience"
 
-#: template/front/_post-form.phtml:75
-#: template/front/partial/paginate-comments.phtml:121
+#: template/front/_post-form.phtml:77
+#: template/front/partial/paginate-comments.phtml:126
 msgid "Experience time"
 msgstr "Date expérience"
 
-#: template/front/_post-form.phtml:96
+#: template/front/_post-form.phtml:89
+#, fuzzy
+#| msgid "Write a review"
+msgid "Your review"
+msgstr "Partager son expérience"
+
+#: template/front/_post-form.phtml:104
 msgid "Name"
 msgstr "Nom"
 
-#: template/front/_post-form.phtml:118
+#: template/front/_post-form.phtml:126
 msgid "Cancel"
 msgstr "Annuler"
 
-#: template/front/_post-form.phtml:133
+#: template/front/_post-form.phtml:141
 #, php-format
 msgid ""
 "Please <a href=\"%s\" data-target=\"#loginRegisterModal\" data-redirect-"
@@ -428,6 +434,10 @@ msgstr ""
 "Pour laisser un commentaire, <a href=\"%s\" data-target=\"#loginRegisterModal"
 "\" data-redirect-anchor=\"#pi-comment-lead-anchor\" data-action=\"login\" "
 "data-toggle=\"%s\">connectez-vous</a> !"
+
+#: template/front/_post-form.phtml:220
+msgid "Don't forget to rate this item"
+msgstr "N'oubliez pas votre appréciation"
 
 #: template/front/comment-404.phtml:6 template/front/comment-view.phtml:17
 msgid "Comment detail"
@@ -471,15 +481,16 @@ msgstr "Commenté sur"
 msgid "No content."
 msgstr "Pas de contenu."
 
-#: template/front/comment-lead.phtml:244 template/front/comment-root.phtml:35
+#: template/front/comment-lead.phtml:268 template/front/comment-lead.phtml:308
+#: template/front/comment-root.phtml:35
 msgid "All comments "
 msgstr "Tous les commentaires "
 
-#: template/front/comment-lead.phtml:254
+#: template/front/comment-lead.phtml:321
 msgid "Write a review"
 msgstr "Partager son expérience"
 
-#: template/front/comment-lead.phtml:281 template/front/comment-root.phtml:124
+#: template/front/comment-lead.phtml:354 template/front/comment-root.phtml:124
 msgid "No one has commented yet."
 msgstr "Personne n'a encore laissé de commentaires ici. Lancez-vous !"
 

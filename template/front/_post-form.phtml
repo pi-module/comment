@@ -217,7 +217,7 @@ $form = Pi::service('comment')->getForm($formData, $options);
                     }
                 );       
                 if (!ratings) {
-                    document.getElementById("rating_fakeinput").setCustomValidity("<?php _e('Please, rate this item') ?>");
+                    document.getElementById("rating_fakeinput").setCustomValidity("<?php _e("Don't forget your rating") ?>");
                     document.getElementById("rating_fakeinput").reportValidity();
                         
                     return false;

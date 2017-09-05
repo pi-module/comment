@@ -2,7 +2,7 @@
 
 [format]html[/format]
 
-[subject]%site_name% - Nouveau commentaire / nouvelle expérience publiés - %title%[/subject]
+[subject]%site_name% - Nouveau commentaire / nouvelle expérience publiés[/subject]
 
 [body]
 <div style="padding: 1px; direction: ltr;">

@@ -2,11 +2,12 @@
 
 [format]html[/format]
 
-[subject]%site_name% - A new review was posted on your item - %title%[/subject]
+[subject]%site_name% - A new review was posted on your item[/subject]
 
 [body]
 <div style="padding: 1px; direction: ltr;">
     <div style="padding: 3px 0; margin: 1px 0;">A new review was posted on your item in <a href="%url%">%title%</a></div>
+	    <div style="padding: 3px 0; margin: 1px 0;">You can reply directly from the website.</div>
     <div style="padding: 3px 0; margin: 1px 0;">Regards,</div>
     <div style="padding: 3px 0; margin: 1px 0;">Don't reply to this email</div>
     <div style="margin-top: 10px">

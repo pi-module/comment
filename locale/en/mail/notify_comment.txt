@@ -2,7 +2,7 @@
 
 [format]html[/format]
 
-[subject]%site_name% - A new comment or review was posted - %title%[/subject]
+[subject]%site_name% - A new comment or review was posted[/subject]
 
 [body]
 <div style="padding: 1px; direction: ltr;">

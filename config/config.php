@@ -94,7 +94,7 @@ $config = array(
 
      'datetime_format' => array(
         'title'         => _t('Date & Time format '),
-        'description'   => _t('Date & Time format'),
+        'description'   => _t('Indicate here the desired Date & Time format (PHP way - for instance d/m/Y H:i)'),
         'value'         => "d/m/Y H:i",
         'filter'        => 'text',
     ),

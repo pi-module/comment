@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Pi-comment\n"
-"POT-Creation-Date: 2017-09-05 11:53+0200\n"
-"PO-Revision-Date: 2017-09-05 11:53+0200\n"
+"POT-Creation-Date: 2017-09-05 12:09+0200\n"
+"PO-Revision-Date: 2017-09-05 12:09+0200\n"
 "Last-Translator: Marc Desrousseaux\n"
 "Language-Team: Marc Desrousseaux\n"
 "Language: fr\n"
@@ -411,10 +411,8 @@ msgid "Experience time"
 msgstr "Date expérience"
 
 #: template/front/_post-form.phtml:89
-#, fuzzy
-#| msgid "Write a review"
-msgid "Your review"
-msgstr "Partager son expérience"
+msgid "Your comment"
+msgstr "Votre commentaire"
 
 #: template/front/_post-form.phtml:104
 msgid "Name"
@@ -544,6 +542,11 @@ msgstr "Cliquer pour ouvrir"
 msgid "Comment #%d"
 msgstr "Commentaire n°%d"
 
+#, fuzzy
+#~| msgid "Write a review"
+#~ msgid "Your review"
+#~ msgstr "Partager son expérience"
+
 #~ msgid "View all comments"
 #~ msgstr "Voir tous les commentaires"
 
@@ -573,9 +576,6 @@ msgstr "Commentaire n°%d"
 
 #~ msgid "Are sure want to delete this comment?"
 #~ msgstr "Etes-vous sûr de vouloir supprimer ce commentaire?"
-
-#~ msgid "Post comment"
-#~ msgstr "Commentaire"
 
 #, fuzzy
 #~ msgid "Categories"

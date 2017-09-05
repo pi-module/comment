@@ -86,7 +86,7 @@ $form = Pi::service('comment')->getForm($formData, $options);
         <?php echo $this->formElement($form->get('reply')); ?>
         <?php echo $this->formElement($form->get('id')); ?>
         <div class="col-md-12 ">
-            <label><i class="text-danger" style="margin-right: 5px;" title="Requis">*</i><?php _e('Your review') ?></label>
+            <label><i class="text-danger" style="margin-right: 5px;" title="Requis">*</i><?php _e('Your comment') ?></label>
             <?php echo $this->formElement($form->get('content')); ?>
         </div>
         <?php if ($review)  { ?>

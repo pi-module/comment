@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Pi-comment\n"
-"POT-Creation-Date: 2017-09-05 11:51+0200\n"
-"PO-Revision-Date: 2017-09-05 11:51+0200\n"
+"POT-Creation-Date: 2017-09-05 11:53+0200\n"
+"PO-Revision-Date: 2017-09-05 11:53+0200\n"
 "Last-Translator: Marc Desrousseaux\n"
 "Language-Team: Marc Desrousseaux\n"
 "Language: fr\n"
@@ -436,7 +436,7 @@ msgstr ""
 "data-toggle=\"%s\">connectez-vous</a> !"
 
 #: template/front/_post-form.phtml:220
-msgid "Don't forget to rate this item"
+msgid "Don't forget your rating"
 msgstr "N'oubliez pas votre appréciation"
 
 #: template/front/comment-404.phtml:6 template/front/comment-view.phtml:17

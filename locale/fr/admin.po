@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Pi-comment\n"
-"POT-Creation-Date: 2017-07-25 19:19+0200\n"
-"PO-Revision-Date: 2017-07-25 19:20+0200\n"
+"POT-Creation-Date: 2017-09-05 11:56+0200\n"
+"PO-Revision-Date: 2017-09-05 11:56+0200\n"
 "Last-Translator: Marc Desrousseaux\n"
 "Language-Team: Marc Desrousseaux\n"
 "Language: fr\n"
@@ -162,6 +162,16 @@ msgstr "Limite de temps pour Edition/Suppression"
 #: config/config.php:90
 msgid "Time to edit/delete a comment, in second"
 msgstr "Durée laissée pour éditer/supprimer un commentaire, en secondes"
+
+#: config/config.php:96
+msgid "Date & Time format "
+msgstr "Format Date et Heure"
+
+#: config/config.php:97
+msgid ""
+"Indicate here the desired Date & Time format (PHP way - for instance d/m/Y H:"
+"i)"
+msgstr "Indiquer ici le format Date et Heure (méthode PHO - exemple d/m/Y H:i)"
 
 #: config/module.php:17
 msgid "Comment"
@@ -421,23 +431,24 @@ msgstr "Les plus commentés"
 msgid "Article title"
 msgstr "Titre de l'article"
 
-#: template/admin/comment-list.phtml:86 template/admin/comment-module.phtml:92
+#: template/admin/comment-list.phtml:117 template/admin/comment-module.phtml:92
 #: template/admin/comment-user.phtml:93
 msgid "Pending"
 msgstr "En attente"
 
-#: template/admin/comment-list.phtml:94 template/admin/comment-module.phtml:100
+#: template/admin/comment-list.phtml:125
+#: template/admin/comment-module.phtml:100
 #: template/admin/comment-user.phtml:101
 msgid "No comments available yet."
 msgstr "Aucun commentaire disponible actuellement."
 
-#: template/admin/comment-list.phtml:168
+#: template/admin/comment-list.phtml:199
 #: template/admin/comment-module.phtml:174
 #: template/admin/comment-user.phtml:175
 msgid "Are you sure delete these comments?"
 msgstr "Es-tu sûr de vouloir supprimer ces commentaires?"
 
-#: template/admin/comment-list.phtml:214
+#: template/admin/comment-list.phtml:245
 #: template/admin/comment-module.phtml:220
 #: template/admin/comment-user.phtml:221
 msgid "Are you sure delete this article?"

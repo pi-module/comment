@@ -7,7 +7,6 @@ $templateUserComment =<<<'EOT'
             <ul class="list-inline">
                 <li><a href="%s" target="_blank" itemprop="name">%s</a></li>
                 <li class="muted small">%s</li>
-                <li class="muted small"><a href="%s" target="_blank"><i class="fa fa-external-link"></i></a></li>
             </ul>
         </div>
         <div class="clearfix commentText" itemprop="commentText">%s</div>
@@ -20,7 +19,6 @@ $templateUserReview =<<<'EOT'
         <ul class="list-inline">
             <li><a href="%s" target="_blank" itemprop="name">%s</a></li>
             <li class="muted small">%s</li>
-            <li class="muted small"><a href="%s" target="_blank"><i class="fa fa-external-link"></i></a></li>
         </ul>
     </div>
     <div class="small ratings">%s</div>
@@ -48,12 +46,12 @@ $templateGuest =<<<'EOT'
 EOT;
 
 $templateRating =<<<'EOT'
-    <div class="rating">
-        <span class="fa fa-star %s"></span>
-        <span class="fa fa-star %s"></span>
-        <span class="fa fa-star %s"></span>
-        <span class="fa fa-star %s"></span>
-        <span class="fa fa-star %s"></span>
+    <div class="item-rating">
+        <i class="fa fa-star %s" aria-hidden="true"></i>
+        <i class="fa fa-star %s" aria-hidden="true"></i>
+        <i class="fa fa-star %s" aria-hidden="true"></i>
+        <i class="fa fa-star %s" aria-hidden="true"></i>
+        <i class="fa fa-star %s" aria-hidden="true"></i>
     </div>
 EOT;
 
@@ -80,7 +78,6 @@ EOT;
                         $url,
                         $item['user']['name'],
                         _date($item['time'], null, null, null, null, null, null,  Pi::config('datetime_format', 'comment')),
-                        $item['url'],
                         $item['content'],
                         date("Y-m-d H:i:s", $item['time'])
                     );
@@ -104,12 +101,12 @@ EOT;
                     if (Pi::service('user')->getUser()->isAdmin('comment') || (Pi::user()->getId() > 0 && $item['user']['id'] == Pi::user()->getId())) { 
                         foreach ($item['rating'] as $id => $rating) {
                             $star = sprintf($templateRating, 
-                                $rating['rating'] == 5 ? 'active' : '',
-                                $rating['rating'] == 4 ? 'active' : '',
-                                $rating['rating'] == 3 ? 'active' : '',
-                                $rating['rating'] == 2 ? 'active' : '',
-                                $rating['rating'] == 1 ? 'active' : ''
-                                );  
+                                $rating['rating'] > 0 ? 'active' : '',
+                                $rating['rating'] > 1 ? 'active' : '',
+                                $rating['rating'] > 2 ? 'active' : '',
+                                $rating['rating'] > 3 ? 'active' : '',
+                                $rating['rating'] > 4 ? 'active' : ''
+                            );  
                             $ratings .= '<div data-value="' . $rating['rating'] . '" for="rating-' . $id . '">' . $rating['type'] . ' : ';
                             $ratings .=  $star;
                             $ratings .=  '</div>';
@@ -120,7 +117,6 @@ EOT;
                         $url,
                         $item['user']['name'],
                         _date($item['time'], null, null, null, null, null, null,  Pi::config('datetime_format', 'comment')),
-                        $item['url'],
                         $ratings,
                         date('Y-m-d', $item['time_experience']),
                         __('Experience time'),
@@ -183,14 +179,14 @@ EOT;
                     <?php if ($reply['uid'] > 0) {
                         echo sprintf(
                             $templateUserComment,
+                            'comment-' . strtolower($reply['writer']),
                             $url,
                             $reply['user']['name'],
-                            _date($reply['time']),
-                            $reply['url'],
-                            'comment-' . strtolower($item['writer']),
+                            _date($reply['time'], null, null, null, null, null, null,  Pi::config('datetime_format', 'comment')),
                             $reply['content'],
                             date("Y-m-d H:i:s", $reply['time'])
                         );
+                        
                     } else {
                         echo sprintf(
                             $templateGuest,

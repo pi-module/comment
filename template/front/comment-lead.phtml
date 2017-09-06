@@ -257,12 +257,12 @@
 <?php
 
 $templateRating =<<<'EOT'
-    <div class="rating inline-block">
-        <span class="fa fa-star %s"></span>
-        <span class="fa fa-star %s"></span>
-        <span class="fa fa-star %s"></span>
-        <span class="fa fa-star %s"></span>
-        <span class="fa fa-star %s"></span>
+    <div class="item-rating inline-block">
+        <i class="fa fa-star %s" aria-hidden="true"></i>
+        <i class="fa fa-star %s" aria-hidden="true"></i>
+        <i class="fa fa-star %s" aria-hidden="true"></i>
+        <i class="fa fa-star %s" aria-hidden="true"></i>
+        <i class="fa fa-star %s" aria-hidden="true"></i>
     </div>
 EOT;
 
@@ -273,11 +273,11 @@ EOT;
             <div>
                 <?php  
                     $star = sprintf($templateRating, 
-                        isset($globalRatings[0]) && $globalRatings[0]['rating'] == 5 ? 'active' : '',
-                        isset($globalRatings[0]) && $globalRatings[0]['rating'] == 4 ? 'active' : '',
-                        isset($globalRatings[0]) && $globalRatings[0]['rating'] == 3 ? 'active' : '',
-                        isset($globalRatings[0]) && $globalRatings[0]['rating'] == 2 ? 'active' : '',
-                        isset($globalRatings[0]) && $globalRatings[0]['rating'] == 1 ? 'active' : ''
+                        isset($globalRatings[0]) && $globalRatings[0]['rating'] > 0 ? 'active' : '',
+                        isset($globalRatings[0]) && $globalRatings[0]['rating'] > 1 ? 'active' : '',
+                        isset($globalRatings[0]) && $globalRatings[0]['rating'] > 2 ? 'active' : '',
+                        isset($globalRatings[0]) && $globalRatings[0]['rating'] > 3 ? 'active' : '',
+                        isset($globalRatings[0]) && $globalRatings[0]['rating'] > 4 ? 'active' : ''
                     );  
                 ?>
                 
@@ -301,11 +301,11 @@ EOT;
                             
                             <?php  
                                 $star = sprintf($templateRating, 
-                                    $rating['rating'] == 5 ? 'active' : '',
-                                    $rating['rating'] == 4 ? 'active' : '',
-                                    $rating['rating'] == 3 ? 'active' : '',
-                                    $rating['rating'] == 2 ? 'active' : '',
-                                    $rating['rating'] == 1 ? 'active' : ''
+                                    $rating['rating'] > 0 ? 'active' : '',
+                                    $rating['rating'] > 1 ? 'active' : '',
+                                    $rating['rating'] > 2 ? 'active' : '',
+                                    $rating['rating'] > 3 ? 'active' : '',
+                                    $rating['rating'] > 4 ? 'active' : ''
                                 );  
                             ?>
                             <div class="col-md-6 no-padding">
@@ -338,9 +338,15 @@ EOT;
                 <?php if (Pi::user()->getId() > 0) { ?>
                     <a href="#" class="show-modal"><?php _e("Write a review") ?></a>
                 <?php } else { ?>
-                    <a href="<?php echo (Pi::user()->config('enable_modal')) ? '#' : Pi::service('authentication')->getUrl('login', $this->serverUrl(true)); ?>" <?php if(Pi::user()->config('enable_modal')) : ?>data-action="login" data-toggle="modal" data-target="#loginRegisterModal"<?php endif; ?>>
+                    <a href="#"
+                        <?php if(Pi::user()->config('enable_modal')) { ?> 
+                            data-action="login" data-toggle="modal" data-target="#loginRegisterModal" 
+                        <?php } else { ?> 
+                            onclick="return loginForReview(this)" 
+                        <?php } ?>>
                         <?php _e("Write a review") ?>
                     </a>
+                    
                 <?php } ?>  
             </div>
         </div>
@@ -379,3 +385,34 @@ EOT;
         <?php } ?>
     </div>
 </div>
+
+
+<script>
+    var favoritePopoverTimeoutHandle;
+    function loginForReview(elem) {
+         clearTimeout(favoritePopoverTimeoutHandle);
+        var content = '<?php _e("Please login for write a review") ?>';
+        var loginLinkLabel = "<?php _e('login/register') ?>";
+        content += '<div class="text-center"><button onclick="$(\'.popover-active\').popover(\'hide\')" type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#loginRegisterModal">'+loginLinkLabel+'</button></div>';
+        var link = $(elem);
+        
+        link.not('.popover-active').addClass('popover-active').popover({
+            trigger: 'manual',
+            placement: 'top',
+            toggle: 'popover',
+            content: content,
+            title: "<?php _e('Write a review') ?>",
+            container: 'body',
+            html: true
+        });
+    
+        link.popover('show');
+    
+         favoritePopoverTimeoutHandle = setTimeout(function () {
+            link.popover('hide')
+            $('.popover-active').popover('hide');
+        }, 5000);
+        
+        return false;
+    }    
+</script>

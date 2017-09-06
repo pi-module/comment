@@ -257,7 +257,7 @@ a.pi-comment-count:hover {
 /* RATINGS */ 
 .rating {
    direction: rtl;
-   width:80px;
+   width:85px;
 }
 .rating span,
 .rating a {
@@ -275,12 +275,17 @@ a.pi-comment-count:hover {
 .rating a:focus ~ a {
    color: orange;
    cursor: pointer;
+   
 }
 
 .ratings div {
     display:inline-block; 
     margin-right:10px
 }
+
+.item-rating .fa-star {color: #aaa}
+.item-rating .fa-star.active {color: orange;}
+
 
 /* POST FORM */
 .inline label {
@@ -298,7 +303,7 @@ a.pi-comment-count:hover {
 
 /* COMMENT LIST */
 .is-reply {
-    margin-left:50px
+    margin-left:60px
 }
 .images a {
     float:left

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pi-comment\n"
 "POT-Creation-Date: 2017-09-09 17:46+0200\n"
-"PO-Revision-Date: 2017-09-09 17:46+0200\n"
+"PO-Revision-Date: 2017-09-09 18:02+0200\n"
 "Last-Translator: Marc Desrousseaux\n"
 "Language-Team: Marc Desrousseaux\n"
 "Language: fr\n"
@@ -494,7 +494,7 @@ msgstr "Tous les commentaires "
 #: template/front/comment-lead.phtml:339 template/front/comment-lead.phtml:347
 #: template/front/comment-lead.phtml:404
 msgid "Write a review"
-msgstr "Partager son expérience"
+msgstr "Partagez votre expérience"
 
 #: template/front/comment-lead.phtml:383 template/front/comment-root.phtml:124
 msgid "No one has commented yet."

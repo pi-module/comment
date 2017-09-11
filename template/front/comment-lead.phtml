@@ -285,7 +285,7 @@ EOT;
                     <?php _e('All comments '); ?>
                     <strong>(<?php echo _number($count) ?: _number(0); ?>)</strong>
                 </h2>
-                &nbsp;<?php echo $star; ?> <?php echo $globalRatings[0]['number'] >= 1 ? $globalRatings[0]['number'] : '' ?>
+                &nbsp;<?php echo $star; ?> <?php echo isset($globalRatings[0]) && $globalRatings[0]['number'] >= 1 ? $globalRatings[0]['number'] : '' ?>
                 <?php if (Pi::user()->getId() > 0 && method_exists(Pi::api('comment', Pi::service('module')->current()), 'canonize')) { ?>
                     <input class="subscription" type="checkbox" <?php echo $subscribe ? 'CHECKED=CHECKED' : '' ?> /> <span class="text-muted"><?php _e('Subscribe to the thread') ?></span>
                 <?php } ?>
@@ -325,7 +325,7 @@ EOT;
                 <?php _e('All comments'); ?>
                 <strong>(<?php echo _number($count) ?: _number(0); ?>)</strong>
             </h2>
-            &nbsp;<?php echo $star; ?> <?php echo $globalRatings[0]['number'] ?>
+            &nbsp;
             <?php if (Pi::user()->getId() > 0 && method_exists(Pi::api('comment', Pi::service('module')->current()), 'canonize')) { ?>
                 <input class="subscription" type="checkbox" <?php echo $subscribe ? 'CHECKED=CHECKED' : '' ?> /> <span class="text-muted"><?php _e('Subscribe to the thread') ?></span>
             <?php } ?>

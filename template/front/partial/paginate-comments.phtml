@@ -2,7 +2,6 @@
 $timeToEdit = Pi::service('config')->get('time_to_edit_or_delete', 'comment');
 
 $templateUserComment =<<<'EOT'
-    <div class="%s">
         <div class="media-heading" itemprop="creator" itemscope itemtype="https://schema.org/Person">
             <ul class="list-inline">
                 <li><a href="%s" target="_blank" itemprop="name">%s</a></li>
@@ -11,7 +10,6 @@ $templateUserComment =<<<'EOT'
         </div>
         <div class="clearfix commentText" itemprop="commentText">%s</div>
         <meta itemprop="commentTime" content="%s" />
-    </div>
 EOT;
 
 $templateUserReview =<<<'EOT'
@@ -59,7 +57,7 @@ EOT;
 <?php foreach ($posts[0] as $item) { ?>
     <?php $url = ($item['uid'] > 0) ? $item['user']['url'] : '#comments'; ?>
     <div class="fake-anchor" id="comment-<?php echo $item['id']; ?>"></div>
-    <div class="pi-comment-single media comment-item clearfix <?php echo $item['type'] == 'SIMPLE' ? 'is-comment' : 'is-review' ?>">
+    <div class="pi-comment-single media comment-item clearfix <?php echo $item['type'] == 'SIMPLE' ? 'is-comment' : 'is-review' ?> ">
         <?php if ($item['uid'] > 0) { ?>
             <a class="pull-left avatar-img-wrapper" href="<?php echo $item['user']['url']; ?>" target="_blank">
                 <?php echo $item['user']['avatar']; ?>
@@ -74,7 +72,6 @@ EOT;
                 if ($item['type'] == 'SIMPLE') {
                     echo sprintf(
                         $templateUserComment,
-                        'comment-' . strtolower($item['writer']),
                         $url,
                         $item['user']['name'],
                         _date($item['time'], null, null, null, null, null, null,  Pi::config('datetime_format', 'comment')),
@@ -157,15 +154,25 @@ EOT;
                     <a href="#" class="edit" data-id="<?php echo $item['id'] ?>"><?php _e('Edit') ?></a>
                 <?php } ?>
                 
-                <a href="#" class="reply" data-reply="<?php echo $item['id'] ?>"><?php _e('Reply') ?></a>
-                
+                <?php if (Pi::user()->getId() > 0 || $item['type'] == 'SIMPLE') { ?>
+                        <a href="#" class="reply" data-reply="<?php echo $item['id'] ?>"><?php _e('Reply') ?></a>
+                <?php } else { ?> 
+                    <a href="#"
+                        <?php if(Pi::user()->config('enable_modal')) { ?> 
+                            data-action="login" data-toggle="modal" data-target="#loginRegisterModal" 
+                        <?php } else { ?> 
+                            onclick="return loginForReview(this)" 
+                        <?php } ?>>
+                        <?php _e('Reply') ?>
+                    </a>
+                <?php } ?>
             </div>
         </div>
     </div>
     <?php if (isset($posts[$item['id']])) { ?>
         <?php foreach ($posts[$item['id']] as $reply) { ?>
             <?php $url = ($reply['uid'] > 0) ? $reply['user']['url'] : '#comments'; ?>
-            <div class="pi-comment-single media comment-item clearfix is-reply" data-reply="<?php echo $reply['reply'] ?>" id="comment-<?php echo $reply['id']; ?>">
+            <div class="pi-comment-single media comment-item clearfix is-reply <?php echo'comment-' . strtolower($reply['writer']) ?>"   data-reply="<?php echo $reply['reply'] ?>" id="comment-<?php echo $reply['id']; ?>">
                 <?php if ($reply['uid'] > 0) { ?>
                     <a class="pull-left avatar-img-wrapper" href="<?php echo $reply['user']['url']; ?>" target="_blank">
                         <?php echo $reply['user']['avatar']; ?>
@@ -179,7 +186,6 @@ EOT;
                     <?php if ($reply['uid'] > 0) {
                         echo sprintf(
                             $templateUserComment,
-                            'comment-' . strtolower($reply['writer']),
                             $url,
                             $reply['user']['name'],
                             _date($reply['time'], null, null, null, null, null, null,  Pi::config('datetime_format', 'comment')),

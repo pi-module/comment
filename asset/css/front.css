@@ -325,7 +325,8 @@ input.subscription {
 
 .comment-admin,
 .comment-owner {
-    background : #f5f5f5
+    background : #f5f5f5;
+    padding:20px 10px 0 10px;
 }
 
 .resume-ratings span.inline-block {

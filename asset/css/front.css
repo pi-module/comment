@@ -303,7 +303,8 @@ a.pi-comment-count:hover {
 
 /* COMMENT LIST */
 .is-reply {
-    margin-left:60px
+    margin-left:75px;
+    margin-right:50px;
 }
 .images a {
     float:left

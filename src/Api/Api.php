@@ -269,8 +269,7 @@ class Api extends AbstractApi
             $lookupList = $typeList['locator'];
         } else {
             return false;
-        }
-
+        }        
         $active = true;
         $lookup = function ($data) use ($params, &$active) {
             // Look up via locator callback
@@ -437,7 +436,7 @@ class Api extends AbstractApi
         
         // Subscription
         $subscribe = 0;
-        if (Pi::user()->getId() > 0) {
+        if (Pi::user()->getId() > 0 && $rootData) {
             $select = Pi::model('subscription', 'comment')->select()->where(array('root' => $rootData['id'], 'uid' => Pi::user()->getId()));
             $subscribe = Pi::model('subscription', 'comment')->selectWith($select)->count();
         }
@@ -884,7 +883,7 @@ class Api extends AbstractApi
                     $postData['module'] = $root['module'];
                 }
             }
-
+                
             if (!isset($postData['time'])) {
                 $postData['time'] = time();
             }
@@ -1019,12 +1018,20 @@ class Api extends AbstractApi
     }
     private function notify($root, $exclude)
     {
-        // Canonize item 
+        // get Root 
         $select = Pi::model('root', 'comment')->select()->where(array('id' => $root));
         $row = Pi::model('root', 'comment')->selectWith($select)->current();
-        
-        $information  = Pi::api ('comment', $row['module'])->canonize($row['item']);
-        
+        $row = $row->toArray();  
+
+        // canonize item
+        $type = Pi::registry('type', 'comment')->read(
+            $row['module'],
+            $row['type']
+        );
+        $callback = $type['callback'];
+        $handler = new $callback($row['module']);
+        $information = $handler->canonize($row['item']);
+            
         // Find uid
         $select = Pi::model('subscription', 'comment')->select()->where(array('root' => $root));
         $rowset = Pi::model('subscription', 'comment')->selectWith($select);
@@ -1074,6 +1081,7 @@ class Api extends AbstractApi
      */
     public function addRoot(array $data)
     {
+        
         $id = isset($data['id']) ? (int) $data['id'] : 0;
         if (isset($data['id'])) {
             unset($data['id']);

@@ -22,9 +22,11 @@
                 <div class="pi-comment-desc">
                     <span class="muted pull-left">
                         <?php echo _b('On '); ?>
-                        <a class="highlight" href="<?php echo $post['target']['url']; ?>" title="<?php echo $post['target']['title']; ?>">
-                            <?php echo $post['target']['title']; ?>
-                        </a>
+                        <?php if (isset($post['target']['url'])) { ?> 
+                            <a class="highlight" href="<?php echo $post['target']['url']; ?>" title="<?php echo $post['target']['title']; ?>">
+                                <?php echo $post['target']['title']; ?>
+                            </a>
+                        <?php } ?>
                     </span>
                 </div>
                 <div class="pi-comment-content" itemprop="commentText">

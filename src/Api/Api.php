@@ -444,7 +444,7 @@ class Api extends AbstractApi
         
         // Rating 
         $globalRatings = array();
-        if ($review) {
+        if ($review && isset($rootData['id'])) {
             $globalRatings = $this->globalRatings($rootData['id']);
         }
         

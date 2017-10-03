@@ -222,7 +222,18 @@ EOT;
                             } ?>
                             <a href="#" class="edit" data-id="<?php echo $reply['id'] ?>"><?php _e('Edit') ?></a>
                         <?php } ?>
-                        
+                        <?php if (Pi::user()->getId() > 0 || $item['type'] == 'SIMPLE') { ?>
+                            <a href="#" class="reply" data-reply="<?php echo $reply['reply'] ?>"><?php _e('Reply') ?></a>
+                        <?php } else { ?> 
+                            <a href="#"
+                                <?php if(Pi::user()->config('enable_modal')) { ?> 
+                                    data-action="login" data-toggle="modal" data-target="#loginRegisterModal" 
+                                <?php } else { ?> 
+                                    onclick="return loginForReview(this)" 
+                                <?php } ?>>
+                                <?php _e('Reply') ?>
+                            </a>
+                        <?php } ?>
                     </div>
                 </div>
             </div>

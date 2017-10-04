@@ -13,13 +13,13 @@ $templateUserComment =<<<'EOT'
 EOT;
 
 $templateUserReview =<<<'EOT'
+    <div class="small ratings">%s</div>
     <div class="media-heading" itemprop="creator" itemscope itemtype="https://schema.org/Person">
-        <ul class="list-inline">
+        <ul class="list-inline no-margin-bottom">
             <li><a href="%s" target="_blank" itemprop="name">%s</a></li>
             <li class="muted small">%s</li>
         </ul>
     </div>
-    <div class="small ratings">%s</div>
     <div class="small time-experience clearfix" data-time="%s">
         %s : 
         %s
@@ -58,15 +58,22 @@ EOT;
     <?php $url = ($item['uid'] > 0) ? $item['user']['url'] : '#comments'; ?>
     <div class="fake-anchor" id="comment-<?php echo $item['id']; ?>"></div>
     <div class="pi-comment-single media comment-item clearfix <?php echo $item['type'] == 'SIMPLE' ? 'is-comment' : 'is-review' ?> ">
-        <?php if ($item['uid'] > 0) { ?>
-            <a class="pull-left avatar-img-wrapper" href="<?php echo $item['user']['url']; ?>" target="_blank">
-                <?php echo $item['user']['avatar']; ?>
-            </a>
-        <?php } else { ?>
-            <p class="pull-left avatar-img-wrapper">
-                <?php echo $item['user']['avatar']; ?>
-            </p>
-        <?php } ?>
+        <div class="avatar-column"> 
+            <?php if ($item['uid'] > 0) { ?>
+                <a class="pull-left avatar-img-wrapper" href="<?php echo $item['user']['url']; ?>" target="_blank">
+                    <?php echo $item['user']['avatar']; ?>
+                </a>
+            <?php } else { ?>
+                <p class="pull-left avatar-img-wrapper">
+                    <?php echo $item['user']['avatar']; ?>
+                </p>
+            <?php } ?>
+            <small>
+                <?php echo $item['user']['location_city'] ?><br/>
+                <?php echo $item['user']['location_country'] ?><br/>
+                <?php echo $item['user']['contributions'] ?> <?php _e('contributions') ?>
+            </small>
+        </div>
         <div class="media-body">
             <?php if ($item['uid'] > 0) {
                 if ($item['type'] == 'SIMPLE') {
@@ -95,26 +102,24 @@ EOT;
                     $images .= '</div>';
                         
                     $ratings = '';
-                    if (Pi::service('user')->getUser()->isAdmin('comment') || (Pi::user()->getId() > 0 && $item['user']['id'] == Pi::user()->getId())) { 
-                        foreach ($item['rating'] as $id => $rating) {
-                            $star = sprintf($templateRating, 
-                                $rating['rating'] > 0 ? 'active' : '',
-                                $rating['rating'] > 1 ? 'active' : '',
-                                $rating['rating'] > 2 ? 'active' : '',
-                                $rating['rating'] > 3 ? 'active' : '',
-                                $rating['rating'] > 4 ? 'active' : ''
-                            );  
-                            $ratings .= '<div data-value="' . $rating['rating'] . '" for="rating-' . $id . '">' . $rating['type'] . ' : ';
-                            $ratings .=  $star;
-                            $ratings .=  '</div>';
-                        }
+                    foreach ($item['rating'] as $id => $rating) {
+                        $star = sprintf($templateRating, 
+                            $rating['rating'] > 0 ? 'active' : '',
+                            $rating['rating'] > 1 ? 'active' : '',
+                            $rating['rating'] > 2 ? 'active' : '',
+                            $rating['rating'] > 3 ? 'active' : '',
+                            $rating['rating'] > 4 ? 'active' : ''
+                        );  
+                        $ratings .= '<div data-value="' . $rating['rating'] . '" for="rating-' . $id . '">' . $rating['type'] . ' : ';
+                        $ratings .=  $star;
+                        $ratings .=  '</div>';
                     }
                     echo sprintf(
                         $templateUserReview,
+                        $ratings,
                         $url,
                         $item['user']['name'],
                         _date($item['time'], null, null, null, null, null, null,  Pi::config('datetime_format', 'comment')),
-                        $ratings,
                         date('Y-m-d', $item['time_experience']),
                         __('Experience time'),
                         _date($item['time_experience']),
@@ -155,7 +160,7 @@ EOT;
                 <?php } ?>
                 
                 <?php if (Pi::user()->getId() > 0 || $item['type'] == 'SIMPLE') { ?>
-                        <a href="#" class="reply" data-reply="<?php echo $item['id'] ?>"><?php _e('Reply') ?></a>
+                        <a href="#" class="reply" data-reply="<?php echo $item['id'] ?>"><span class="fa fa-mail-reply"></span> <?php _e('Reply') ?></a>
                 <?php } else { ?> 
                     <a href="#"
                         <?php if(Pi::user()->config('enable_modal')) { ?> 
@@ -163,7 +168,7 @@ EOT;
                         <?php } else { ?> 
                             onclick="return loginForReview(this)" 
                         <?php } ?>>
-                        <?php _e('Reply') ?>
+                        <span class="fa fa-mail-reply"></span> <?php _e('Reply') ?>
                     </a>
                 <?php } ?>
             </div>
@@ -223,7 +228,7 @@ EOT;
                             <a href="#" class="edit" data-id="<?php echo $reply['id'] ?>"><?php _e('Edit') ?></a>
                         <?php } ?>
                         <?php if (Pi::user()->getId() > 0 || $item['type'] == 'SIMPLE') { ?>
-                            <a href="#" class="reply" data-reply="<?php echo $reply['reply'] ?>"><?php _e('Reply') ?></a>
+                            <a href="#" class="reply" data-reply="<?php echo $reply['reply'] ?>"><span class="fa fa-mail-reply"></span> <?php _e('Reply') ?></a>
                         <?php } else { ?> 
                             <a href="#"
                                 <?php if(Pi::user()->config('enable_modal')) { ?> 
@@ -231,7 +236,7 @@ EOT;
                                 <?php } else { ?> 
                                     onclick="return loginForReview(this)" 
                                 <?php } ?>>
-                                <?php _e('Reply') ?>
+                                <span class="fa fa-mail-reply"></span> <?php _e('Reply') ?>
                             </a>
                         <?php } ?>
                     </div>

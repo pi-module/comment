@@ -404,7 +404,7 @@ class Api extends AbstractApi
                         : Pi::service('config')->module('display_operation', 'comment');
                     $avatarOption = isset($options['avatar'])
                         ? $options['avatar']
-                        : 'medium';
+                        : 'normal';
                     $renderOptions = array(
                         'target'    => false,
                         'operation' => $opOption,
@@ -563,7 +563,7 @@ class Api extends AbstractApi
                 }
                 if ($uids) {
                     $uids = array_unique($uids);
-                    $users = Pi::service('user')->mget($uids, array($label, 'role'));
+                    $users = Pi::service('user')->mget($uids, array($label, 'role', 'location_city', 'location_country'));
                     $avatars = null;
                     if (false !== $avatar) {
                         $avatars = Pi::service('avatar')->getList(
@@ -589,6 +589,7 @@ class Api extends AbstractApi
                             if (null !== $avatars) {
                                 $data['avatar'] = $avatars[$uid];
                             }
+                            $data['contributions'] = $this->getContributions($uid);
                         }
                     );
                 }
@@ -1879,5 +1880,14 @@ class Api extends AbstractApi
         
         $row = Pi::db()->query($select)->current();
         return round($row['avgrating']);
+    }
+    
+    public function getContributions ($uid) {
+        $where = array(
+            'uid' => $uid,
+            'type' => 'REVIEW',
+            'reply' => 0 
+        );
+        return Pi::model('post', 'comment')->count($where);        
     }
 }

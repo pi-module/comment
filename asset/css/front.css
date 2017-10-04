@@ -303,9 +303,28 @@ a.pi-comment-count:hover {
 
 /* COMMENT LIST */
 .is-reply {
-    margin-left:75px;
+    margin-left:95px;
     margin-right:50px;
 }
+
+.is-reply .avatar-img-wrapper img {
+    width:52px
+}
+
+.no-margin-bottom {
+    margin-bottom:0!important
+}
+
+.avatar-column {
+    float:left;
+    width:90px;
+    margin-right:30px
+}
+
+.avatar-column img {
+    width:80px
+}
+
 .images a {
     float:left
 }
@@ -326,7 +345,6 @@ input.subscription {
 
 .comment-admin,
 .comment-owner {
-    background : rgba(255, 173, 07, 0.26);
     padding:20px 10px 0 10px;
 }
 
@@ -362,3 +380,4 @@ input.subscription {
     background:transparent; 
     outline:none;
 }
+

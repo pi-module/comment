@@ -175,7 +175,8 @@ EOT;
         </div>
     </div>
     <?php if (isset($posts[$item['id']])) { ?>
-        <?php foreach ($posts[$item['id']] as $reply) { ?>
+        <?php $replies = array_reverse($posts[$item['id']]); ?>
+        <?php foreach ($replies as $reply) { ?>
             <?php $url = ($reply['uid'] > 0) ? $reply['user']['url'] : '#comments'; ?>
             <div class="pi-comment-single media comment-item clearfix is-reply <?php echo'comment-' . strtolower($reply['writer']) ?>"   data-reply="<?php echo $reply['reply'] ?>" id="comment-<?php echo $reply['id']; ?>">
                 <?php if ($reply['uid'] > 0) { ?>

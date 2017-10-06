@@ -95,7 +95,8 @@ if ($uid) {
 
 <script>
     (function ($) {
-        
+        var maxDate = new Date();
+        $('form [name=time_experience]').datepicker('setEndDate', maxDate);
         $('.rating a').click(
             function () {
                   document.getElementById("rating_fakeinput").setCustomValidity("");

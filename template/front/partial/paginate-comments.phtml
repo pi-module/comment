@@ -57,7 +57,7 @@ EOT;
 <?php foreach ($posts[0] as $item) { ?>
     <?php $url = ($item['uid'] > 0) ? $item['user']['url'] : '#comments'; ?>
     <div class="fake-anchor" id="comment-<?php echo $item['id']; ?>"></div>
-    <div class="pi-comment-single media comment-item clearfix <?php echo $item['type'] == 'SIMPLE' ? 'is-comment' : 'is-review' ?> ">
+    <div class="pi-comment-single media comment-item clearfix <?php echo $item['type'] == 'SIMPLE' ? 'is-comment' : 'is-review' ?> <?php echo $item['source'] == 'WEB' ? 'src-web' : 'src-mobile' ?>">
         <div class="avatar-column"> 
             <?php if ($item['uid'] > 0) { ?>
                 <a class="pull-left avatar-img-wrapper" href="<?php echo $item['user']['url']; ?>" target="_blank">
@@ -138,7 +138,7 @@ EOT;
                     date("Y-m-d H:i:s", $item['time'])
                 );
             } ?>
-            <div class="comment-operation <?php echo $item['type'] == 'SIMPLE' ? 'is-comment' : 'is-review' ?>">
+            <div class="comment-operation <?php echo $item['type'] == 'SIMPLE' ? 'is-comment' : 'is-review' ?> <?php echo $item['source'] == 'WEB' ? 'src-web' : 'src-mobile' ?>">
                 
                 <?php
                 $time = $item['time_updated'] ? $item['time_updated'] : $item['time'];
@@ -209,7 +209,7 @@ EOT;
                             date("Y-m-d H:i:s", $reply['time'])
                         );
                     } ?>
-                    <div class="comment-operation is-reply <?php echo $item['type'] == 'SIMPLE' ? 'is-comment' : 'is-review' ?>" >
+                    <div class="comment-operation is-reply <?php echo $item['type'] == 'SIMPLE' ? 'is-comment' : 'is-review' ?> <?php echo $item['source'] == 'WEB' ? 'src-web' : 'src-mobile' ?>">
                         <?php
                         $time = $reply['time_updated'] ? $reply['time_updated'] : $reply['time'];
                         $canEdit = false;

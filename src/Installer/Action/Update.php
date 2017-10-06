@@ -41,7 +41,7 @@ class Update extends BasicUpdate
     public function updateSchema(Event $e)
     {
         $moduleVersion = $e->getParam('version');
-        $updator = new Schema\Updator132($this);
+        $updator = new Schema\Updator133($this);
         $result = $updator->upgrade($moduleVersion);
 
         return $result;

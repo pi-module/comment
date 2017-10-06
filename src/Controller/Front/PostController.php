@@ -295,6 +295,7 @@ class PostController extends ActionController
                     }
                 }
                 if (0 < $status) {
+                    $values['source'] = 'WEB';
                     $id = Pi::api('api', 'comment')->addPost($values, $currentUid);
                     if ($id) {
                         $status = 1;

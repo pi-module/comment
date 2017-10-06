@@ -61,7 +61,8 @@ class Api extends AbstractApi
         'review', 
         'time_experience',
         'main_image',
-        'additional_images'
+        'additional_images',
+        'source'
         
     );
 
@@ -913,14 +914,14 @@ class Api extends AbstractApi
             }
             
             $uid = Pi::service('user')->getUser()->get('id');
-            if ($uid == 0 ||  $uid != $row->uid || !$canEdit) {
+            if ($uid == 0 ||  ($uid != $row->uid && !Pi::service('user')->getUser()->isAdmin('comment')) || !$canEdit) {
                 return false;
             } 
                 
             if (!isset($postData['time_updated'])) {
                 $postData['time_updated'] = time();
             }
-            foreach (array('module', 'reply', 'root', 'time', 'uid', 'reply') as $key) {
+            foreach (array('module', 'reply', 'root', 'time', 'uid', 'reply', 'source') as $key) {
                 if (isset($postData[$key])) {
                     unset($postData[$key]);
                 }
@@ -940,6 +941,7 @@ class Api extends AbstractApi
         }
         
         $ratingData = $this->canonizeRating($data);
+        Pi::model('post_rating', 'comment')->delete(array('post' => $newId));
         foreach ($ratingData as $key => $value) {
             if (strstr($key, 'rating-')) {
                 $ratingType = str_replace('rating-', '', $key);

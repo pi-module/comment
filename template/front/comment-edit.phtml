@@ -43,12 +43,35 @@ if ($uid) {
                     </ul>
                 </div>
                 <div class="pi-comment-desc">
-                    <span class="muted pull-left"><?php _e('Commented on '); ?></span>
+                    <span class="muted pull-left"><?php _e('Commented on '); ?>&nbsp;</span>
                     <a class="highlight" href="<?php echo $target['url']; ?>" title="<?php echo _escape($target['title']); ?>">
                         <?php echo $target['title']; ?>
                     </a>
                 </div>
                 <?php echo $this->form()->openTag($form); ?>
+                <div class="special-review">
+            <?php if ($review)  { ?>
+                <input type="submit" id="rating_fakeinput" value="" onclick="return false"/>
+                <div id="ratings" class="form-group">
+                    <?php foreach ($form->ratings as $key => $rating) { ?> 
+                        <div class="col-md-6 inline">
+                            <?php echo $this->formElement($form->get('star-' . $key)); ?>    
+                            <?php echo $this->formElement($form->get('rating-' . $key)); ?>
+                        </div>
+                    <?php } ?>
+                    <div class="clearfix"></div>
+                </div>
+                
+                <div class="col-md-12 inline form-group">
+                    <div class="col-md-3 no-padding">
+                        <label><i class="text-danger" style="margin-right: 5px;" title="Requis">*</i><?php _e('Experience time') ?></label>
+                    </div>
+                    <div class="col-md-9">
+                        <?php echo $this->formElement($form->get('time_experience')); ?>
+                    </div>
+                </div>
+            <?php } ?>
+        </div>
                 <div class="form-group">
                     <?php echo $this->formElement($form->get('content')); ?>
                 </div>
@@ -68,3 +91,25 @@ if ($uid) {
         </div>
     </div>
 </div>
+
+
+<script>
+    (function ($) {
+        
+        $('.rating a').click(
+            function () {
+                  document.getElementById("rating_fakeinput").setCustomValidity("");
+                  var id = $(this).parent().attr('for');
+                  $('[name=' + id + ']').val($(this).data('value'));
+                  $(this).parent().find('a').removeClass('active');
+                  $(this).addClass('active');
+                  return false;  
+            }
+        );
+                        
+<?php foreach ($ratings as $rating) { ?>
+        $('[for=rating-<?php echo $rating['rating_type'] ?>] > a[data-value=<?php echo $rating['rating'] ?>]').addClass('active');   
+<?php } ?>
+
+    })(jQuery)
+</script>

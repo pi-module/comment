@@ -1418,7 +1418,7 @@ class Api extends AbstractApi
      *
      * @return array|bool
      */
-    public function getList($type,  $condition, $limit = null, $offset = 0, $order = null)
+    public function getList($type,  $condition, $limit = null, $offset = 0, $order = null, $notByRoot = false)
     {
         $result = array();
         $specialCondition = false;
@@ -1507,11 +1507,16 @@ class Api extends AbstractApi
         $ids = array();
         foreach ($rowset as $row) {
             $post = (array) $row;
-            if (!isset($result[$post['reply']])) {
-                $result[$post['reply']] = array();
-            }
+           
             $post['rating'] = array();
-            $result[$post['reply']][$post['id']] = $post;
+            if ($notByRoot) {
+                $result[$post['id']][$post['id']] = $post;
+            } else {
+                if (!isset($result[$post['reply']])) {
+                    $result[$post['reply']] = array();
+                }
+                $result[$post['reply']][$post['id']] = $post;
+            }
             $ids[] = $post['id'];
             
         }
@@ -1538,7 +1543,11 @@ class Api extends AbstractApi
         $rowset = Pi::db()->query($select);
         foreach ($rowset as $row) {
             $post = (array) $row;
-            $result[$post['reply']][$post['id']]['rating'][$post['rating_type_id']] = array('type' => $post['type'], 'rating' =>  $post['rating']);
+             if ($notByRoot) {
+                $result[$post['id']][$post['id']]['rating'][$post['rating_type_id']] = array('type' => $post['type'], 'rating' =>  $post['rating']); 
+             } else {
+                $result[$post['reply']][$post['id']]['rating'][$post['rating_type_id']] = array('type' => $post['type'], 'rating' =>  $post['rating']);
+             }
         }
         
         return $result;

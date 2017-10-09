@@ -26,16 +26,14 @@ class Block
         $where = array(
         	'active' => 1
         );
-        
-        if (isset($options['only_root']) && $options['only_root']) {
-            $where['reply'] = 0;
-        }
-        
         // Get posts list
         $posts = Pi::api('api', 'comment')->getList(
             \Module\Comment\Model\Post::TYPE_ALL,
             $where,
-            $limit
+            $limit,
+            null,
+            null,
+            isset($options['not_by_root']) ? $options['not_by_root'] : false
         );
         // Set render options
         $renderOptions = array(

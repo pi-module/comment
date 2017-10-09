@@ -1,26 +1,34 @@
 <?php
-$timeToEdit = Pi::service('config')->get('time_to_edit_or_delete', 'comment');
+$timeToEdit = Pi::service('config') -> get('time_to_edit_or_delete', 'comment');
+$badgeAdmin = Pi::service('config') -> get('badge_admin', 'comment');
 
-$templateUserComment =<<<'EOT'
+$templateUserComment = <<<'EOT'
         <div class="media-heading" itemprop="creator" itemscope itemtype="https://schema.org/Person">
             <ul class="list-inline">
                 <li><a href="%s" target="_blank" itemprop="name">%s</a></li>
+                <li class="muted small gray">%s</li>
                 <li class="muted small">%s</li>
+                <li class="muted small pull-right comment-operation"><a href="#comment-%s" target="_blank"><span class="fa fa-share-alt"></span></a></li>
             </ul>
         </div>
-        <div class="clearfix commentText" itemprop="commentText">%s</div>
+        <p>
+            <div class="clearfix commentText" itemprop="commentText">%s</div>
+        </p>
         <meta itemprop="commentTime" content="%s" />
 EOT;
 
-$templateUserReview =<<<'EOT'
+$templateUserReview = <<<'EOT'
     <div class="small ratings">%s</div>
     <div class="media-heading" itemprop="creator" itemscope itemtype="https://schema.org/Person">
         <ul class="list-inline no-margin-bottom">
             <li><a href="%s" target="_blank" itemprop="name">%s</a></li>
+            <li class="muted small gray">%s</li>
             <li class="muted small">%s</li>
+            <li class="muted small pull-right comment-operation"><a href="#comment-%s" target="_blank"><span class="fa fa-share-alt"></span></a></li>
+            
         </ul>
     </div>
-    <div class="small time-experience clearfix" data-time="%s">
+    <div class="small gray time-experience clearfix" data-time="%s">
         %s : 
         %s
     </div>
@@ -31,30 +39,43 @@ $templateUserReview =<<<'EOT'
     <meta itemprop="commentTime" content="%s" />
 EOT;
 
-$templateGuest =<<<'EOT'
+$templateGuest = <<<'EOT'
     <div class="media-heading" itemprop="creator" itemscope itemtype="https://schema.org/Person">
         <ul class="list-inline">
             <li>%s</li>
             <li class="muted small">%s</li>
             <li class="muted small"><a href="%s" target="_blank"><i class="fa fa-external-link"></i></a></li>
+            <li class="muted small gray">%s</li>
+            <li class="muted small pull-right comment-operation"><a href="#comment-%s" target="_blank"><span class="fa fa-share-alt"></span></a></li>
+            
         </ul>
     </div>
-    <div class="clearfix commentText" itemprop="commentText">%s</div>
+    <p>
+        <div class="clearfix commentText" itemprop="commentText">%s</div>
+    </p>
     <meta itemprop="commentTime" content="%s" />
 EOT;
 
-$templateRating =<<<'EOT'
+$templateRating = <<<'EOT'
     <div class="item-rating">
-        <i class="fa fa-star %s" aria-hidden="true"></i>
-        <i class="fa fa-star %s" aria-hidden="true"></i>
-        <i class="fa fa-star %s" aria-hidden="true"></i>
-        <i class="fa fa-star %s" aria-hidden="true"></i>
-        <i class="fa fa-star %s" aria-hidden="true"></i>
+        <i class="fa %s" aria-hidden="true"></i>
+        <i class="fa %s" aria-hidden="true"></i>
+        <i class="fa %s" aria-hidden="true"></i>
+        <i class="fa %s" aria-hidden="true"></i>
+        <i class="fa %s" aria-hidden="true"></i>
     </div>
 EOT;
-
 ?>
 <?php foreach ($posts[0] as $item) { ?>
+<?php
+    $badge = '';
+    if ($item['writer'] == 'OWNER') {
+        $badge = '<div class="badge-owner">' . __('OWNER') . '</div>';
+    } else if ($item['writer'] == 'ADMIN' && $badgeAdmin) {
+        $badge = '<img src="' . $badgeAdmin . '" />';
+        
+    }
+?>
     <?php $url = ($item['uid'] > 0) ? $item['user']['url'] : '#comments'; ?>
     <div class="fake-anchor" id="comment-<?php echo $item['id']; ?>"></div>
     <div class="pi-comment-single media comment-item clearfix <?php echo $item['type'] == 'SIMPLE' ? 'is-comment' : 'is-review' ?> <?php echo $item['source'] == 'WEB' ? 'src-web' : 'src-mobile' ?>">
@@ -82,6 +103,8 @@ EOT;
                         $url,
                         $item['user']['name'],
                         _date($item['time'], null, null, null, null, null, null,  Pi::config('datetime_format', 'comment')),
+                        $badge,
+                        $item['id'],
                         $item['content'],
                         date("Y-m-d H:i:s", $item['time'])
                     );
@@ -104,11 +127,11 @@ EOT;
                     $ratings = '';
                     foreach ($item['rating'] as $id => $rating) {
                         $star = sprintf($templateRating, 
-                            $rating['rating'] > 0 ? 'active' : '',
-                            $rating['rating'] > 1 ? 'active' : '',
-                            $rating['rating'] > 2 ? 'active' : '',
-                            $rating['rating'] > 3 ? 'active' : '',
-                            $rating['rating'] > 4 ? 'active' : ''
+                            $rating['rating'] > 0 ? 'fa-star' : 'fa-star-o',
+                            $rating['rating'] > 1 ? 'fa-star' : 'fa-star-o',
+                            $rating['rating'] > 2 ? 'fa-star' : 'fa-star-o',
+                            $rating['rating'] > 3 ? 'fa-star' : 'fa-star-o',
+                            $rating['rating'] > 4 ? 'fa-star' : 'fa-star-o'
                         );  
                         $ratings .= '<div data-value="' . $rating['rating'] . '" for="rating-' . $id . '">' . $rating['type'] . ' : ';
                         $ratings .=  $star;
@@ -120,6 +143,8 @@ EOT;
                         $url,
                         $item['user']['name'],
                         _date($item['time'], null, null, null, null, null, null,  Pi::config('datetime_format', 'comment')),
+                        $badge,
+                        $item['id'],
                         date('Y-m-d', $item['time_experience']),
                         __('Experience time'),
                         _date($item['time_experience']),
@@ -134,6 +159,8 @@ EOT;
                     $item['identity'],
                     _date($item['time']),
                     $item['url'],
+                    $badge,
+                    $item['id'],
                     $item['content'],
                     date("Y-m-d H:i:s", $item['time'])
                 );
@@ -150,13 +177,13 @@ EOT;
                 <?php if ($uid > 0 && $uid == $item['uid'] && $canEdit) { ?>
                     <?php if ($uid > 0 && $uid == $item['uid']) {
                         echo sprintf(
-                            '<a href="%s#comments" onclick="return confirm(\'%s\')">%s</a>',
+                            '<a href="%s#comments" onclick="return confirm(\'%s\')"><span class="fa fa-close"></span> %s</a>',
                             $this->url('comment', array('controller' => 'post', 'action' => 'delete', 'id' => $item['id'])),
                             __('Are you sure to delete this comment?'),
                             __('Delete')
                         );
                     } ?>
-                    <a href="#" class="edit" data-id="<?php echo $item['id'] ?>"><?php _e('Edit') ?></a>
+                    <a href="#" class="edit" data-id="<?php echo $item['id'] ?>"><span class="fa fa-edit"></span> <?php _e('Edit') ?></a>
                 <?php } ?>
                 
                 <?php if (Pi::user()->getId() > 0 || $item['type'] == 'SIMPLE') { ?>
@@ -177,6 +204,15 @@ EOT;
     <?php if (isset($posts[$item['id']])) { ?>
         <?php $replies = array_reverse($posts[$item['id']]); ?>
         <?php foreach ($replies as $reply) { ?>
+            <?php
+                $badge = '';
+                if ($reply['writer'] == 'OWNER') {
+                    $badge = '<div class="badge-owner">' . __('OWNER') . '</div>';
+                } else if ($reply['writer'] == 'ADMIN' && $badgeAdmin) {
+                    $badge = '<img src="' . $badgeAdmin . '" />';
+                    
+                }
+            ?>
             <?php $url = ($reply['uid'] > 0) ? $reply['user']['url'] : '#comments'; ?>
             <div class="pi-comment-single media comment-item clearfix is-reply <?php echo'comment-' . strtolower($reply['writer']) ?>"   data-reply="<?php echo $reply['reply'] ?>" id="comment-<?php echo $reply['id']; ?>">
                 <?php if ($reply['uid'] > 0) { ?>
@@ -195,6 +231,8 @@ EOT;
                             $url,
                             $reply['user']['name'],
                             _date($reply['time'], null, null, null, null, null, null,  Pi::config('datetime_format', 'comment')),
+                            $badge,
+                            $item['id'],
                             $reply['content'],
                             date("Y-m-d H:i:s", $reply['time'])
                         );
@@ -220,13 +258,13 @@ EOT;
                         <?php if ($uid > 0 && $uid == $reply['uid'] && $canEdit) { ?>
                              <?php if ($uid > 0 && $uid == $reply['uid']) {
                                 echo sprintf(
-                                    '<a href="%s#comments" onclick="return confirm(\'%s\')">%s</a>',
+                                    '<a href="%s#comments" onclick="return confirm(\'%s\')"><span class="fa fa-close"></span> %s</a>',
                                     $this->url('comment', array('controller' => 'post', 'action' => 'delete', 'id' => $reply['id'])),
                                     __('Are you sure to delete this comment?'),
                                     __('Delete')
                                 );
                             } ?>
-                            <a href="#" class="edit" data-id="<?php echo $reply['id'] ?>"><?php _e('Edit') ?></a>
+                            <a href="#" class="edit" data-id="<?php echo $reply['id'] ?>"><span class="fa fa-close"></span> <?php _e('Edit') ?></a>
                         <?php } ?>
                         <?php if (Pi::user()->getId() > 0 || $item['type'] == 'SIMPLE') { ?>
                             <a href="#" class="reply" data-reply="<?php echo $reply['reply'] ?>"><span class="fa fa-mail-reply"></span> <?php _e('Reply') ?></a>

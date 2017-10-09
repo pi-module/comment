@@ -98,6 +98,12 @@ $config = array(
         'value'         => "d/m/Y H:i",
         'filter'        => 'text',
     ),
+    'badge_admin' => array(
+        'title'         => _t('URL for admin badge'),
+        'value'         => "",
+        'filter'        => 'text',
+    ),
+   
 
      /*
     'user_domain'   => array(

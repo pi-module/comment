@@ -56,11 +56,11 @@ $active = $comment['active'];
 <?php 
 $templateRating =<<<'EOT'
     <div class="rating">
-        <span class="fa fa-star %s"></span>
-        <span class="fa fa-star %s"></span>
-        <span class="fa fa-star %s"></span>
-        <span class="fa fa-star %s"></span>
-        <span class="fa fa-star %s"></span>
+        <span class="fa %s"></span>
+        <span class="fa %s"></span>
+        <span class="fa %s"></span>
+        <span class="fa %s"></span>
+        <span class="fa %s"></span>
     </div>
 EOT;
 ?>                                
@@ -68,12 +68,12 @@ EOT;
                                         $ratings = '';
                                         foreach ($post['rating'] as $id => $rating) {
                                         $star = sprintf($templateRating, 
-                                            $rating['rating'] == 5 ? 'active' : '',
-                                            $rating['rating'] == 4 ? 'active' : '',
-                                            $rating['rating'] == 3 ? 'active' : '',
-                                            $rating['rating'] == 2 ? 'active' : '',
-                                            $rating['rating'] == 1 ? 'active' : ''
-                                            );  
+                                            $rating['rating'] == 5 ? 'fa-star' : 'fa-star-o',
+                                            $rating['rating'] == 4 ? 'fa-star' : 'fa-star-o',
+                                            $rating['rating'] == 3 ? 'fa-star' : 'fa-star-o',
+                                            $rating['rating'] == 2 ? 'fa-star' : 'fa-star-o',
+                                            $rating['rating'] == 1 ? 'fa-star' : 'fa-star-o'
+                                        );  
                                         $ratings .= '<div data-value="' . $rating['rating'] . '" for="rating-' . $id . '">' . $rating['type'] . ' : ';
                                         $ratings .=  $star;
                                         $ratings .=  '</div>';

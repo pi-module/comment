@@ -285,11 +285,11 @@
 
 $templateRating =<<<'EOT'
     <div class="item-rating inline-block">
-        <i class="fa fa-star %s" aria-hidden="true"></i>
-        <i class="fa fa-star %s" aria-hidden="true"></i>
-        <i class="fa fa-star %s" aria-hidden="true"></i>
-        <i class="fa fa-star %s" aria-hidden="true"></i>
-        <i class="fa fa-star %s" aria-hidden="true"></i>
+        <i class="fa %s" aria-hidden="true"></i>
+        <i class="fa %s" aria-hidden="true"></i>
+        <i class="fa %s" aria-hidden="true"></i>
+        <i class="fa %s" aria-hidden="true"></i>
+        <i class="fa %s" aria-hidden="true"></i>
     </div>
 EOT;
 
@@ -300,11 +300,11 @@ EOT;
             <div>
                 <?php  
                     $star = sprintf($templateRating, 
-                        isset($globalRatings[0]) && $globalRatings[0]['rating'] > 0 ? 'active' : '',
-                        isset($globalRatings[0]) && $globalRatings[0]['rating'] > 1 ? 'active' : '',
-                        isset($globalRatings[0]) && $globalRatings[0]['rating'] > 2 ? 'active' : '',
-                        isset($globalRatings[0]) && $globalRatings[0]['rating'] > 3 ? 'active' : '',
-                        isset($globalRatings[0]) && $globalRatings[0]['rating'] > 4 ? 'active' : ''
+                        isset($globalRatings[0]) && $globalRatings[0]['rating'] > 0 ? 'fa-star' : 'fa-star-o',
+                        isset($globalRatings[0]) && $globalRatings[0]['rating'] > 1 ? 'fa-star' : 'fa-star-o',
+                        isset($globalRatings[0]) && $globalRatings[0]['rating'] > 2 ? 'fa-star' : 'fa-star-o',
+                        isset($globalRatings[0]) && $globalRatings[0]['rating'] > 3 ? 'fa-star' : 'fa-star-o',
+                        isset($globalRatings[0]) && $globalRatings[0]['rating'] > 4 ? 'fa-star' : 'fa-star-o'
                     );  
                 ?>
                 
@@ -328,11 +328,11 @@ EOT;
                             
                             <?php  
                                 $star = sprintf($templateRating, 
-                                    $rating['rating'] > 0 ? 'active' : '',
-                                    $rating['rating'] > 1 ? 'active' : '',
-                                    $rating['rating'] > 2 ? 'active' : '',
-                                    $rating['rating'] > 3 ? 'active' : '',
-                                    $rating['rating'] > 4 ? 'active' : ''
+                                    $rating['rating'] > 0 ? 'fa-star' : 'fa-star-o',
+                                    $rating['rating'] > 1 ? 'fa-star' : 'fa-star-o',
+                                    $rating['rating'] > 2 ? 'fa-star' : 'fa-star-o',
+                                    $rating['rating'] > 3 ? 'fa-star' : 'fa-star-o',
+                                    $rating['rating'] > 4 ? 'fa-star' : 'fa-star-o'
                                 );  
                             ?>
                             <div class="col-md-6 no-padding">

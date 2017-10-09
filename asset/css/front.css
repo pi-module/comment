@@ -226,7 +226,7 @@ a.pi-comment-count:hover {
 }
 
 .comment-item {
-  margin-top: 20px;
+  margin-top: 40px;
   z-index:10;
   position:relative;
 }
@@ -264,7 +264,11 @@ a.pi-comment-count:hover {
    color: #aaa;
    text-decoration: none;
    transition: color .4s;
+   color:orange;
+   
 }
+.rating a:before {content:"\f006"}
+
 .rating a:hover,
 .rating a:focus,
 .rating span.active,
@@ -275,17 +279,26 @@ a.pi-comment-count:hover {
 .rating a:focus ~ a {
    color: orange;
    cursor: pointer;
-   
 }
+.rating a:hover:before,
+.rating a:focus:before,
+.rating span.active:before,
+.rating a.active:before,
+.rating span.active ~ span:before,
+.rating a.active ~ a:before,
+.rating a:hover ~ a:before,
+.rating a:focus ~ a:before {content:"\f005"}
+
 
 .ratings div {
     display:inline-block; 
     margin-right:10px
 }
 
-.item-rating .fa-star {color: #aaa}
+.my-star,
+.item-rating .fa-star,
+.item-rating .fa-star-o,
 .item-rating .fa-star.active {color: orange;}
-
 
 /* POST FORM */
 .inline label {
@@ -302,7 +315,7 @@ a.pi-comment-count:hover {
 }
 
 /* COMMENT LIST */
-.is-reply {
+.comment-item.is-reply {
     margin-left:110px;
     margin-right:50px;
 }
@@ -380,3 +393,24 @@ input.subscription {
     outline:none;
 }
 
+
+.comment-admin .avatar-img-wrapper img {
+        border: 5px solid #03A9F4;
+        padding: 0
+    }
+.comment-owner .avatar-img-wrapper img {
+    border: 5px solid #FFBF00;
+    padding: 0
+}
+.badge-owner {border-radius:.25em;
+    padding:.2em .6em .3em .4em;
+    margin-left:0em;
+    display:inline-block;
+    width:auto;
+    background:#FFBF00
+}
+    
+.gray,
+.avatar-column small,
+.comment-operation a {color:#999}
+.comment-operation a:hover {color:#337ab7}

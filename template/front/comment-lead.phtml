@@ -313,11 +313,21 @@ EOT;
                     <strong>(<?php echo _number($count) ?: _number(0); ?>)</strong>
                 </h2>
                 &nbsp;<span class="global-ratings"><?php echo $star; ?></span> <?php echo isset($globalRatings[0]) && $globalRatings[0]['number'] >= 1 ? _number($globalRatings[0]['number']) : '' ?>
-                <?php if (Pi::user()->getId() > 0 && method_exists(Pi::api('comment', Pi::service('module')->current()), 'canonize')) { ?>
-                    <div class="pull-right">
-                        <input class="subscription" type="checkbox" <?php echo $subscribe ? 'CHECKED=CHECKED' : '' ?> /> <span class="text-muted"><?php _e('Subscribe to the thread') ?></span>
-                    </div>
-                <?php } ?>
+                <div class="pull-right">
+                    <?php if (method_exists(Pi::api('comment', Pi::service('module')->current()), 'canonize')) { ?>
+                        <?php if (Pi::user()->getId() > 0) { ?>
+                            <input class="subscription" type="checkbox" <?php echo $subscribe ? 'CHECKED=CHECKED' : '' ?> /> <span class="text-muted"><?php _e('Subscribe to the thread') ?></span>
+                        <?php } else { ?>
+                            <a class="nodeco" href="#" <?php if(Pi::user()->config('enable_modal')) { ?> 
+                                data-action="login" data-toggle="modal" data-target="#loginRegisterModal" 
+                            <?php } else { ?> 
+                                onclick="return loginForReview(this)" 
+                            <?php } ?>>
+                                <input type="checkbox"/> <span class="text-muted"><?php _e('Subscribe to the thread') ?></span>
+                            </a>
+                        <?php } ?>    
+                    <?php } ?>
+                </div>
             </div>
             <div class="col-md-12">
                 <?php if (count($globalRatings)) { ?>
@@ -363,7 +373,7 @@ EOT;
                     <?php } else { ?> 
                         onclick="return loginForReview(this)" 
                     <?php } ?>>
-                        <input class="subscription" type="checkbox" <?php echo $subscribe ? 'CHECKED=CHECKED' : '' ?> /> <span class="text-muted"><?php _e('Subscribe to the thread') ?></span>
+                        <input type="checkbox" /> <span class="text-muted"><?php _e('Subscribe to the thread') ?></span>
                     </a>
                 <?php } ?>    
             <?php } ?>

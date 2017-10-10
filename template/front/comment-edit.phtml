@@ -44,13 +44,13 @@ if ($uid) {
                 </div>
                 <div class="pi-comment-desc">
                     <span class="muted pull-left"><?php _e('Commented on '); ?>&nbsp;</span>
-                    <a class="highlight" href="<?php echo $target['url']; ?>" title="<?php echo _escape($target['title']); ?>">
+                    <a class="highlight" href="<?php echo $target['url']; ?>#comment-<?php echo $post['id'] ?>" title="<?php echo _escape($target['title']); ?>">
                         <?php echo $target['title']; ?>
                     </a>
                 </div>
                 <?php echo $this->form()->openTag($form); ?>
                 <div class="special-review">
-            <?php if ($review)  { ?>
+            <?php if ($review && $post['reply'] == 0)  { ?>
                 <input type="submit" id="rating_fakeinput" value="" onclick="return false"/>
                 <div id="ratings" class="form-group">
                     <?php foreach ($form->ratings as $key => $rating) { ?> 

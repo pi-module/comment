@@ -62,7 +62,7 @@ $post = $comment['post'];
                     </div>
                     (<?php echo _a('source') ?>: <?php echo $post['source'] ?>)
                             
-                            <?php if ($post['type'] == 'REVIEW') { ?>
+                            <?php if ($post['type'] == 'REVIEW' && $post['reply'] == 0) { ?>
                                 <div>
 <?php 
 $templateRating =<<<'EOT'

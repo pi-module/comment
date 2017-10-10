@@ -25,7 +25,7 @@ EOT;
     <div class="pi-comment">
         <?php if ($posts) { ?>
             <div class="pi-comment-list">
-                <h1 class="pi-comment-header"><?php echo __('All active comments ') . "({$count})"; ?></h1>
+                <h1 class="pi-comment-header"><?php echo __('All active comments ') . " ({$count})"; ?></h1>
                 <?php foreach ($posts[0] as $post) { ?>
                     <div class="pi-comment-single media">
                         <?php if ($post['uid'] > 0) { ?>

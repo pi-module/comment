@@ -8,7 +8,6 @@ $templateUserComment = <<<'EOT'
                 <li><a href="%s" target="_blank" itemprop="name">%s</a></li>
                 <li class="muted small gray">%s</li>
                 <li class="muted small">%s</li>
-                <li class="muted small pull-right comment-operation"><a href="#comment-%s" target="_blank"><span class="fa fa-share-alt"></span></a></li>
             </ul>
         </div>
         <p>
@@ -24,8 +23,6 @@ $templateUserReview = <<<'EOT'
             <li><a href="%s" target="_blank" itemprop="name">%s</a></li>
             <li class="muted small gray">%s</li>
             <li class="muted small">%s</li>
-            <li class="muted small pull-right comment-operation"><a href="#comment-%s" target="_blank"><span class="fa fa-share-alt"></span></a></li>
-            
         </ul>
     </div>
     <div class="small gray time-experience clearfix" data-time="%s">
@@ -46,8 +43,6 @@ $templateGuest = <<<'EOT'
             <li class="muted small">%s</li>
             <li class="muted small"><a href="%s" target="_blank"><i class="fa fa-external-link"></i></a></li>
             <li class="muted small gray">%s</li>
-            <li class="muted small pull-right comment-operation"><a href="#comment-%s" target="_blank"><span class="fa fa-share-alt"></span></a></li>
-            
         </ul>
     </div>
     <p>
@@ -144,7 +139,6 @@ EOT;
                         $item['user']['name'],
                         _date($item['time'], null, null, null, null, null, null,  Pi::config('datetime_format', 'comment')),
                         $badge,
-                        $item['id'],
                         date('Y-m-d', $item['time_experience']),
                         __('Experience time'),
                         _date($item['time_experience']),
@@ -160,7 +154,6 @@ EOT;
                     _date($item['time']),
                     $item['url'],
                     $badge,
-                    $item['id'],
                     $item['content'],
                     date("Y-m-d H:i:s", $item['time'])
                 );
@@ -198,6 +191,7 @@ EOT;
                         <span class="fa fa-mail-reply"></span> <?php _e('Reply') ?>
                     </a>
                 <?php } ?>
+                <a href="#comment-<?php echo $item['id'] ?>" target="_blank"><span class="fa fa-share-alt"></span> <?php _e('Share') ?></a>
             </div>
         </div>
     </div>
@@ -232,7 +226,6 @@ EOT;
                             $reply['user']['name'],
                             _date($reply['time'], null, null, null, null, null, null,  Pi::config('datetime_format', 'comment')),
                             $badge,
-                            $item['id'],
                             $reply['content'],
                             date("Y-m-d H:i:s", $reply['time'])
                         );
@@ -278,6 +271,7 @@ EOT;
                                 <span class="fa fa-mail-reply"></span> <?php _e('Reply') ?>
                             </a>
                         <?php } ?>
+                        <a href="#comment-<?php echo $item['id'] ?>" target="_blank"><span class="fa fa-share-alt"></span> <?php _e('Share') ?></a>
                     </div>
                 </div>
             </div>

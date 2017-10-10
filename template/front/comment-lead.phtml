@@ -314,7 +314,9 @@ EOT;
                 </h2>
                 &nbsp;<span class="global-ratings"><?php echo $star; ?></span> <?php echo isset($globalRatings[0]) && $globalRatings[0]['number'] >= 1 ? _number($globalRatings[0]['number']) : '' ?>
                 <?php if (Pi::user()->getId() > 0 && method_exists(Pi::api('comment', Pi::service('module')->current()), 'canonize')) { ?>
-                    <input class="subscription" type="checkbox" <?php echo $subscribe ? 'CHECKED=CHECKED' : '' ?> /> <span class="text-muted"><?php _e('Subscribe to the thread') ?></span>
+                    <div class="pull-right">
+                        <input class="subscription" type="checkbox" <?php echo $subscribe ? 'CHECKED=CHECKED' : '' ?> /> <span class="text-muted"><?php _e('Subscribe to the thread') ?></span>
+                    </div>
                 <?php } ?>
             </div>
             <div class="col-md-2 no-padding">Résumé</div>

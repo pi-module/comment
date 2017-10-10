@@ -10,6 +10,17 @@ $count = $comment['count'];
 $posts = $comment['posts'];
 // Pagination object
 $paginator = $comment['paginator'];
+
+
+$templateRating = <<<'EOT'
+    <div class="item-rating">
+        <i class="fa %s" aria-hidden="true"></i>
+        <i class="fa %s" aria-hidden="true"></i>
+        <i class="fa %s" aria-hidden="true"></i>
+        <i class="fa %s" aria-hidden="true"></i>
+        <i class="fa %s" aria-hidden="true"></i>
+    </div>
+EOT;
 ?>
     <div class="pi-comment">
         <?php if ($posts) { ?>
@@ -40,15 +51,36 @@ $paginator = $comment['paginator'];
                                 <li class="pull-right muted pi-comment-time"><?php echo _date($post['time']); ?></li>
                             </ul>
                             <div class="pi-comment-desc">
-                                <ul class="list-inline">
-                                    <li class="muted pull-left"><?php _e('Commented on '); ?></li>
-                                    <li>
-                                        <a class="highlight pull-left" href="<?php echo $post['target']['url']; ?>" title="<?php echo $post['target']['title']; ?>">
-                                            <?php echo $post['target']['title']; ?>
-                                        </a>
-                                    </li>
-                                </ul>
+                                <p>
+                                    <?php _e('Commented on '); ?></li>
+                                    <a class="highlight " href="<?php echo $post['target']['url']; ?>" title="<?php echo $post['target']['title']; ?>">
+                                        <?php echo $post['target']['title']; ?>
+                                    </a>
+                                </p>
                             </div>
+                            <?php if ($post['type'] == 'REVIEW' && $post['reply'] == 0) {
+                                $ratings = '';
+                                foreach ($post['rating'] as $id => $rating) {
+                                    $star = sprintf($templateRating, 
+                                        $rating['rating'] > 0 ? 'fa-star' : 'fa-star-o',
+                                        $rating['rating'] > 1 ? 'fa-star' : 'fa-star-o',
+                                        $rating['rating'] > 2 ? 'fa-star' : 'fa-star-o',
+                                        $rating['rating'] > 3 ? 'fa-star' : 'fa-star-o',
+                                        $rating['rating'] > 4 ? 'fa-star' : 'fa-star-o'
+                                    );  
+                                    $ratings .= '<div data-value="' . $rating['rating'] . '" for="rating-' . $id . '">' . $rating['type'] . ' : ';
+                                    $ratings .=  $star;
+                                    $ratings .=  '</div>';
+                                }
+                            ?>
+                                <div class="small ratings">
+                                    <p><?php echo $ratings ?></p>
+                                </div>
+                                <p class="small">
+                                    <?php echo __('Experience time') . ': ' . _date($post['time_experience']) ?>
+                                </p>
+                            <?php } ?>
+                            
                             <div class="pi-comment-content">
                                 <?php echo $post['content']; ?>
                             </div>

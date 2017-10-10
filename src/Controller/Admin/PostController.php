@@ -175,8 +175,8 @@ class PostController extends ActionController
                 $redirect = urldecode($redirect);
             } elseif (!empty($result['data'])) {
                 $redirect = $this->url('', array(
-                    'action'    => 'index',
-                    'id'        => $result['data']
+                    'controller'    => 'list',
+                    'active' => -1
                 ));
             } else {
                 $redirect = $this->url('', array('controller' => 'list'));

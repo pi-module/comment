@@ -84,3 +84,8 @@ input.check-all {
    color: orange;
    cursor: pointer;
 }
+
+.my-star,
+.rating .fa-star,
+.rating .fa-star-o,
+.rating .fa-star.active {color: orange;}

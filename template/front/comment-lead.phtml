@@ -384,7 +384,11 @@ EOT;
         <div>
             <div class="write-review clearfix text-center">
                 <?php if (Pi::user()->getId() > 0) { ?>
-                    <a href="#" class="show-modal"><?php _e("Write a review") ?></a>
+                    <?php if($owner) { ?>
+                        <a href="#" onclick="return ownerReview(this)"><?php _e("Write a review") ?></a>
+                    <?php } else { ?>
+                        <a href="#" class="show-modal"><?php _e("Write a review") ?></a>
+                    <?php } ?>
                 <?php } else { ?>
                     <a href="#"
                         <?php if(Pi::user()->config('enable_modal')) { ?> 
@@ -436,9 +440,9 @@ EOT;
 
 
 <script>
-    var favoritePopoverTimeoutHandle;
+    var popoverTimeoutHandle;
     function loginForReview(elem) {
-         clearTimeout(favoritePopoverTimeoutHandle);
+         clearTimeout(popoverTimeoutHandle);
         var content = '<?php _e("Please login for write a review") ?>';
         var loginLinkLabel = "<?php _e('login/register') ?>";
         content += '<div class="text-center"><button onclick="$(\'.popover-active\').popover(\'hide\')" type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#loginRegisterModal">'+loginLinkLabel+'</button></div>';
@@ -456,11 +460,38 @@ EOT;
     
         link.popover('show');
     
-         favoritePopoverTimeoutHandle = setTimeout(function () {
+         popoverTimeoutHandle = setTimeout(function () {
             link.popover('hide')
             $('.popover-active').popover('hide');
         }, 5000);
         
         return false;
     }    
+    
+    var popoverTimeoutHandle;
+    function ownerReview(elem) {
+        clearTimeout(popoverTimeoutHandle);
+        var content = '<?php _e("Sorry, owner cannot write a review") ?>';
+        var link = $(elem);
+        
+        link.not('.popover-active').addClass('popover-active').popover({
+            trigger: 'manual',
+            placement: 'top',
+            toggle: 'popover',
+            content: content,
+            title: "<?php _e('Write a review') ?>",
+            container: 'body',
+            html: true
+        });
+    
+        link.popover('show');
+    
+        popoverTimeoutHandle = setTimeout(function () {
+            link.popover('hide')
+            $('.popover-active').popover('hide');
+        }, 5000);
+        
+        return false;
+    }    
+    
 </script>

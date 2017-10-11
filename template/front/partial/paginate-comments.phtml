@@ -176,10 +176,11 @@ EOT;
                         );
                     } ?>
                     <a href="#" class="edit" data-id="<?php echo $item['id'] ?>"><span class="fa fa-edit"></span> <?php _e('Edit') ?></a>
-                <?php } ?>
-                
-                <?php if (Pi::user()->getId() > 0 || $item['type'] == 'SIMPLE') { ?>
+                <?php } ?> 
+                <?php if (Pi::user()->getId() > 0) { ?>
+                    <?php if ($item['type'] == 'SIMPLE' || $owner || $admin || $item['uid'] == $uid) { ?>
                         <a href="#" class="reply" data-reply="<?php echo $item['id'] ?>"><span class="fa fa-mail-reply"></span> <?php _e('Reply') ?></a>
+                    <?php } ?>
                 <?php } else { ?> 
                     <a href="#"
                         <?php if(Pi::user()->config('enable_modal')) { ?> 
@@ -258,8 +259,10 @@ EOT;
                             } ?>
                             <a href="#" class="edit" data-id="<?php echo $reply['id'] ?>"><span class="fa fa-close"></span> <?php _e('Edit') ?></a>
                         <?php } ?>
-                        <?php if (Pi::user()->getId() > 0 || $item['type'] == 'SIMPLE') { ?>
-                            <a href="#" class="reply" data-reply="<?php echo $reply['reply'] ?>"><span class="fa fa-mail-reply"></span> <?php _e('Reply') ?></a>
+                        <?php if (Pi::user()->getId() > 0) { ?>
+                            <?php if ($item['type'] == 'SIMPLE' || $owner || $admin || $item['uid'] == $uid) { ?>
+                                <a href="#" class="reply" data-reply="<?php echo $reply['reply'] ?>"><span class="fa fa-mail-reply"></span> <?php _e('Reply') ?></a>
+                            <?php } ?>
                         <?php } else { ?> 
                             <a href="#"
                                 <?php if(Pi::user()->config('enable_modal')) { ?> 

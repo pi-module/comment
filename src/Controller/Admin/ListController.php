@@ -156,11 +156,18 @@ class ListController extends ActionController
             $limit,
             $offset
         );
-        $posts = Pi::api('api', 'comment')->renderList($posts, array(
+        $datas = Pi::api('api', 'comment')->renderList($posts, array(
             'user'      => false,
             'target'    => true,
             'operation' => 'admin',
         ));
+        $posts = array();
+        foreach ($datas as $list) {
+            foreach ($list as $key => $data) {
+                $posts[$key] = $data;
+            }
+        }
+        
         $count = Pi::service('comment')->getCount($where);
 
         $paginator = Paginator::factory($count, array(
@@ -320,12 +327,18 @@ class ListController extends ActionController
             $limit,
             $offset
         );
-        $posts = Pi::api('api', 'comment')->renderList($posts, array(
+        $datas = Pi::api('api', 'comment')->renderList($posts, array(
             'operation' => 'admin',
             'user'      => array(
                 'avatar'    => 'medium',
             ),
         ));
+        $posts = array();
+        foreach ($datas as $list) {
+            foreach ($list as $key => $data) {
+                $posts[$key] = $data;
+            }
+        }
         $count = Pi::service('comment')->getCount($where);
 
         $params = array('name' => $module, 'active' => $active);
@@ -528,7 +541,7 @@ class ListController extends ActionController
             'tabs'      => $navTabs,
         ));
         */
-        $this->view()->setTemplate('comment-article', '', 'front');
+        $this->view()->setTemplate('comment-article');
     }
 
     /**

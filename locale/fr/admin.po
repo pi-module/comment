@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Pi-comment\n"
-"POT-Creation-Date: 2017-09-09 17:46+0200\n"
-"PO-Revision-Date: 2017-09-09 17:46+0200\n"
+"POT-Creation-Date: 2017-10-11 21:29+0200\n"
+"PO-Revision-Date: 2017-10-11 21:29+0200\n"
 "Last-Translator: Marc Desrousseaux\n"
 "Language-Team: Marc Desrousseaux\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.3\n"
+"X-Generator: Poedit 2.0.4\n"
 "X-Poedit-KeywordsList: _a;_t\n"
 "X-Poedit-Basepath: ../..\n"
 "X-Poedit-SourceCharset: UTF-8\n"
@@ -96,7 +96,7 @@ msgstr "Gestion de l'affichage"
 msgid "Level of operations on post list pages."
 msgstr "Niveau d'opération pour soumettre dans la page de liste"
 
-#: config/config.php:33 src/Controller/Admin/PostController.php:58
+#: config/config.php:33 src/Controller/Admin/PostController.php:75
 #: src/Controller/Admin/TypeController.php:42
 #: template/admin/comment-list.phtml:21 template/admin/comment-module.phtml:27
 #: template/admin/comment-user.phtml:28
@@ -173,6 +173,10 @@ msgid ""
 "i)"
 msgstr "Indiquer ici le format Date et Heure (méthode PHO - exemple d/m/Y H:i)"
 
+#: config/config.php:102
+msgid "URL for admin badge"
+msgstr "URL pour le badge admin"
+
 #: config/module.php:17
 msgid "Comment"
 msgstr "Commentaire"
@@ -207,8 +211,8 @@ msgid "Active posts"
 msgstr "Commentaires actifs"
 
 #: config/nav.php:89 src/Controller/Admin/IndexController.php:91
-#: src/Controller/Admin/ListController.php:226
-#: src/Controller/Admin/ListController.php:406
+#: src/Controller/Admin/ListController.php:233
+#: src/Controller/Admin/ListController.php:419
 msgid "Inactive posts"
 msgstr "Commentaires inactifs"
 
@@ -284,95 +288,95 @@ msgstr "Nombre de commentaires"
 msgid "Comments by username or id"
 msgstr "Commentaires par nom compte ou numéro"
 
-#: src/Controller/Admin/ListController.php:176
+#: src/Controller/Admin/ListController.php:183
 msgid "Comment posts of user"
 msgstr "Commentaires de l'utilisateur"
 
-#: src/Controller/Admin/ListController.php:209
-#: src/Controller/Admin/ListController.php:387
+#: src/Controller/Admin/ListController.php:216
+#: src/Controller/Admin/ListController.php:400
 msgid "All Posts"
 msgstr "Tous les commentaires"
 
-#: src/Controller/Admin/ListController.php:217
-#: src/Controller/Admin/ListController.php:396
+#: src/Controller/Admin/ListController.php:224
+#: src/Controller/Admin/ListController.php:409
 msgid "Active Posts"
 msgstr "Commentaires actifs"
 
-#: src/Controller/Admin/ListController.php:248
+#: src/Controller/Admin/ListController.php:255
 #: src/Controller/Admin/TypeController.php:22
 msgid "Comment types"
 msgstr "Types de commentaires"
 
-#: src/Controller/Admin/ListController.php:344
+#: src/Controller/Admin/ListController.php:357
 #, php-format
 msgid "Comment posts of Module %s with type %s"
 msgstr "Commentaires du module %s avec le type %s"
 
-#: src/Controller/Admin/ListController.php:350
+#: src/Controller/Admin/ListController.php:363
 #, php-format
 msgid "Comment posts of Module %s"
 msgstr "Commentaires du module %s"
 
-#: src/Controller/Admin/ListController.php:459
+#: src/Controller/Admin/ListController.php:472
 msgid "Guest"
 msgstr "Invité"
 
-#: src/Controller/Admin/ListController.php:498
+#: src/Controller/Admin/ListController.php:511
 msgid "All commented articles"
 msgstr "Tous les articles commentés"
 
-#: src/Controller/Admin/ListController.php:500
+#: src/Controller/Admin/ListController.php:513
 msgid "All active commented articles"
 msgstr "Tous les articles actifs commentés"
 
-#: src/Controller/Admin/ListController.php:572
-#: src/Controller/Admin/PostController.php:224
+#: src/Controller/Admin/ListController.php:585
+#: src/Controller/Admin/PostController.php:271
 #: src/Controller/Admin/TypeController.php:102
 msgid "Operation succeeded."
 msgstr "L'opération a été un succès."
 
-#: src/Controller/Admin/PostController.php:44
+#: src/Controller/Admin/PostController.php:61
 msgid "Edit"
 msgstr "Editer"
 
-#: src/Controller/Admin/PostController.php:51
+#: src/Controller/Admin/PostController.php:68
 #: template/admin/comment-list.phtml:23 template/admin/comment-module.phtml:29
 #: template/admin/comment-user.phtml:30
 msgid "Delete"
 msgstr "Supprimer"
 
-#: src/Controller/Admin/PostController.php:58
+#: src/Controller/Admin/PostController.php:75
 #: src/Controller/Admin/TypeController.php:42
 #: template/admin/comment-list.phtml:19 template/admin/comment-module.phtml:25
 #: template/admin/comment-user.phtml:26
 msgid "Enable"
 msgstr "Activer"
 
-#: src/Controller/Admin/PostController.php:67
+#: src/Controller/Admin/PostController.php:84
 msgid "Comment post"
 msgstr "Comemntaire"
 
-#: src/Controller/Admin/PostController.php:91
+#: src/Controller/Admin/PostController.php:112
 msgid "Comment post edit"
 msgstr "Edition du commentaire"
 
-#: src/Controller/Admin/PostController.php:175
+#: src/Controller/Admin/PostController.php:222
 msgid "Comment post saved successfully."
 msgstr "Enregistrement avec succès du commentaire"
 
-#: src/Controller/Admin/PostController.php:178
+#: src/Controller/Admin/PostController.php:225
 msgid "Comment post not saved."
 msgstr "Commentaire non enregistré."
 
-#: src/Controller/Admin/PostController.php:182
+#: src/Controller/Admin/PostController.php:229
 msgid "Invalid data, please check and re-submit."
 msgstr "Données non valides, merci de vérifer et de re-soumettre."
 
-#: src/Controller/Admin/PostController.php:186
+#: src/Controller/Admin/PostController.php:233
 msgid "Invalid submission."
 msgstr "Soumission non valide."
 
-#: src/Controller/Admin/PostController.php:224
+#: src/Controller/Admin/PostController.php:271
 #: src/Controller/Admin/TypeController.php:105
 msgid "Operation failed."
 msgstr "L'opération a échoué."
@@ -431,26 +435,37 @@ msgstr "Les plus commentés"
 msgid "Article title"
 msgstr "Titre de l'article"
 
-#: template/admin/comment-list.phtml:117 template/admin/comment-module.phtml:92
-#: template/admin/comment-user.phtml:93
+#: template/admin/comment-list.phtml:52 template/admin/comment-module.phtml:58
+#: template/admin/comment-user.phtml:59 template/admin/comment-view.phtml:63
+msgid "source"
+msgstr "source"
+
+#: template/admin/comment-list.phtml:88 template/admin/comment-module.phtml:94
+#: template/admin/comment-user.phtml:95 template/admin/comment-view.phtml:99
+msgid "Experience date"
+msgstr "Date expérience"
+
+#: template/admin/comment-list.phtml:125
+#: template/admin/comment-module.phtml:131
+#: template/admin/comment-user.phtml:132
 msgid "Pending"
 msgstr "En attente"
 
-#: template/admin/comment-list.phtml:125
-#: template/admin/comment-module.phtml:100
-#: template/admin/comment-user.phtml:101
+#: template/admin/comment-list.phtml:133
+#: template/admin/comment-module.phtml:139
+#: template/admin/comment-user.phtml:140
 msgid "No comments available yet."
 msgstr "Aucun commentaire disponible actuellement."
 
-#: template/admin/comment-list.phtml:199
-#: template/admin/comment-module.phtml:174
-#: template/admin/comment-user.phtml:175
+#: template/admin/comment-list.phtml:207
+#: template/admin/comment-module.phtml:213
+#: template/admin/comment-user.phtml:214
 msgid "Are you sure delete these comments?"
 msgstr "Es-tu sûr de vouloir supprimer ces commentaires?"
 
-#: template/admin/comment-list.phtml:245
-#: template/admin/comment-module.phtml:220
-#: template/admin/comment-user.phtml:221
+#: template/admin/comment-list.phtml:253
+#: template/admin/comment-module.phtml:259
+#: template/admin/comment-user.phtml:260
 msgid "Are you sure delete this article?"
 msgstr "Es-tu sûr de vouloir supprimer cet article?"
 

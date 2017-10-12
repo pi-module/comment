@@ -471,7 +471,7 @@ EOT;
     var popoverTimeoutHandle;
     function ownerReview(elem) {
         clearTimeout(popoverTimeoutHandle);
-        var content = '<?php _e("Sorry, owner cannot write a review") ?>';
+        var content = '<?php _e("Sorry, owner cannot write a review on his own item") ?>';
         var link = $(elem);
         
         link.not('.popover-active').addClass('popover-active').popover({

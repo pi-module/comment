@@ -377,12 +377,15 @@ input.subscription {
 */
 
 .fake-anchor {
-    margin-top:-90px!important;
-    padding-top:90px!important;
+    margin-top:-50px!important;
+    padding-top:50px!important;
     display:block;
     visibility:hidden;
 }
-
+.guide .fake-anchor {
+    margin-top:-90px!important;
+    padding-top:90px!important;
+}
 
 #rating_fakeinput {
     width:1px; 

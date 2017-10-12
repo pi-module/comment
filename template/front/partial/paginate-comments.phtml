@@ -74,19 +74,21 @@ EOT;
     <?php $url = ($item['uid'] > 0) ? $item['user']['url'] : '#comments'; ?>
     <div class="fake-anchor" id="comment-<?php echo $item['id']; ?>"></div>
     <div class="pi-comment-single media comment-item clearfix <?php echo $item['type'] == 'SIMPLE' ? 'is-comment' : 'is-review' ?> <?php echo $item['source'] == 'WEB' ? 'src-web' : 'src-mobile' ?>">
-        <div class="avatar-column"> 
-            <?php if ($item['uid'] > 0) { ?>
-                <a class="pull-left avatar-img-wrapper" href="<?php echo $item['user']['url']; ?>" target="_blank">
-                    <?php echo $item['user']['avatar']; ?>
-                </a>
-            <?php } else { ?>
-                <p class="pull-left avatar-img-wrapper">
-                    <?php echo $item['user']['avatar']; ?>
-                </p>
-            <?php } ?>
+        <div class="avatar-column text-center">
+            <div> 
+                <?php if ($item['uid'] > 0) { ?>
+                    <a class="pull-left avatar-img-wrapper" href="<?php echo $item['user']['url']; ?>" target="_blank">
+                        <?php echo $item['user']['avatar']; ?>
+                    </a>
+                <?php } else { ?>
+                    <p class="pull-left avatar-img-wrapper">
+                        <?php echo $item['user']['avatar']; ?>
+                    </p>
+                <?php } ?>
+            </div>
             <small>
-                <?php echo $item['user']['location_city'] ?><br/>
-                <?php echo $item['user']['location_country'] ?><br/>
+                <?php echo !empty($item['user']['location_city']) ? $item['user']['location_city']  . '</br>' : ''?>
+                <?php echo !empty($item['user']['location_country']) ? $item['user']['location_country']  . '</br>' : ''?>
                 <?php echo $item['user']['contributions'] ?>&nbsp;<?php _e('contributions') ?>
             </small>
         </div>

@@ -30,19 +30,21 @@ $badgeAdmin = Pi::service('config') -> get('badge_admin', 'comment');
                 <h1 class="pi-comment-header"><?php echo __('All active comments ') . " ({$count})"; ?></h1>
                 <?php foreach ($posts[0] as $post) { ?>
                     <div class="pi-comment-single media">
-                         <div class="avatar-column">
+                         <div class="avatar-column text-center">
+                             <div>
                             <?php if ($post['uid'] > 0) { ?>
-                                <a class="pull-left avatar-img-wrapper" href="<?php echo $post['user']['url']; ?>">
+                                <a class="avatar-img-wrapper" href="<?php echo $post['user']['url']; ?>">
                                     <?php echo Pi::avatar()->get($post['uid'], 'large'); ?>
                                 </a>
                             <?php } else { ?>
-                                <p class="pull-left avatar-img-wrapper">
+                                <p class="avatar-img-wrapper">
                                     <?php echo Pi::avatar()->get($post['uid'], 'large'); ?>
                                 </p>
                             <?php } ?>
+                            </div>
                             <small>
-                                <?php echo $post['user']['location_city'] ?><br/>
-                                <?php echo $post['user']['location_country'] ?><br/>
+                                <?php echo !empty($post['user']['location_city']) ? $post['user']['location_city']  . '</br>' : ''?>
+                                <?php echo !empty($post['user']['location_country']) ? $post['user']['location_country']  . '</br>' : ''?>
                                 <?php echo $post['user']['contributions'] ?>&nbsp;<?php _e('contributions') ?>
                             </small>
                         </div>

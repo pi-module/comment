@@ -21,6 +21,8 @@ $templateRating = <<<'EOT'
         <i class="fa %s" aria-hidden="true"></i>
     </div>
 EOT;
+
+$badgeAdmin = Pi::service('config') -> get('badge_admin', 'comment');
 ?>
     <div class="pi-comment">
         <?php if ($posts) { ?>

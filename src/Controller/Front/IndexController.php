@@ -75,16 +75,20 @@ class IndexController extends ActionController
             $title = __('All active comment posts');
         }
         $this->view()->assign('comment', array(
-            'title'     => $title,
+            'title'     => $this->config('head_title'),
             'count'     => $count,
             'posts'     => $posts,
             'paginator' => $paginator,
         ));
 
         $this->view()->setTemplate('comment-list');
-        $this->view()->headTitle($title);
-        $this->view()->headDescription($title, 'set');
-        $this->view()->headKeywords(__('all comments,comment,information,post,user'), 'set');
+        $this->view()->headTitle($this->config('head_title'));
+        $this->view()->headMeta($this->config('head_title'), 'twitter:title');
+        $this->view()->headMeta($this->config('head_title'), 'og:title');
+        $this->view()->headDescription($this->config('description'), 'set');
+        $this->view()->headMeta($this->config('description'), 'twitter:description');
+        $this->view()->headMeta($this->config('description'), 'og:description');
+        $this->view()->headKeywords($this->config('keywords'), 'set');
     }
    
     /**

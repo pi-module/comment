@@ -83,11 +83,11 @@ class IndexController extends ActionController
 
         $this->view()->setTemplate('comment-list');
         $this->view()->headTitle($this->config('head_title'));
-        $this->view()->headMeta($this->config('head_title'), 'twitter:title');
-        $this->view()->headMeta($this->config('head_title'), 'og:title');
+        $this->view()->headMeta($this->config('head_title'), 'twitter:title', 'name');
+        $this->view()->headMeta($this->config('head_title'), 'og:title', 'property');
         $this->view()->headDescription($this->config('description'), 'set');
         $this->view()->headMeta($this->config('description'), 'twitter:description');
-        $this->view()->headMeta($this->config('description'), 'og:description');
+        $this->view()->headMeta($this->config('description'), 'og:description', 'property');
         $this->view()->headKeywords($this->config('keywords'), 'set');
     }
    

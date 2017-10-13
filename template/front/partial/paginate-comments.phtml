@@ -193,7 +193,7 @@ EOT;
                         <span class="fa fa-mail-reply"></span> <?php _e('Reply') ?>
                     </a>
                 <?php } ?>
-                <a href="#comment-<?php echo $item['id'] ?>" target="_blank"><span class="fa fa-share-alt"></span> <?php _e('Share') ?></a>
+                <a href="?<?php echo $item['type'] == 'SIMPLE' ? 'page-comment' : 'page-review' ?>=<?php echo $page ?>#comment-<?php echo $item['id'] ?>" target="_blank"><span class="fa fa-share-alt"></span> <?php _e('Share') ?></a>
             </div>
         </div>
     </div>
@@ -275,7 +275,7 @@ EOT;
                                 <span class="fa fa-mail-reply"></span> <?php _e('Reply') ?>
                             </a>
                         <?php } ?>
-                        <a href="#comment-<?php echo $item['id'] ?>" target="_blank"><span class="fa fa-share-alt"></span> <?php _e('Share') ?></a>
+                        <a href="?<?php echo $item['type'] == 'SIMPLE' ? 'page-comment' : 'page-review' ?>=<?php echo $page ?>#comment-<?php echo $item['id'] ?>" target="_blank"><span class="fa fa-share-alt"></span> <?php _e('Share') ?></a>
                     </div>
                 </div>
             </div>

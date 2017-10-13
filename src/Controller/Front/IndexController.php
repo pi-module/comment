@@ -38,6 +38,26 @@ class IndexController extends ActionController
         $limit  = $this->config('list_limit') ?: 10;
         $offset = ($page - 1) * $limit;
 
+        $where = array(
+            'active' => $active,
+            'reply' => 0
+        );
+        
+        
+        $select = Pi::model('post', 'comment')->select()->where($where)->order('id desc');
+        $posts = Pi::model('post', 'comment')->selectWith($select);
+        $counter = array();
+        $pages = array();
+        $perpage = $this->config('leading_limit') ?: 5;
+        
+        foreach ($posts as $post) {
+            if (!isset($counter[$post['type']][$post['root']])) {
+                $counter[$post['type']][$post['root']] = 0;
+            } 
+            $counter[$post['type']][$post['root']]++;
+            $pages[$post['id']] = ((int)($counter[$post['type']][$post['root']] / $perpage)) + 1;
+        }
+   
         $where = array('active' => $active);
         $posts = Pi::api('api', 'comment')->getList(
             \Module\Comment\Model\Post::TYPE_ALL,
@@ -80,7 +100,7 @@ class IndexController extends ActionController
             'posts'     => $posts,
             'paginator' => $paginator,
         ));
-
+        $this->view()->assign('pages', $pages);
         $this->view()->setTemplate('comment-list');
         $this->view()->headTitle($this->config('head_title'));
         $this->view()->headMeta($this->config('head_title'), 'twitter:title', 'name');

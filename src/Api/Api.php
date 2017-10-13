@@ -1896,7 +1896,6 @@ class Api extends AbstractApi
     public function getContributions ($uid) {
         $where = array(
             'uid' => $uid,
-            'type' => 'REVIEW',
             'reply' => 0 
         );
         return Pi::model('post', 'comment')->count($where);        

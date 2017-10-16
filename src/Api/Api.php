@@ -1014,7 +1014,7 @@ class Api extends AbstractApi
             $to,
             'notify_owner_review.txt',
             $information,
-            Pi::service('module')->current(),
+            'comment',
             $uid
         );
         
@@ -1069,7 +1069,7 @@ class Api extends AbstractApi
                 $to,
                 'notify_comment.txt',
                 $information,
-                Pi::service('module')->current(),
+                'comment',
                 $uid
             );
         }

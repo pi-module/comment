@@ -767,6 +767,7 @@ class Api extends AbstractApi
             }
     
             array_walk($posts, function (&$post) use ($ops) {
+                $post['initial_content'] = $post['content'];
                 $post['content'] = $this->renderPost($post);
                 $post['url'] = $this->getUrl('post', array(
                     'post'  => $post['id']
@@ -958,9 +959,9 @@ class Api extends AbstractApi
         
         // notify, except for edit 
         if (!$id) {
-            $this->notify($root, $uid);
+            $this->notify($root, $postData['content'], $uid);
             if ($row->module == 'guide' && $row->type =='REVIEW') {
-                $this->notifyOwner($root, $uid);
+                $this->notifyOwner($root, $postData['content'],$uid);
             }
         }
         if ($newId) {
@@ -986,13 +987,14 @@ class Api extends AbstractApi
         }
         
     }
-    private function notifyOwner($root, $exclude)
+    private function notifyOwner($root, $content, $exclude)
     {
         // Canonize item 
         $select = Pi::model('root', 'comment')->select()->where(array('id' => $root));
         $row = Pi::model('root', 'comment')->selectWith($select)->current();
         
         $information  = Pi::api ('comment', $row['module'])->canonize($row['item']);
+        $information['content'] = strlen($content) > 500 ? substr($content,0, 500) . '...' : $content;
         
         // Find uid
         $item = Pi::api('item', 'guide')->getItem($row->item);
@@ -1019,7 +1021,7 @@ class Api extends AbstractApi
         );
         
     }
-    private function notify($root, $exclude)
+    private function notify($root, $content, $exclude)
     {
         // get Root 
         $select = Pi::model('root', 'comment')->select()->where(array('id' => $root));
@@ -1034,7 +1036,8 @@ class Api extends AbstractApi
         $callback = $type['callback'];
         $handler = new $callback($row['module']);
         $information = $handler->canonize($row['item']);
-            
+        $information['content'] = strlen($content) > 500 ? substr($content,0, 500) . '...' : $content;
+        
         // Find uid
         $select = Pi::model('subscription', 'comment')->select()->where(array('root' => $root));
         $rowset = Pi::model('subscription', 'comment')->selectWith($select);
@@ -1046,14 +1049,6 @@ class Api extends AbstractApi
             $uids[] = $row['uid'];
         }
         
-        // Add notification
-        $data = Pi::service('mail')->template(
-            array(
-                'file'      => 'notify_comment.txt',
-                'module'    => 'comment',
-            ),
-            $information
-        );
         foreach ($uids as $uid) {
             $user = Pi::user()->getUser($uid);
             if ($user == null) {

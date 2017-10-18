@@ -417,3 +417,5 @@ input.subscription {
 .avatar-column small,
 .comment-operation a {color:#999}
 .comment-operation a:hover {color:#337ab7}
+
+.resume-ratings .pull-right {margin-top:5px}

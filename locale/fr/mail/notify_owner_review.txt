@@ -9,7 +9,7 @@
     <div style="padding: 3px 0; margin: 1px 0;">Une nouvelle expérience a été publiée sur votre établissement/bien <a href="%url%">%title%</a></div>
     <div style="padding: 3px 0; margin: 1px 0;">En voici un court extrait :</div>
 	<div style="padding: 5px 0; margin: 5px 0; background: #f7f7f7;">%content%</div>
-	 <div style="padding: 3px 0; margin: 1px 0;">Vous pouvez y répondre directement depuis le site,</div>
+	<div style="padding: 3px 0; margin: 1px 0;">Vous pouvez y répondre directement depuis le site,</div>
     <div style="padding: 3px 0; margin: 1px 0;">Cordialement,</div>
     <div style="padding: 3px 0; margin: 1px 0;">Merci de ne pas répondre à ce mail</div>
     <div style="margin-top: 10px">

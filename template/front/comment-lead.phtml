@@ -102,7 +102,7 @@
             var form = review ? $('form#review-post') : $('form#comment-post');
              
             form.find('.cancel').removeClass('hide');
-            var html = $(elem).parent().parent().find(".commentText").html();
+            var html = $(elem).parent().parent().find(".commentText").attr('rel');
             form.find('[name=id]').val($(elem).data('id'));
             var isReply = $(elem).parent().hasClass('is-reply');
             if (isReply) {
@@ -198,6 +198,11 @@
                         initReply();
                         initEdit();
                         initGallery();
+                        
+                         $('html, body').stop().animate({
+                            scrollTop: el.offset().top
+                        }, 400);
+    
                     }
                 });
                 

@@ -11,7 +11,7 @@ $templateUserComment = <<<'EOT'
             </ul>
         </div>
         <p>
-            <div class="clearfix commentText" itemprop="commentText">%s</div>
+            <div class="clearfix commentText" itemprop="commentText" rel="%s">%s</div>
         </p>
         <meta itemprop="commentTime" content="%s" />
 EOT;
@@ -101,6 +101,7 @@ EOT;
                         $item['user']['name'],
                         _date($item['time'], null, null, null, null, null, null,  Pi::config('datetime_format', 'comment')),
                         $badge,
+                        htmlspecialchars($item['initial_content']),
                         $item['content'],
                         date("Y-m-d H:i:s", $item['time'])
                     );
@@ -228,6 +229,7 @@ EOT;
                             $reply['user']['name'],
                             _date($reply['time'], null, null, null, null, null, null,  Pi::config('datetime_format', 'comment')),
                             $badge,
+                            htmlspecialchars($reply['initial_content']),
                             $reply['content'],
                             date("Y-m-d H:i:s", $reply['time'])
                         );

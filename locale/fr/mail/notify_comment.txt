@@ -7,6 +7,8 @@
 [body]
 <div style="padding: 1px; direction: ltr;">
     <div style="padding: 3px 0; margin: 1px 0;">Un nouveau commentaire / une nouvelle expérience ont été ajoutés sur <a href="%url%">%title%</a></div>
+    <div style="padding: 3px 0; margin: 1px 0;">En voici un court extrait :</div>
+	<div style="padding: 5px 0; margin: 5px 0; background: #f7f7f7;">%content%</div>
     <div style="padding: 3px 0; margin: 1px 0;">Cordialement,</div>
     <div style="padding: 3px 0; margin: 1px 0;">Ne pas répondre à ce mail</div>
     <div style="margin-top: 10px">

@@ -277,7 +277,6 @@ class PostController extends ActionController
                 Pi::service('event')->trigger('post_disable', $id);
             }
         }
-
         if (!$return) {
             if ($redirect) {
                 $redirect = urldecode($redirect);
@@ -352,7 +351,7 @@ class PostController extends ActionController
                 ? __('Operation succeeded.') : __('Operation failed.');
         }
         if (0 < $status && $id) {
-            Pi::service('event')->trigger('post_delete', $post['root']);
+            Pi::service('event')->trigger('post_delete', array('root' => $post['root'], 'id' => $post['id']));
         }
 
         if (!$return) {

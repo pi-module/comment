@@ -44,7 +44,7 @@ if ($uid) {
                 </div>
                 <div class="pi-comment-desc">
                     <span class="muted pull-left"><?php _e('Commented on '); ?>&nbsp;</span>
-                    <a class="highlight" href="<?php echo $target['url']; ?>#comment-<?php echo $post['id'] ?>" title="<?php echo _escape($target['title']); ?>">
+                    <a class="highlight" href="<?php echo Pi::url(Pi::api('api', 'comment')->getUrl('post', array('post' => $post['id']))) ?>" title="<?php echo _escape($target['title']); ?>">
                         <?php echo $target['title']; ?>
                     </a>
                 </div>

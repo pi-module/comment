@@ -390,7 +390,6 @@ class Api extends AbstractApi
     
             if ($rootData) {
                 $result['count'] = $this->getCount($rootData['id'], $review ? \Module\Comment\Model\Post::TYPE_REVIEW : \Module\Comment\Model\Post::TYPE_COMMENT);
-                
                 //vd($result['count']);
                 if ($result['count']) {
                     $posts = $this->getList(
@@ -399,7 +398,6 @@ class Api extends AbstractApi
                         $limit, 
                         $offset
                     );
-                    
                     $opOption = isset($options['display_operation'])
                         ? $options['display_operation']
                         : Pi::service('config')->module('display_operation', 'comment');
@@ -1486,21 +1484,39 @@ class Api extends AbstractApi
         }
 
         $select->where($where);
+        
+        if ($order) {
+            $select->order($order);
+        }
+        
+        // Find initial post
+        $selectPost = clone $select;
+        $selectPost->where(array('reply' => 0));
         $limit = (null === $limit)
             ? Pi::config('list_limit', 'comment')
             : (int) $limit;
         if ($limit) {
-            $select->limit($limit);
-        }
-        if ($order) {
-            $select->order($order);
+            $selectPost->limit($limit);
         }
         if ($offset) {
-            $select->offset($offset);
+            $selectPost->offset($offset);
         }
-        $rowset = Pi::db()->query($select);
+        $rowset = Pi::db()->query($selectPost);
+        $list = array();
         $ids = array();
         foreach ($rowset as $row) {
+            $list[] = (array) $row;
+            $ids[] = $row['id'];
+        }
+        
+        // Find replies
+        $select->where(array(new \Zend\Db\Sql\Predicate\In('post.reply', $ids)));
+        $rowset = Pi::db()->query($select);
+        foreach ($rowset as $row) {
+            $list[] = (array) $row;
+        }
+        $ids = array();
+        foreach ($list as $row) {
             $post = (array) $row;
            
             $post['rating'] = array();

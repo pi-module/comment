@@ -103,6 +103,13 @@ $config = array(
         'value'         => "",
         'filter'        => 'text',
     ),
+    'intro' => array(
+        'title'         => _t('Intro'),
+        'value'         => "",
+        'filter'        => 'string',
+        'edit'          => 'textarea',
+        
+    ),
    
 
      /*

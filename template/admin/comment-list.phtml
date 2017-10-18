@@ -46,7 +46,7 @@ $active = $comment['active'];
                             <div class="muted"><?php echo _escape($post['ip']); ?></div>
                         </td>
                         <td>
-                            <a class="pi-comment-article-title<?php echo 0 === $post['active'] && 0 !== $active ? ' muted' : ''; ?>" target="_blank" href="<?php echo $post['target']['url']; ?>#comment-<?php echo $post['id'] ?>" title="<?php echo _escape($post['target']['title']); ?>">
+                            <a class="pi-comment-article-title<?php echo 0 === $post['active'] && 0 !== $active ? ' muted' : ''; ?>" target="_blank" href="<?php echo Pi::url(Pi::api('api', 'comment')->getUrl('post', array('post' => $post['id']))) ?>" title="<?php echo _escape($post['target']['title']); ?>">
                                 <strong><?php echo _escape($post['target']['title']); ?></strong>  
                             </a>
                             (<?php echo _a('source') ?>: <?php echo $post['source'] ?>)

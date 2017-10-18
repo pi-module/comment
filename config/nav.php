@@ -68,7 +68,7 @@ return array(
             'pages'         => array(
                 'all'     => array(
                     'route'         => 'admin',
-                    'label'         => _t('Active posts'),
+                    'label'         => _t('All posts'),
                     'controller'    => 'list',
                     'action'        => 'index',
                     'params'        => array(
@@ -92,6 +92,16 @@ return array(
                     'params'        => array(
                         'active'    => 0,
                     ),
+                ),
+                'orphan'     => array(
+                    'route'         => 'admin',
+                    'label'         => _t('Orphan posts'),
+                    'controller'    => 'list',
+                    'action'        => 'index',
+                    'params'        => array(
+                        'orphan'    => 1,
+                    ),
+                    
                 ),
             ),
         ),

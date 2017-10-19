@@ -104,8 +104,8 @@ $config = array(
         'filter'        => 'text',
     ),
     'intro' => array(
-        'title'         => _t('Intro'),
-        'value'         => "",
+        'title'         => _t('Intro for Index Page'),
+        'value'         => _t("Text displayed on top of Index Page Comment List"),
         'filter'        => 'string',
         'edit'          => 'textarea',
         

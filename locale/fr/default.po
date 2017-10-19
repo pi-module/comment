@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Pi-comment\n"
-"POT-Creation-Date: 2017-10-11 21:27+0200\n"
-"PO-Revision-Date: 2017-10-11 21:29+0200\n"
+"POT-Creation-Date: 2017-10-19 08:29+0200\n"
+"PO-Revision-Date: 2017-10-19 08:29+0200\n"
 "Last-Translator: Marc Desrousseaux\n"
 "Language-Team: Marc Desrousseaux\n"
 "Language: fr\n"
@@ -39,38 +39,38 @@ msgstr "Message désactivé"
 msgid "Post deleted"
 msgstr "Message supprimé"
 
-#: src/Api/Api.php:600
+#: src/Api/Api.php:598
 msgid "Guest"
 msgstr "Invité"
 
-#: src/Api/Api.php:642 src/Controller/Front/PostController.php:486
+#: src/Api/Api.php:640 src/Controller/Front/PostController.php:482
 #: src/Form/RatingTypeForm.php:67 template/admin/rating-type-index.phtml:16
 #: template/admin/rating-type-index.phtml:19
-#: template/front/partial/paginate-comments.phtml:178
-#: template/front/partial/paginate-comments.phtml:260
+#: template/front/partial/paginate-comments.phtml:181
+#: template/front/partial/paginate-comments.phtml:264
 msgid "Edit"
 msgstr "Editer"
 
-#: src/Api/Api.php:643 src/Api/Api.php:699
+#: src/Api/Api.php:641 src/Api/Api.php:697
 msgid "Enable"
 msgstr "Activer"
 
-#: src/Api/Api.php:644 src/Controller/Front/PostController.php:493
+#: src/Api/Api.php:642 src/Controller/Front/PostController.php:489
 #: template/admin/rating-type-index.phtml:20
-#: template/front/partial/paginate-comments.phtml:175
-#: template/front/partial/paginate-comments.phtml:257
+#: template/front/partial/paginate-comments.phtml:178
+#: template/front/partial/paginate-comments.phtml:261
 msgid "Delete"
 msgstr "Supprimer"
 
-#: src/Api/Api.php:645 src/Controller/Front/PostController.php:500
-#: template/front/partial/paginate-comments.phtml:182
-#: template/front/partial/paginate-comments.phtml:191
-#: template/front/partial/paginate-comments.phtml:264
-#: template/front/partial/paginate-comments.phtml:273
+#: src/Api/Api.php:643 src/Controller/Front/PostController.php:496
+#: template/front/partial/paginate-comments.phtml:185
+#: template/front/partial/paginate-comments.phtml:194
+#: template/front/partial/paginate-comments.phtml:268
+#: template/front/partial/paginate-comments.phtml:277
 msgid "Reply"
 msgstr "Répondre"
 
-#: src/Api/Api.php:696
+#: src/Api/Api.php:694
 msgid "Disable"
 msgstr "Désactiver"
 
@@ -89,24 +89,24 @@ msgstr "Article personnalisé %d"
 msgid "Comment by %s"
 msgstr "Commentaire de %s"
 
-#: src/Block/Block.php:43 src/Controller/Front/IndexController.php:53
+#: src/Block/Block.php:43 src/Controller/Front/IndexController.php:73
 msgid "View profile"
 msgstr "Voir le profil"
 
-#: src/Controller/Admin/PostController.php:348
-#: src/Controller/Front/PostController.php:83
-#: src/Controller/Front/PostController.php:136
-#: src/Controller/Front/PostController.php:286
+#: src/Controller/Admin/PostController.php:347
+#: src/Controller/Front/PostController.php:79
+#: src/Controller/Front/PostController.php:132
+#: src/Controller/Front/PostController.php:282
 msgid "Invalid post parameter."
 msgstr "Paramètre de message non valide."
 
-#: src/Controller/Admin/PostController.php:352
-#: src/Controller/Front/PostController.php:358
-#: src/Controller/Front/PostController.php:430
+#: src/Controller/Admin/PostController.php:351
+#: src/Controller/Front/PostController.php:354
+#: src/Controller/Front/PostController.php:426
 msgid "Operation succeeded."
 msgstr "L'opération a été succès."
 
-#: src/Controller/Admin/PostController.php:352
+#: src/Controller/Admin/PostController.php:351
 msgid "Operation failed."
 msgstr "Echec de l'opération"
 
@@ -126,101 +126,84 @@ msgstr "Flux de commentaire"
 msgid "Latest comments."
 msgstr "Derniers commentaires"
 
-#: src/Controller/Front/IndexController.php:71
+#: src/Controller/Front/IndexController.php:91
 msgid "All comment posts"
 msgstr "Tous les commentaires"
 
-#: src/Controller/Front/IndexController.php:73
+#: src/Controller/Front/IndexController.php:93
 msgid "All inactive comment posts"
 msgstr "Tous les commentaires inactifs"
 
-#: src/Controller/Front/IndexController.php:75
+#: src/Controller/Front/IndexController.php:95
 msgid "All active comment posts"
 msgstr "Tous les commentaires actifs"
 
-#: src/Controller/Front/IndexController.php:87
-msgid "all comments,comment,information,post,user"
-msgstr "tous les commentaires, commentaire, information, post, utilisateur"
-
-#: src/Controller/Front/PostController.php:45
-msgid "Permanent link"
-msgstr "Lien permanent"
-
-#: src/Controller/Front/PostController.php:52
-#, php-format
-msgid "Comment %s on %s"
-msgstr "Commentaire de %s sur %s"
-
-#: src/Controller/Front/PostController.php:61
-msgid "Comment,information,post,user"
-msgstr "Commentaire, information, post, utilisateur"
-
-#: src/Controller/Front/PostController.php:88
-#: src/Controller/Front/PostController.php:140
-#: src/Controller/Front/PostController.php:238
-#: src/Controller/Front/PostController.php:291
-#: src/Controller/Front/PostController.php:350
+#: src/Controller/Front/PostController.php:84
+#: src/Controller/Front/PostController.php:136
+#: src/Controller/Front/PostController.php:234
+#: src/Controller/Front/PostController.php:287
+#: src/Controller/Front/PostController.php:346
 msgid "Operation denied."
 msgstr "Opération interdite."
 
-#: src/Controller/Front/PostController.php:100
+#: src/Controller/Front/PostController.php:96
 msgid "Comment post edit"
 msgstr "Editer un commentaire"
 
-#: src/Controller/Front/PostController.php:153
+#: src/Controller/Front/PostController.php:149
 msgid "Comment post reply"
 msgstr "Réponse au commentaire"
 
-#: src/Controller/Front/PostController.php:241
+#: src/Controller/Front/PostController.php:237
 msgid "Invalid submission."
 msgstr "Soumission non valide."
 
-#: src/Controller/Front/PostController.php:260
+#: src/Controller/Front/PostController.php:256
 msgid "Root not found."
 msgstr "Racine non trouvée."
 
-#: src/Controller/Front/PostController.php:263
+#: src/Controller/Front/PostController.php:259
 #: template/front/_post-form.phtml:3
 msgid "Comment is disabled."
 msgstr "Le commentaire est désactivé."
 
-#: src/Controller/Front/PostController.php:268
+#: src/Controller/Front/PostController.php:264
 msgid "Guest information not set."
 msgstr "Les informations Invité n'ont pas été saisies"
 
-#: src/Controller/Front/PostController.php:302
+#: src/Controller/Front/PostController.php:298
 msgid "Comment post saved successfully."
 msgstr "Le commentaire a été enregistré avec succès."
 
-#: src/Controller/Front/PostController.php:305
+#: src/Controller/Front/PostController.php:301
 msgid "Comment post not saved."
 msgstr "Le commentaire n'a pas été enregistré."
 
-#: src/Controller/Front/PostController.php:310
+#: src/Controller/Front/PostController.php:306
 msgid "Invalid data, please check and re-submit."
 msgstr "Données non valides, merci de vérifier et de re-soumettre."
 
-#: src/Controller/Front/PostController.php:358
-#: src/Controller/Front/PostController.php:430
+#: src/Controller/Front/PostController.php:354
+#: src/Controller/Front/PostController.php:426
 msgid "Operation failed"
 msgstr "Echec de l'opération"
 
-#: src/Controller/Front/PostController.php:415
-#: src/Controller/Front/PostController.php:476
+#: src/Controller/Front/PostController.php:411
+#: src/Controller/Front/PostController.php:472
 msgid "Invalid parameters."
 msgstr "Paramètres non valides."
 
-#: src/Controller/Front/PostController.php:418
-#: src/Controller/Front/PostController.php:423
-#: src/Controller/Front/PostController.php:426
+#: src/Controller/Front/PostController.php:414
+#: src/Controller/Front/PostController.php:419
+#: src/Controller/Front/PostController.php:422
 msgid "Forbidden."
 msgstr "Interdit."
 
-#: src/Controller/Front/PostController.php:482
+#: src/Controller/Front/PostController.php:478
 msgid "Login"
 msgstr "Connexion"
 
-#: src/Controller/Front/PostController.php:507
+#: src/Controller/Front/PostController.php:503
 msgid "Enable/Disable"
 msgstr "Activer/Désactiver"
 
@@ -241,8 +224,8 @@ msgid "Type your content"
 msgstr "Saisir ici le texte de votre commentaire"
 
 #: src/Form/PostForm.php:136 template/front/_post-form.phtml:122
-#: template/front/comment-lead.phtml:319 template/front/comment-lead.phtml:326
-#: template/front/comment-lead.phtml:369 template/front/comment-lead.phtml:376
+#: template/front/comment-lead.phtml:324 template/front/comment-lead.phtml:331
+#: template/front/comment-lead.phtml:374 template/front/comment-lead.phtml:381
 msgid "Subscribe to the thread"
 msgstr "S'abonner pour suivre les échanges (notification)"
 
@@ -259,9 +242,9 @@ msgid "Additional images"
 msgstr "Images complémentaires"
 
 #: src/Form/PostForm.php:239 template/front/_post-form.phtml:77
-#: template/front/comment-edit.phtml:67 template/front/comment-list.phtml:87
-#: template/front/comment-list.phtml:164
-#: template/front/partial/paginate-comments.phtml:142
+#: template/front/comment-edit.phtml:67 template/front/comment-list.phtml:94
+#: template/front/comment-list.phtml:171
+#: template/front/partial/paginate-comments.phtml:145
 msgid "Experience time"
 msgstr "Date expérience"
 
@@ -295,8 +278,8 @@ msgstr "Aucune donnée disponible actuellement."
 #: template/admin/comment-module.phtml:119
 #: template/admin/comment-user.phtml:120 template/admin/comment-view.phtml:111
 #: template/front/comment-view.phtml:70
-#: template/front/partial/paginate-comments.phtml:174
-#: template/front/partial/paginate-comments.phtml:256
+#: template/front/partial/paginate-comments.phtml:177
+#: template/front/partial/paginate-comments.phtml:260
 msgid "Are you sure to delete this comment?"
 msgstr "Etes-vous sûr de vouloir supprimer ce commentaire?"
 
@@ -319,7 +302,7 @@ msgid "Comment #%d"
 msgstr "Commentaire n°%d"
 
 #: template/admin/comment-view.phtml:55 template/front/comment-edit.phtml:46
-#: template/front/comment-list.phtml:62 template/front/comment-list.phtml:139
+#: template/front/comment-list.phtml:69 template/front/comment-list.phtml:146
 #: template/front/comment-reply.phtml:75 template/front/comment-view.phtml:54
 msgid "Commented on "
 msgstr "Commenté sur"
@@ -392,54 +375,54 @@ msgstr "Le commentaire n'a pas été trouvé."
 msgid "Comment edit"
 msgstr "Edition du commentaire"
 
-#: template/front/comment-lead.phtml:312
+#: template/front/comment-lead.phtml:317
 msgid "All comments "
 msgstr "Tous les commentaires "
 
-#: template/front/comment-lead.phtml:363
+#: template/front/comment-lead.phtml:368
 msgid "All comments"
 msgstr "Tous les commentaires "
 
-#: template/front/comment-lead.phtml:388 template/front/comment-lead.phtml:390
-#: template/front/comment-lead.phtml:399 template/front/comment-lead.phtml:456
-#: template/front/comment-lead.phtml:482
+#: template/front/comment-lead.phtml:393 template/front/comment-lead.phtml:395
+#: template/front/comment-lead.phtml:404 template/front/comment-lead.phtml:461
+#: template/front/comment-lead.phtml:487
 msgid "Write a review"
 msgstr "Partagez votre expérience"
 
-#: template/front/comment-lead.phtml:435
+#: template/front/comment-lead.phtml:440
 msgid "No one has commented yet."
 msgstr "Personne n'a encore laissé de commentaires ici. Lancez-vous !"
 
-#: template/front/comment-lead.phtml:446
+#: template/front/comment-lead.phtml:451
 msgid "Please login for write a review"
 msgstr "Merci de vous connectez pour partager votre expérience"
 
-#: template/front/comment-lead.phtml:447
+#: template/front/comment-lead.phtml:452
 msgid "login/register"
 msgstr "connexion/inscription"
 
-#: template/front/comment-lead.phtml:474
+#: template/front/comment-lead.phtml:479
 msgid "Sorry, owner cannot write a review on his own item"
 msgstr ""
 "Désolé, un propriétaire ne peut pas écrire un avis sur son propre bien/"
 "activité"
 
-#: template/front/comment-list.phtml:28
+#: template/front/comment-list.phtml:30
 msgid "All active comments "
 msgstr "Tous les commentaires actifs"
 
-#: template/front/comment-list.phtml:44
-#: template/front/partial/paginate-comments.phtml:90
+#: template/front/comment-list.phtml:51
+#: template/front/partial/paginate-comments.phtml:92
 msgid "contributions"
 msgstr "contributions"
 
-#: template/front/comment-list.phtml:104
+#: template/front/comment-list.phtml:111
 #: template/front/partial/paginate-comments.phtml:68
-#: template/front/partial/paginate-comments.phtml:204
+#: template/front/partial/paginate-comments.phtml:207
 msgid "OWNER"
 msgstr "PROPRIETAIRE"
 
-#: template/front/comment-list.phtml:180
+#: template/front/comment-list.phtml:187
 msgid "No comments available yet."
 msgstr "Aucun commentaire disponible actuellement."
 
@@ -448,10 +431,22 @@ msgstr "Aucun commentaire disponible actuellement."
 msgid "Comment reply to %s"
 msgstr "Commentaire en réponse à %s"
 
-#: template/front/partial/paginate-comments.phtml:194
-#: template/front/partial/paginate-comments.phtml:276
+#: template/front/partial/paginate-comments.phtml:197
+#: template/front/partial/paginate-comments.phtml:280
 msgid "Share"
 msgstr "Partager"
+
+#~ msgid "all comments,comment,information,post,user"
+#~ msgstr "tous les commentaires, commentaire, information, post, utilisateur"
+
+#~ msgid "Permanent link"
+#~ msgstr "Lien permanent"
+
+#~ msgid "Comment %s on %s"
+#~ msgstr "Commentaire de %s sur %s"
+
+#~ msgid "Comment,information,post,user"
+#~ msgstr "Commentaire, information, post, utilisateur"
 
 #~ msgid "Comment portal for %s"
 #~ msgstr "Portail commentaire pour %s"

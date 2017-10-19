@@ -88,6 +88,7 @@ $config = array(
         'title'         => _t('Trust domain'),
         'description'   => "Separe domains by a comma",
         'filter'        => 'text',
+        'value'         => parse_url(Pi::url())['host']
     ),
     'time_to_edit_or_delete' => array(
         'title'         => _t('Time to edit/delete '),

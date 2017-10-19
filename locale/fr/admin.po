@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Pi-comment\n"
-"POT-Creation-Date: 2017-10-11 21:29+0200\n"
-"PO-Revision-Date: 2017-10-11 21:29+0200\n"
+"POT-Creation-Date: 2017-10-19 08:33+0200\n"
+"PO-Revision-Date: 2017-10-19 08:34+0200\n"
 "Last-Translator: Marc Desrousseaux\n"
 "Language-Team: Marc Desrousseaux\n"
 "Language: fr\n"
@@ -177,13 +177,21 @@ msgstr "Indiquer ici le format Date et Heure (méthode PHO - exemple d/m/Y H:i)"
 msgid "URL for admin badge"
 msgstr "URL pour le badge admin"
 
+#: config/config.php:107
+msgid "Intro for Index Page"
+msgstr "Intro pour la page Index"
+
+#: config/config.php:108
+msgid "Text displayed on top of Index Page Comment List"
+msgstr "Texte affiché au dessus de la liste des Commentaires sur la page Index"
+
 #: config/module.php:17
 msgid "Comment"
 msgstr "Commentaire"
 
 #: config/module.php:18
-msgid "Comment management and services."
-msgstr "Gestion des commentaires et services associés."
+msgid "Comment & Review management and services."
+msgstr "Gestion des commentaires/Avis et services associés."
 
 #: config/nav.php:14 config/nav.php:61
 msgid "All comments"
@@ -205,42 +213,49 @@ msgstr "Mes articles"
 msgid "Portal"
 msgstr "Portail"
 
-#: config/nav.php:71 config/nav.php:80
-#: src/Controller/Admin/IndexController.php:82
+#: config/nav.php:71
+msgid "All posts"
+msgstr "Tous"
+
+#: config/nav.php:80 src/Controller/Admin/IndexController.php:82
 msgid "Active posts"
 msgstr "Commentaires actifs"
 
 #: config/nav.php:89 src/Controller/Admin/IndexController.php:91
-#: src/Controller/Admin/ListController.php:233
-#: src/Controller/Admin/ListController.php:419
+#: src/Controller/Admin/ListController.php:241
+#: src/Controller/Admin/ListController.php:427
 msgid "Inactive posts"
 msgstr "Commentaires inactifs"
 
-#: config/nav.php:100
+#: config/nav.php:98
+msgid "Orphan posts"
+msgstr "Orphelins"
+
+#: config/nav.php:110
 msgid "Types"
 msgstr "Types"
 
-#: config/nav.php:106
+#: config/nav.php:116
 msgid "By module"
 msgstr "Par module"
 
-#: config/nav.php:112
+#: config/nav.php:122
 msgid "By user"
 msgstr "Par utilisateur"
 
-#: config/nav.php:118
+#: config/nav.php:128
 msgid "By article"
 msgstr "Par article"
 
-#: config/nav.php:128
+#: config/nav.php:138
 msgid "Article with comments"
 msgstr "Article avec commentaires"
 
-#: config/nav.php:137
+#: config/nav.php:147
 msgid "Article with active comments"
 msgstr "Articles avec commentaires actifs"
 
-#: config/nav.php:148
+#: config/nav.php:158
 msgid "Rating types"
 msgstr "Type d'avis"
 
@@ -258,17 +273,17 @@ msgid "Comment portal for %s"
 msgstr "Portail commentaire pour %s"
 
 #: src/Controller/Admin/IndexController.php:26
-#: src/Controller/Admin/ListController.php:93
+#: src/Controller/Admin/ListController.php:101
 msgid "All comment posts"
 msgstr "Tous les commentaires"
 
 #: src/Controller/Admin/IndexController.php:33
-#: src/Controller/Admin/ListController.php:97
+#: src/Controller/Admin/ListController.php:105
 msgid "All active comment posts"
 msgstr "Tous les commentaires actifs"
 
 #: src/Controller/Admin/IndexController.php:41
-#: src/Controller/Admin/ListController.php:95
+#: src/Controller/Admin/ListController.php:103
 msgid "All inactive comment posts"
 msgstr "Tous les commentaires inactifs"
 
@@ -284,52 +299,52 @@ msgstr "Commentaires par module"
 msgid "Total posts"
 msgstr "Nombre de commentaires"
 
-#: src/Controller/Admin/ListController.php:136
+#: src/Controller/Admin/ListController.php:144
 msgid "Comments by username or id"
 msgstr "Commentaires par nom compte ou numéro"
 
-#: src/Controller/Admin/ListController.php:183
+#: src/Controller/Admin/ListController.php:191
 msgid "Comment posts of user"
 msgstr "Commentaires de l'utilisateur"
 
-#: src/Controller/Admin/ListController.php:216
-#: src/Controller/Admin/ListController.php:400
+#: src/Controller/Admin/ListController.php:224
+#: src/Controller/Admin/ListController.php:408
 msgid "All Posts"
 msgstr "Tous les commentaires"
 
-#: src/Controller/Admin/ListController.php:224
-#: src/Controller/Admin/ListController.php:409
+#: src/Controller/Admin/ListController.php:232
+#: src/Controller/Admin/ListController.php:417
 msgid "Active Posts"
 msgstr "Commentaires actifs"
 
-#: src/Controller/Admin/ListController.php:255
+#: src/Controller/Admin/ListController.php:263
 #: src/Controller/Admin/TypeController.php:22
 msgid "Comment types"
 msgstr "Types de commentaires"
 
-#: src/Controller/Admin/ListController.php:357
+#: src/Controller/Admin/ListController.php:365
 #, php-format
 msgid "Comment posts of Module %s with type %s"
 msgstr "Commentaires du module %s avec le type %s"
 
-#: src/Controller/Admin/ListController.php:363
+#: src/Controller/Admin/ListController.php:371
 #, php-format
 msgid "Comment posts of Module %s"
 msgstr "Commentaires du module %s"
 
-#: src/Controller/Admin/ListController.php:472
+#: src/Controller/Admin/ListController.php:480
 msgid "Guest"
 msgstr "Invité"
 
-#: src/Controller/Admin/ListController.php:511
+#: src/Controller/Admin/ListController.php:519
 msgid "All commented articles"
 msgstr "Tous les articles commentés"
 
-#: src/Controller/Admin/ListController.php:513
+#: src/Controller/Admin/ListController.php:521
 msgid "All active commented articles"
 msgstr "Tous les articles actifs commentés"
 
-#: src/Controller/Admin/ListController.php:585
+#: src/Controller/Admin/ListController.php:593
 #: src/Controller/Admin/PostController.php:271
 #: src/Controller/Admin/TypeController.php:102
 msgid "Operation succeeded."
@@ -505,6 +520,9 @@ msgstr "Type d'utilisateur, numéro ou identité"
 #: template/admin/comment-user.phtml:19
 msgid "Submit"
 msgstr "Valider"
+
+#~ msgid "Intro"
+#~ msgstr "Intro"
 
 #~ msgid "Build comment data for demo articles"
 #~ msgstr "Données de commentaires crées pour les articles démo"

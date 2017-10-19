@@ -17,23 +17,26 @@ $templateUserComment = <<<'EOT'
 EOT;
 
 $templateUserReview = <<<'EOT'
-    <div class="small ratings">%s</div>
-    <div class="media-heading" itemprop="creator" itemscope itemtype="https://schema.org/Person">
-        <ul class="list-inline no-margin-bottom">
-            <li><a href="%s" target="_blank" itemprop="name">%s</a></li>
-            <li class="muted small gray">%s</li>
-            <li class="muted small">%s</li>
-        </ul>
-    </div>
-    <div class="small gray time-experience clearfix" data-time="%s">
-        %s : 
+    <div itemscope itemtype="http://schema.org/Review">
+        <div class="small ratings">%s</div>
+        <div class="media-heading" itemprop="author" itemscope itemtype="https://schema.org/Person">
+            <ul class="list-inline no-margin-bottom">
+                <li><a href="%s" target="_blank" itemprop="name">%s</a></li>
+                <li class="muted small gray">%s</li>
+                <li class="muted small">%s</li>
+            </ul>
+        </div>
+        <div class="small gray time-experience clearfix" data-time="%s">
+            %s : 
+            %s
+        </div>
+        <p>
+            <div class="clearfix commentText" itemprop="reviewBody">%s</div>
+        </p>
         %s
+        <meta itemprop="datePublished" content="%s" />
     </div>
-    <p>
-        <div class="clearfix commentText" itemprop="commentText">%s</div>
-    </p>
-    %s
-    <meta itemprop="commentTime" content="%s" />
+    
 EOT;
 
 $templateGuest = <<<'EOT'

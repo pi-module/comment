@@ -84,8 +84,12 @@ $config = array(
         ),
         'filter'        => 'array',
     ),
-    
-     'time_to_edit_or_delete' => array(
+   'linkify_trust_domain'  => array(
+        'title'         => _t('Trust domain'),
+        'description'   => "Separe domains by a comma",
+        'filter'        => 'text',
+    ),
+    'time_to_edit_or_delete' => array(
         'title'         => _t('Time to edit/delete '),
         'description'   => _t('Time to edit/delete a comment, in second'),
         'value'         => 300,

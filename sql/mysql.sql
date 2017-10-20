@@ -63,7 +63,7 @@ CREATE TABLE `{post}` (
   `time_experience` INT( 11 ) NULL DEFAULT NULL,
   `main_image`      VARCHAR(255),
   `additional_images`   TEXT,
-  `source` 	 ENUM ("WEB", "MOBILE", UNKNOW) NOT NULL DEFAULT  'WEB',
+  `source` 	 ENUM ("WEB", "MOBILE") NOT NULL DEFAULT  'WEB',
   PRIMARY KEY (`id`),
   KEY `uid` (`uid`),
   KEY `root` (`root`)

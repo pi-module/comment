@@ -24,168 +24,32 @@ EOT;
 
 $badgeAdmin = Pi::service('config') -> get('badge_admin', 'comment');
 ?>
-    <div class="pi-comment">
-        <?php if ($posts) { ?>
-            <div class="pi-comment-list" id="pi-comment-lead">
-                <h1 class="pi-comment-header"><?php echo __('All active comments ') . " ({$count})"; ?></h1>
-                <div class="well">
-                    <?php echo Pi::service('config') -> get('intro', 'comment') ?>
-                </div>
-                <?php foreach ($posts[0] as $post) { ?>
-                    <div class="pi-comment-single media">
-                         <div class="avatar-column text-center">
-                             <div>
-                            <?php if ($post['uid'] > 0) { ?>
-                                <a class="avatar-img-wrapper" href="<?php echo $post['user']['url']; ?>">
-                                    <?php echo Pi::avatar()->get($post['uid'], 'large'); ?>
-                                </a>
-                            <?php } else { ?>
-                                <p class="avatar-img-wrapper">
-                                    <?php echo Pi::avatar()->get($post['uid'], 'large'); ?>
-                                </p>
-                            <?php } ?>
-                            </div>
-                            <small>
-                                <?php echo !empty($post['user']['location_city']) ? $post['user']['location_city']  . '</br>' : ''?>
-                                <?php echo !empty($post['user']['location_country']) ? $post['user']['location_country']  . '</br>' : ''?>
-                                <?php echo $post['user']['contributions'] ?>&nbsp;<?php _e('contributions') ?>
-                            </small>
-                        </div>
-                        <div class="media-body">
-                            <ul class="list-inline">
-                                <li class="pi-comment-user">
-                                    <?php if ($post['uid'] > 0) { ?>
-                                        <a href="<?php echo $post['user']['url']; ?>" target="_blank" title="<?php echo $post['user']['name']; ?>" class="highlight">
-                                            <?php echo $post['user']['name']; ?>
-                                        </a>
-                                    <?php } else { ?>
-                                        <?php echo $post['identity']; ?>
-                                    <?php } ?>
-                                </li>
-                                <li class="pull-right muted pi-comment-time"><?php echo _date($post['time']); ?></li>
-                            </ul>
-                            <div class="pi-comment-desc">
-                                <p>
-                                    <?php _e('Commented on '); ?></li>
-                                    <a target="_blank" class="highlight " href="<?php echo Pi::url(Pi::api('api', 'comment')->getUrl('post', array('post' => $post['id']))) ?>" title="<?php echo $post['target']['title']; ?>">
-                                        <?php echo $post['target']['title']; ?>
-                                    </a>
-                                </p>
-                            </div>
-                            <?php if ($post['type'] == 'REVIEW' && $post['reply'] == 0) {
-                                $ratings = '';
-                                foreach ($post['rating'] as $id => $rating) {
-                                    $star = sprintf($templateRating, 
-                                        $rating['rating'] > 0 ? 'fa-star' : 'fa-star-o',
-                                        $rating['rating'] > 1 ? 'fa-star' : 'fa-star-o',
-                                        $rating['rating'] > 2 ? 'fa-star' : 'fa-star-o',
-                                        $rating['rating'] > 3 ? 'fa-star' : 'fa-star-o',
-                                        $rating['rating'] > 4 ? 'fa-star' : 'fa-star-o'
-                                    );  
-                                    $ratings .= '<div data-value="' . $rating['rating'] . '" for="rating-' . $id . '">' . $rating['type'] . ' : ';
-                                    $ratings .=  $star;
-                                    $ratings .=  '</div>';
-                                }
-                            ?>
-                                <div class="small ratings">
-                                    <p><?php echo $ratings ?></p>
-                                </div>
-                                <p class="small">
-                                    <?php echo __('Experience time') . ': ' . _date($post['time_experience']) ?>
-                                </p>
-                            <?php } ?>
-                            
-                            <div class="pi-comment-content">
-                                <?php echo $post['content']; ?>
-                            </div>                           
-                        </div>
-                    </div>
-                    <br/>
-                    <hr/>
-                    <?php if (isset($posts[$post['id']])) { ?>
-                        <?php $replies = array_reverse($posts[$post['id']]); ?>
-                        <?php foreach ($replies as $reply) { ?>
-                            <?php
-                                $badge = '';
-                                if ($reply['writer'] == 'OWNER') {
-                                    $badge = '<div class="badge-owner">' . __('OWNER') . '</div>';
-                                } else if ($reply['writer'] == 'ADMIN' && $badgeAdmin) {
-                                    $badge = '<img src="' . $badgeAdmin . '" />';
-                                    
-                                }
-                            ?>
-                            <div class="pi-comment-single media comment-item is-reply <?php echo'comment-' . strtolower($reply['writer']) ?>">
-                                 <div class="avatar-column">
-                                    <?php if ($reply['uid'] > 0) { ?>
-                                        <a class="pull-left avatar-img-wrapper" href="<?php echo $reply['user']['url']; ?>">
-                                            <?php echo Pi::avatar()->get($reply['uid'], 'large'); ?>
-                                        </a>
-                                    <?php } else { ?>
-                                        <p class="pull-left avatar-img-wrapper">
-                                            <?php echo Pi::avatar()->get($reply['uid'], 'large'); ?>
-                                        </p>
-                                    <?php } ?>
-                                   
-                                </div>
-                                <div class="media-body">
-                                    <ul class="list-inline">
-                                        <li class="pi-comment-user">
-                                            <?php if ($reply['uid'] > 0) { ?>
-                                                <a href="<?php echo $reply['user']['url']; ?>" target="_blank" title="<?php echo $reply['user']['name']; ?>" class="highlight">
-                                                    <?php echo $reply['user']['name']; ?>
-                                                </a>
-                                            <?php } else { ?>
-                                                <?php echo $reply['identity']; ?>
-                                            <?php } ?>
-                                            <span>&nbsp;<?php echo $badge ?></span>
-                                        </li>
-                                        <li class="pull-right muted pi-comment-time"><?php echo _date($reply['time']); ?></li>
-                                    </ul>
-                                    <div class="pi-comment-desc">
-                                        <p>
-                                            <?php _e('Commented on '); ?></li>
-                                            <a target="_blank" class="highlight " href="<?php echo Pi::url(Pi::api('api', 'comment')->getUrl('post', array('post' => $post['id']))) ?>" title="<?php echo $reply['target']['title']; ?>">
-                                                <?php echo $reply['target']['title']; ?>
-                                            </a>
-                                        </p>
-                                    </div>
-                                    <?php if ($reply['type'] == 'REVIEW' && $reply['reply'] == 0) {
-                                        $ratings = '';
-                                        foreach ($reply['rating'] as $id => $rating) {
-                                            $star = sprintf($templateRating, 
-                                                $rating['rating'] > 0 ? 'fa-star' : 'fa-star-o',
-                                                $rating['rating'] > 1 ? 'fa-star' : 'fa-star-o',
-                                                $rating['rating'] > 2 ? 'fa-star' : 'fa-star-o',
-                                                $rating['rating'] > 3 ? 'fa-star' : 'fa-star-o',
-                                                $rating['rating'] > 4 ? 'fa-star' : 'fa-star-o'
-                                            );  
-                                            $ratings .= '<div data-value="' . $rating['rating'] . '" for="rating-' . $id . '">' . $rating['type'] . ' : ';
-                                            $ratings .=  $star;
-                                            $ratings .=  '</div>';
-                                        }
-                                    ?>
-                                        <div class="small ratings">
-                                            <p><?php echo $ratings ?></p>
-                                        </div>
-                                        <p class="small">
-                                            <?php echo __('Experience time') . ': ' . _date($reply['time_experience']) ?>
-                                        </p>
-                                    <?php } ?>
-                                    
-                                    <div class="pi-comment-content">
-                                        <?php echo $reply['content']; ?>
-                                    </div>                           
-                                </div>
-                            </div>
-                            <br/>
-                            <hr/>
-                        <?php } ?>
-                    <?php } ?>
-                <?php } ?>
+
+<div class="clearfix">
+    <div class="pi-comment guide-manage clearfix row">
+        <?php if ($my) { ?>
+            <div class="manage-sidebar col-md-3">
+                <?php include $this->templateModule('front/user-profile-sidebar.phtml', 'user'); ?>
             </div>
+            <div class="col-md-9">
         <?php } else { ?>
-            <div class="pi-comment-none"><?php _e('No comments available yet.'); ?></div>
-        <?php } ?>
+            <div>
+        <?php } ?> 
+            <?php if ($posts) { ?>
+                <div class="pi-comment-list" id="pi-comment-lead">
+                    <div class="page-header clearfix">
+                        <h1 class=""><?php echo __('All active comments ') . " ({$count})"; ?></h1>
+                    </div>
+                    <div class="well">
+                        <?php echo Pi::service('config') -> get('intro', 'comment') ?>
+                    </div>
+                    <?php include $this->template('front/partial/paginate-comments-list.phtml'); ?>
+
+                </div>
+            <?php } else { ?>
+                <div class="pi-comment-none"><?php _e('No comments available yet.'); ?></div>
+            <?php } ?>
+        </div>
     </div>
 <?php
 if ($posts && $paginator) {

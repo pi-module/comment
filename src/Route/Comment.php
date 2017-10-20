@@ -80,7 +80,13 @@ class Comment extends Standard
                     );
                 }
 
-            } 
+            }  else if ('my' == $term) {
+                $matches = array(
+                    'controller'    => 'index',
+                    'action'        => 'index',
+                    'my'            => true,
+                );
+            }
 
             if ($matches && $parts) {
                 $matches = array_merge($matches, $this->parseParams($parts));

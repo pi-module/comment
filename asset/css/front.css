@@ -9,6 +9,10 @@
     padding: 10px 15px;
     margin-bottom: 20px;
 }
+
+.userSection .pi-comment {padding:0; border:none}
+.userSection .comment {margin:0}
+
 .pi-comment-header {
     font-size: 16px;
     font-weight: bold;
@@ -25,6 +29,8 @@ div.media > .pull-left {
     margin-right: 5px;
     margin-left: 5px;
 }
+.manage-sidebar div.media > .pull-left {margin:0}
+
 img {
     border-radius: 3px;
 }
@@ -138,13 +144,6 @@ a.muted:hover,
     display: inline-block;
     vertical-align: bottom;
     margin-right: 10px;
-}
-
-.nav-tabs a {
-    font-size: 13px;
-    font-weight: bold;
-    color: #0088cc;
-    font-family: helvetica;
 }
 
 .comment-title-hidden {
@@ -419,3 +418,5 @@ input.subscription {
 .comment-operation a:hover {color:#337ab7}
 
 .resume-ratings .pull-right {margin-top:5px}
+
+#pi-comment.userSection .container {width:auto;max-width:none}

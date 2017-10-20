@@ -26,67 +26,17 @@ class IndexController extends ActionController
      */
     public function indexAction()
     {
-        /*
-        $active = _get('active');
-        //vd($active);
-        if (null !== $active) {
-            $active = (int) $active;
-        }
-        */
-        $active = 1;
         $page   = _get('page', 'int') ?: 1;
-        $limit  = $this->config('list_limit') ?: 10;
-        $offset = ($page - 1) * $limit;
-
-        $where = array(
-            'active' => $active,
-            'reply' => 0
-        );
+        $where = array('active' => 1);
         
-        
-        $select = Pi::model('post', 'comment')->select()->where($where)->order('id desc');
-        $posts = Pi::model('post', 'comment')->selectWith($select);
-        $counter = array();
-        $pages = array();
-        $perpage = $this->config('leading_limit') ?: 5;
-        
-        foreach ($posts as $post) {
-            if (!isset($counter[$post['type']][$post['root']])) {
-                $counter[$post['type']][$post['root']] = 0;
-            } 
-            $counter[$post['type']][$post['root']]++;
-            $pages[$post['id']] = ((int)($counter[$post['type']][$post['root']] / $perpage)) + 1;
+        $uid = null;
+        if ($this->params('my')) {
+            $uid = Pi::user()->getId();
+            $this->view()->assign('my', true);
         }
-   
-        $where = array('active' => $active);
-        $posts = Pi::api('api', 'comment')->getList(
-            \Module\Comment\Model\Post::TYPE_ALL,
-            $where,
-            $limit,
-            $offset
-        );
-        $renderOptions = array(
-            'operation' => $this->config('display_operation'),
-            'user'      => array(
-                'avatar'      => 'medium',
-                'attributes'  => array(
-                    'alt'     => __('View profile'),
-                ),
-            ),
-        );
-        $posts = Pi::api('api', 'comment')->renderList($posts, $renderOptions);
-        $count = Pi::api('api', 'comment')->getCount($where);
+        
+        $result = Pi::api('api', 'comment')->getComments($page, $uid);
 
-        //$params = (null === $active) ? array() : array('active' => $active);
-        $paginator = Paginator::factory($count, array(
-            'page'          => $page,
-            'limit'         => $limit,
-            /*
-            'url_options'   => array(
-                'params'    => $params,
-            ),
-            */
-        ));
         if (null === $active) {
             $title = __('All comment posts');
         } elseif (!$active) {
@@ -96,11 +46,11 @@ class IndexController extends ActionController
         }
         $this->view()->assign('comment', array(
             'title'     => $this->config('head_title'),
-            'count'     => $count,
-            'posts'     => $posts,
-            'paginator' => $paginator,
+            'count'     => $result['count'],
+            'posts'     => $result['posts'],
+            'paginator' => $result['paginator'],
         ));
-        $this->view()->assign('pages', $pages);
+        
         $this->view()->setTemplate('comment-list');
         $this->view()->headTitle($this->config('head_title'));
         $this->view()->headMeta($this->config('head_title'), 'twitter:title', 'name');

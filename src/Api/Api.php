@@ -15,6 +15,7 @@ use Pi\Db\Sql\Where;
 use Pi\Db\RowGateway\RowGateway;
 use Module\Comment\Form\PostForm;
 use Zend\Mvc\Router\RouteMatch;
+use Pi\Paginator\Paginator;
 
 /**
  * Comment manipulation APIs
@@ -1909,5 +1910,53 @@ class Api extends AbstractApi
             'uid' => $uid,
         );
         return Pi::model('post', 'comment')->count($where);        
+    }
+    
+    public function getComments($page, $uid = null)
+    {
+        $perpage = Pi::config('leading_limit', 'comment') ?: 5;
+        $limit  = Pi::config('list_limit', 'comment') ?: 10;
+        $offset = ($page - 1) * $limit;
+        
+        $where = array(
+            'active' => 1,
+        );
+        if ($uid) {
+            $where['uid'] = $uid;
+        }
+        
+        $posts = $this->getList(
+            \Module\Comment\Model\Post::TYPE_ALL,
+            $where,
+            $limit,
+            $offset
+        );
+        
+        $renderOptions = array(
+            'operation' => Pi::config('display_operation', 'comment'),
+            'user'      => array(
+                'avatar'      => 'medium',
+                'attributes'  => array(
+                    'alt'     => __('View profile'),
+                ),
+            ),
+        );
+        
+                
+        
+        $posts = $this->renderList($posts, $renderOptions);
+        $count = $this->getCount($where);
+        
+        $paginator = Paginator::factory($count, array(
+            'page'          => $page,
+            'limit'         => $limit,
+
+        ));
+        
+        return array(
+            'count' => $count,
+            'posts' => $posts,
+            'paginator' => $paginator,
+        );
     }
 }

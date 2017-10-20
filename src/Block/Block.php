@@ -61,7 +61,7 @@ class Block
         } 
         $block['posts'] = $posts;
         foreach ($block['posts'] as &$post) {
-            if ($post['type'] == 'REVIEW') { 
+            if ($post['type'] == 'REVIEW' && $post['reply'] == 0) { 
                 $post['globalRating'] = Pi::api('api', 'comment')->globalRatingByPost($post['id']);
             }
             

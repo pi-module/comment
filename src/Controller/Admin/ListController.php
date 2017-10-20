@@ -85,7 +85,7 @@ class ListController extends ActionController
                 $posts[$key] = $data;
             }
         }
-        
+        krsort($posts);
         $count = Pi::service('comment')->getCount(array('active' => $active));
 
         $paginator = Paginator::factory($count, array(

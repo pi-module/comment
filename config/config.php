@@ -86,7 +86,7 @@ $config = array(
     ),
    'linkify_trust_domain'  => array(
         'title'         => _t('Trust domain'),
-        'description'   => "Separe domains by a comma",
+        'description'   => _t("Separe domains by a comma. Trust domains urls are dofollow, otherwise non trust domains urls are rel=nofollow"),
         'filter'        => 'text',
         'value'         => parse_url(Pi::url())['host']
     ),

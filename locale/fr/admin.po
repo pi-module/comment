@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Pi-comment\n"
-"POT-Creation-Date: 2017-10-19 08:33+0200\n"
-"PO-Revision-Date: 2017-10-19 08:34+0200\n"
+"POT-Creation-Date: 2017-10-21 11:29+0200\n"
+"PO-Revision-Date: 2017-10-21 11:30+0200\n"
 "Last-Translator: Marc Desrousseaux\n"
 "Language-Team: Marc Desrousseaux\n"
 "Language: fr\n"
@@ -155,33 +155,46 @@ msgstr "Activer le lien UserName"
 msgid "Enable URL link"
 msgstr "Activer le lien URL"
 
+#: config/config.php:88
+msgid "Trust domain"
+msgstr "Domaine de confiance"
+
 #: config/config.php:89
+msgid ""
+"Separe domains by a comma. Trust domains urls are dofollow, otherwise non "
+"trust domains urls are rel=nofollow"
+msgstr ""
+"Séparer les domaines par une virgule. Les urls des domaines de confiance are "
+"dofollow, les domaines qui ne sont pas de confiance ont leur url avec "
+"rel=nofollow"
+
+#: config/config.php:94
 msgid "Time to edit/delete "
 msgstr "Limite de temps pour Edition/Suppression"
 
-#: config/config.php:90
+#: config/config.php:95
 msgid "Time to edit/delete a comment, in second"
 msgstr "Durée laissée pour éditer/supprimer un commentaire, en secondes"
 
-#: config/config.php:96
+#: config/config.php:101
 msgid "Date & Time format "
 msgstr "Format Date et Heure"
 
-#: config/config.php:97
+#: config/config.php:102
 msgid ""
 "Indicate here the desired Date & Time format (PHP way - for instance d/m/Y H:"
 "i)"
 msgstr "Indiquer ici le format Date et Heure (méthode PHO - exemple d/m/Y H:i)"
 
-#: config/config.php:102
+#: config/config.php:107
 msgid "URL for admin badge"
 msgstr "URL pour le badge admin"
 
-#: config/config.php:107
+#: config/config.php:112
 msgid "Intro for Index Page"
 msgstr "Intro pour la page Index"
 
-#: config/config.php:108
+#: config/config.php:113
 msgid "Text displayed on top of Index Page Comment List"
 msgstr "Texte affiché au dessus de la liste des Commentaires sur la page Index"
 

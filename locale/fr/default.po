@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Pi-comment\n"
-"POT-Creation-Date: 2017-10-19 08:29+0200\n"
-"PO-Revision-Date: 2017-10-19 08:29+0200\n"
+"POT-Creation-Date: 2017-10-21 11:30+0200\n"
+"PO-Revision-Date: 2017-10-21 11:30+0200\n"
 "Last-Translator: Marc Desrousseaux\n"
 "Language-Team: Marc Desrousseaux\n"
 "Language: fr\n"
@@ -39,40 +39,44 @@ msgstr "Message désactivé"
 msgid "Post deleted"
 msgstr "Message supprimé"
 
-#: src/Api/Api.php:598
+#: src/Api/Api.php:599
 msgid "Guest"
 msgstr "Invité"
 
-#: src/Api/Api.php:640 src/Controller/Front/PostController.php:482
+#: src/Api/Api.php:641 src/Controller/Front/PostController.php:482
 #: src/Form/RatingTypeForm.php:67 template/admin/rating-type-index.phtml:16
 #: template/admin/rating-type-index.phtml:19
-#: template/front/partial/paginate-comments.phtml:181
-#: template/front/partial/paginate-comments.phtml:264
+#: template/front/partial/paginate-comments.phtml:184
+#: template/front/partial/paginate-comments.phtml:267
 msgid "Edit"
 msgstr "Editer"
 
-#: src/Api/Api.php:641 src/Api/Api.php:697
+#: src/Api/Api.php:642 src/Api/Api.php:698
 msgid "Enable"
 msgstr "Activer"
 
-#: src/Api/Api.php:642 src/Controller/Front/PostController.php:489
+#: src/Api/Api.php:643 src/Controller/Front/PostController.php:489
 #: template/admin/rating-type-index.phtml:20
-#: template/front/partial/paginate-comments.phtml:178
-#: template/front/partial/paginate-comments.phtml:261
+#: template/front/partial/paginate-comments.phtml:181
+#: template/front/partial/paginate-comments.phtml:264
 msgid "Delete"
 msgstr "Supprimer"
 
-#: src/Api/Api.php:643 src/Controller/Front/PostController.php:496
-#: template/front/partial/paginate-comments.phtml:185
-#: template/front/partial/paginate-comments.phtml:194
-#: template/front/partial/paginate-comments.phtml:268
-#: template/front/partial/paginate-comments.phtml:277
+#: src/Api/Api.php:644 src/Controller/Front/PostController.php:496
+#: template/front/partial/paginate-comments.phtml:188
+#: template/front/partial/paginate-comments.phtml:197
+#: template/front/partial/paginate-comments.phtml:271
+#: template/front/partial/paginate-comments.phtml:280
 msgid "Reply"
 msgstr "Répondre"
 
-#: src/Api/Api.php:694
+#: src/Api/Api.php:695
 msgid "Disable"
 msgstr "Désactiver"
+
+#: src/Api/Api.php:1940 src/Block/Block.php:43
+msgid "View profile"
+msgstr "Voir le profil"
 
 #: src/Api/Article.php:40
 #, php-format
@@ -88,10 +92,6 @@ msgstr "Article personnalisé %d"
 #, php-format
 msgid "Comment by %s"
 msgstr "Commentaire de %s"
-
-#: src/Block/Block.php:43 src/Controller/Front/IndexController.php:73
-msgid "View profile"
-msgstr "Voir le profil"
 
 #: src/Controller/Admin/PostController.php:347
 #: src/Controller/Front/PostController.php:79
@@ -126,15 +126,15 @@ msgstr "Flux de commentaire"
 msgid "Latest comments."
 msgstr "Derniers commentaires"
 
-#: src/Controller/Front/IndexController.php:91
+#: src/Controller/Front/IndexController.php:41
 msgid "All comment posts"
 msgstr "Tous les commentaires"
 
-#: src/Controller/Front/IndexController.php:93
+#: src/Controller/Front/IndexController.php:43
 msgid "All inactive comment posts"
 msgstr "Tous les commentaires inactifs"
 
-#: src/Controller/Front/IndexController.php:95
+#: src/Controller/Front/IndexController.php:45
 msgid "All active comment posts"
 msgstr "Tous les commentaires actifs"
 
@@ -242,9 +242,10 @@ msgid "Additional images"
 msgstr "Images complémentaires"
 
 #: src/Form/PostForm.php:239 template/front/_post-form.phtml:77
-#: template/front/comment-edit.phtml:67 template/front/comment-list.phtml:94
-#: template/front/comment-list.phtml:171
-#: template/front/partial/paginate-comments.phtml:145
+#: template/front/comment-edit.phtml:67
+#: template/front/partial/paginate-comments-list.phtml:63
+#: template/front/partial/paginate-comments-list.phtml:140
+#: template/front/partial/paginate-comments.phtml:148
 msgid "Experience time"
 msgstr "Date expérience"
 
@@ -278,8 +279,8 @@ msgstr "Aucune donnée disponible actuellement."
 #: template/admin/comment-module.phtml:119
 #: template/admin/comment-user.phtml:120 template/admin/comment-view.phtml:111
 #: template/front/comment-view.phtml:70
-#: template/front/partial/paginate-comments.phtml:177
-#: template/front/partial/paginate-comments.phtml:260
+#: template/front/partial/paginate-comments.phtml:180
+#: template/front/partial/paginate-comments.phtml:263
 msgid "Are you sure to delete this comment?"
 msgstr "Etes-vous sûr de vouloir supprimer ce commentaire?"
 
@@ -302,8 +303,9 @@ msgid "Comment #%d"
 msgstr "Commentaire n°%d"
 
 #: template/admin/comment-view.phtml:55 template/front/comment-edit.phtml:46
-#: template/front/comment-list.phtml:69 template/front/comment-list.phtml:146
 #: template/front/comment-reply.phtml:75 template/front/comment-view.phtml:54
+#: template/front/partial/paginate-comments-list.phtml:38
+#: template/front/partial/paginate-comments-list.phtml:115
 msgid "Commented on "
 msgstr "Commenté sur"
 
@@ -407,22 +409,11 @@ msgstr ""
 "Désolé, un propriétaire ne peut pas écrire un avis sur son propre bien/"
 "activité"
 
-#: template/front/comment-list.phtml:30
+#: template/front/comment-list.phtml:41
 msgid "All active comments "
 msgstr "Tous les commentaires actifs"
 
-#: template/front/comment-list.phtml:51
-#: template/front/partial/paginate-comments.phtml:92
-msgid "contributions"
-msgstr "contributions"
-
-#: template/front/comment-list.phtml:111
-#: template/front/partial/paginate-comments.phtml:68
-#: template/front/partial/paginate-comments.phtml:207
-msgid "OWNER"
-msgstr "PROPRIETAIRE"
-
-#: template/front/comment-list.phtml:187
+#: template/front/comment-list.phtml:50
 msgid "No comments available yet."
 msgstr "Aucun commentaire disponible actuellement."
 
@@ -431,8 +422,19 @@ msgstr "Aucun commentaire disponible actuellement."
 msgid "Comment reply to %s"
 msgstr "Commentaire en réponse à %s"
 
-#: template/front/partial/paginate-comments.phtml:197
-#: template/front/partial/paginate-comments.phtml:280
+#: template/front/partial/paginate-comments-list.phtml:20
+#: template/front/partial/paginate-comments.phtml:95
+msgid "contributions"
+msgstr "contributions"
+
+#: template/front/partial/paginate-comments-list.phtml:80
+#: template/front/partial/paginate-comments.phtml:71
+#: template/front/partial/paginate-comments.phtml:210
+msgid "OWNER"
+msgstr "PROPRIETAIRE"
+
+#: template/front/partial/paginate-comments.phtml:200
+#: template/front/partial/paginate-comments.phtml:283
 msgid "Share"
 msgstr "Partager"
 

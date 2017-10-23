@@ -12,35 +12,13 @@ EOT;
 ?>
 <?php foreach ($posts[0] as $post) { ?>
     <div class="pi-comment-single media">
-         <div class="avatar-column text-center">
-             <div>
-            <?php if ($post['uid'] > 0) { ?>
-                <a class="avatar-img-wrapper" href="<?php echo $post['user']['url']; ?>">
-                    <?php echo Pi::avatar()->get($post['uid'], 'large'); ?>
-                </a>
-            <?php } else { ?>
-                <p class="avatar-img-wrapper">
-                    <?php echo Pi::avatar()->get($post['uid'], 'large'); ?>
-                </p>
+        <div class="avatar-column text-center">
+            <?php if ($post['imageUrl']) { ?>
+                <img class="img-responsive main_image" src="<?php echo $post['imageUrl'] ?>" />';*
             <?php } ?>
-            </div>
-            <small>
-                <?php echo !empty($post['user']['location_city']) ? $post['user']['location_city']  . '</br>' : ''?>
-                <?php echo !empty($post['user']['location_country']) ? $post['user']['location_country']  . '</br>' : ''?>
-                <?php echo $post['user']['contributions'] ?>&nbsp;<?php _e('contributions') ?>
-            </small>
         </div>
         <div class="media-body">
             <ul class="list-inline">
-                <li class="pi-comment-user">
-                    <?php if ($post['uid'] > 0) { ?>
-                        <a href="<?php echo $post['user']['url']; ?>" target="_blank" title="<?php echo $post['user']['name']; ?>" class="highlight">
-                            <?php echo $post['user']['name']; ?>
-                        </a>
-                    <?php } else { ?>
-                        <?php echo $post['identity']; ?>
-                    <?php } ?>
-                </li>
                 <li class="pull-right muted pi-comment-time"><?php echo _date($post['time']); ?></li>
             </ul>
             <div class="pi-comment-desc">

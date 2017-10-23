@@ -139,6 +139,10 @@ a.muted:hover,
     margin: 10px 0 0 0;
     font-size: 13px;
 }
+.pi-comment-list.my .pi-comment-desc {
+    margin: -10px 0 0 0;
+}
+
 .form-cancel {
     font-size: 14px;
     display: inline-block;

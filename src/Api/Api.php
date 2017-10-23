@@ -1412,7 +1412,7 @@ class Api extends AbstractApi
      *
      * @return array|bool
      */
-    public function getList($type,  $condition, $limit = null, $offset = 0, $order = null, $notByRoot = false)
+    public function getList($type, $condition, $limit = null, $offset = 0, $order = null, $notByRoot = false, $mainImage = false)
     {
         $result = array();
         $specialCondition = false;
@@ -1439,7 +1439,7 @@ class Api extends AbstractApi
                 );
             }
             //vd($wherePost);
-            if ($specialCondition) {
+            if ($mainImage || $specialCondition) {
                 $where = array();
                 foreach ($wherePost as $field => $value) {
                     $where['post.' . $field] = $value;
@@ -1475,12 +1475,12 @@ class Api extends AbstractApi
             $select->where('post.type = "' . $whereType . '"');
         }
                 
-        if ($specialCondition) {
+        if ($mainImage || $specialCondition) {
             $order = null === $order ? 'post.time desc' : $order;
             $select->join(
                 array('root' => Pi::model('root', 'comment')->getTable()),
                 'root.id=post.root',
-                array()
+                array('item')
             );
         }
 
@@ -1505,11 +1505,50 @@ class Api extends AbstractApi
         $rowset = Pi::db()->query($selectPost);
         $list = array();
         $ids = array();
+        $idsByType = array();
         foreach ($rowset as $row) {
             $list[] = (array) $row;
             $ids[] = $row['id'];
+            if (isset($row['item']) && !isset($idsByModule[$row['module']][$row['item']])) {
+                $idsByModule[$row['module']][$row['item']] = $row['item'];
+            }
         }
-        
+        //Find main_image
+        if ($mainImage) {
+            $select = Pi::db()->select();
+            $selects = array();
+            $sql = new\Zend\Db\Sql\Sql(Pi::db()->getAdapter());
+            
+            if (Pi::service('module')->isActive('guide')) {
+                $idsByModule['guide'][] = -1;
+                $itemTable = Pi::model('item', 'guide')->getTable();
+                $selectItem = $sql->select()->from($itemTable)->columns(array('id', 'module' => new \Zend\Db\Sql\Expression('"guide"'), 'main_image'))->where(array(new \Zend\Db\Sql\Predicate\In('id', $idsByModule['guide'])));;
+                $selects[] = $selectItem; 
+            }
+            
+            if (Pi::service('module')->isActive('news')) {
+                $idsByModule['news'][] = -1;
+                $newsTable = Pi::model('story', 'news')->getTable();
+                $selectNews = $sql->select()->from($newsTable)->columns(array('id', 'module' => new \Zend\Db\Sql\Expression('"news"'),'main_image'))->where(array(new \Zend\Db\Sql\Predicate\In('id', $idsByModule['news'])));;
+                $selects[] = $selectNews;
+            }
+            
+            if (count($selects) == 1) {
+                $rowset = Pi::db()->query($selects[0]);
+            } else {
+                for ($i = count($selects) -1 ; $i > 0; --$i) {
+                    $selects[$i]->combine($selects[$i-1]);
+                }
+                $rowset = Pi::db()->query($selects[1]);
+            }
+            
+            $mainImages = array();
+            foreach ($rowset as $row)
+            {
+                $mainImages[$row['module']][$row['id']] = $row['main_image']; 
+            }
+        }
+
         // Find replies
         $select->where(array(new \Zend\Db\Sql\Predicate\In('post.reply', $ids)));
         $rowset = Pi::db()->query($select);
@@ -1519,8 +1558,8 @@ class Api extends AbstractApi
         $ids = array();
         foreach ($list as $row) {
             $post = (array) $row;
-           
             $post['rating'] = array();
+            $post['imageUrl'] = isset($post['item']) && isset($mainImages[$post['module']][$post['item']]) ? Pi::url((string) Pi::api('doc','media')->getSingleLinkUrl($mainImages[$post['module']][$post['item']])->setConfigModule($post['module'])->thumb('thumbnail')) : null;
             if ($notByRoot) {
                 $result[$post['id']][$post['id']] = $post;
             } else {
@@ -1929,7 +1968,10 @@ class Api extends AbstractApi
             \Module\Comment\Model\Post::TYPE_ALL,
             $where,
             $limit,
-            $offset
+            $offset,
+            null, 
+            false,
+            true
         );
         
         $renderOptions = array(

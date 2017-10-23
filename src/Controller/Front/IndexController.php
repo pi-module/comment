@@ -28,22 +28,9 @@ class IndexController extends ActionController
     {
         $page   = _get('page', 'int') ?: 1;
         $where = array('active' => 1);
-        
-        $uid = null;
-        if ($this->params('my')) {
-            $uid = Pi::user()->getId();
-            $this->view()->assign('my', true);
-        }
-        
-        $result = Pi::api('api', 'comment')->getComments($page, $uid);
+               
+        $result = Pi::api('api', 'comment')->getComments($page, null);
 
-        if (null === $active) {
-            $title = __('All comment posts');
-        } elseif (!$active) {
-            $title = __('All inactive comment posts');
-        } else {
-            $title = __('All active comment posts');
-        }
         $this->view()->assign('comment', array(
             'title'     => $this->config('head_title'),
             'count'     => $result['count'],

@@ -36,7 +36,7 @@ class PostController extends ActionController
                 'active' => 1,
                 'reply' => 0,
                 'root' => $post['root'],
-                'type' => $post['type'] ? 'REVIEW' : 'SIMPLE'
+                'type' => $post['type'] == 'REVIEW' ? 'REVIEW' : 'SIMPLE'
             );
         
             $select = Pi::model('post', 'comment')->select()->where($where)->order('id desc');
@@ -53,8 +53,8 @@ class PostController extends ActionController
             }
             $page = ((int)($count / $perpage)) + 1;
             $target = Pi::api('api', 'comment')->getTarget($post['root']);
-            $paramPage = $post['type'] == 'REVIEW' ? 'page-review' : 'page-comment'; 
-            Pi::service('url')->redirect($target['url'] . '?' . $paramPage . '=' . $page . '#comment-' . $post['id'], false, 301);
+            $type = $post['type'] == 'REVIEW' ? 'review' : 'comment'; 
+            Pi::service('url')->redirect($target['url'] . '#' . $type . '/' . $page . '/' . $post['id'], false, 301);
         } else {
             $this->view()->setTemplate('comment-404');
         }

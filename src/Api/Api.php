@@ -390,7 +390,12 @@ class Api extends AbstractApi
             );
     
             if ($rootData) {
-                $result['count'] = $this->getCount($rootData['id'], $review ? \Module\Comment\Model\Post::TYPE_REVIEW : \Module\Comment\Model\Post::TYPE_COMMENT);
+                $whereCount = array(
+                    'root' => $rootData['id'],
+                    'reply' => 0,
+                    'active'    => 1,
+                );
+                $result['count'] = $this->getCount($whereCount, $review ? \Module\Comment\Model\Post::TYPE_REVIEW : \Module\Comment\Model\Post::TYPE_COMMENT);
                 //vd($result['count']);
                 if ($result['count']) {
                     $posts = $this->getList(

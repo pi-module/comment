@@ -172,39 +172,49 @@
         initCancel();
         initForm();
         
-        $('.paginator').click(
-            function () {
-                  var page = $(this).data('page');
-                  var type = $(this).data('type');
-                  $(this).parent().parent().find('li').removeClass('active');
-                  $(this).parent().addClass('active');
-                   
-                  var uri = "<?php echo Pi::service('url')->assemble('comment', array(
+        var getPage = function(page, type, id)
+        {
+                var uri = "<?php echo Pi::service('url')->assemble('comment', array(
                     'module'        => 'comment',
                     'controller'    => 'index',
                     'action'        => 'page',
-                    
-                 ));?>";
-                  $.getJSON(uri, {
+                ));?>";
+                
+                var el = $('#paginate-' + type + 's');
+
+                if (!id) {
+                    _elToScroll = el;
+                    scrollTo();    
+                }
+                
+                $.getJSON(uri, {
                     uri: $(location).attr('href'),
                     page: page,
                     type: type
                 })
                 .done(function (data) {
                     if (data.content) {
-                        var el = $('#paginate-' + type + 's');
-                       
+                        $('.paginator[data-type=' + type + ']').parent().removeClass('active');
+                        $('.paginator[data-type=' + type + '][data-page=' + page + ']').parent().addClass('active');
                         el.attr('class','show').html(data.content);
                         initReply();
                         initEdit();
                         initGallery();
                         
-                         $('html, body').stop().animate({
-                            scrollTop: el.offset().top
-                        }, 400);
-    
+                        if (id) {
+                            el = $('#comment-' + id);
+                            _elToScroll = el;
+                            window.setTimeout(scrollTo, 100);    
+                        }
+                        
                     }
                 });
+        }
+        $('.paginator').click(
+            function () {
+                var page = $(this).data('page');
+                var type = $(this).data('type');
+                getPage(page, type);
                 
                 return false;
             }
@@ -282,9 +292,88 @@
                 }
             }
             return oldJqTrigger.apply(this, arguments);
-        };  
-    });
+        };
+        
+        var _elToScroll = null;
+        var scrollTo = function(el) {
+            $('html, body').stop().animate({
+                scrollTop: _elToScroll.offset().top
+            }, 100)
+        };
+        
+        var checkComment = function() {
+            var hash = window.location.hash.substr(1);
+            if (hash.length) {
+                hash = hash.split('/');
+                var type = hash[0];
+                var page = hash[1];
+                var id = hash[2];
+                if (page != 1) {
+                    getPage(page, type, id);
+                } else {
+                    _elToScroll = $('#comment-' + id);    
+                    window.setTimeout(scrollTo, 100);
 
+                }
+            }      
+        };
+        checkComment();
+        
+    });
+    
+    var popoverTimeoutHandle;
+    function loginForReview(elem) {
+         clearTimeout(popoverTimeoutHandle);
+        var content = '<?php _e("Please login for write a review") ?>';
+        var loginLinkLabel = "<?php _e('login/register') ?>";
+        content += '<div class="text-center"><button onclick="$(\'.popover-active\').popover(\'hide\')" type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#loginRegisterModal">'+loginLinkLabel+'</button></div>';
+        var link = $(elem);
+        
+        link.not('.popover-active').addClass('popover-active').popover({
+            trigger: 'manual',
+            placement: 'top',
+            toggle: 'popover',
+            content: content,
+            title: "<?php _e('Write a review') ?>",
+            container: 'body',
+            html: true
+        });
+    
+        link.popover('show');
+    
+         popoverTimeoutHandle = setTimeout(function () {
+            link.popover('hide')
+            $('.popover-active').popover('hide');
+        }, 5000);
+        
+        return false;
+    }    
+    
+    var popoverTimeoutHandle;
+    function ownerReview(elem) {
+        clearTimeout(popoverTimeoutHandle);
+        var content = '<?php _e("Sorry, owner cannot write a review on his own item") ?>';
+        var link = $(elem);
+        
+        link.not('.popover-active').addClass('popover-active').popover({
+            trigger: 'manual',
+            placement: 'top',
+            toggle: 'popover',
+            content: content,
+            title: "<?php _e('Write a review') ?>",
+            container: 'body',
+            html: true
+        });
+    
+        link.popover('show');
+    
+        popoverTimeoutHandle = setTimeout(function () {
+            link.popover('hide')
+            $('.popover-active').popover('hide');
+        }, 5000);
+        
+        return false;
+    }    
 </script>
 <?php
 
@@ -443,60 +532,3 @@ EOT;
     </div>
 </div>
 
-
-<script>
-    var popoverTimeoutHandle;
-    function loginForReview(elem) {
-         clearTimeout(popoverTimeoutHandle);
-        var content = '<?php _e("Please login for write a review") ?>';
-        var loginLinkLabel = "<?php _e('login/register') ?>";
-        content += '<div class="text-center"><button onclick="$(\'.popover-active\').popover(\'hide\')" type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#loginRegisterModal">'+loginLinkLabel+'</button></div>';
-        var link = $(elem);
-        
-        link.not('.popover-active').addClass('popover-active').popover({
-            trigger: 'manual',
-            placement: 'top',
-            toggle: 'popover',
-            content: content,
-            title: "<?php _e('Write a review') ?>",
-            container: 'body',
-            html: true
-        });
-    
-        link.popover('show');
-    
-         popoverTimeoutHandle = setTimeout(function () {
-            link.popover('hide')
-            $('.popover-active').popover('hide');
-        }, 5000);
-        
-        return false;
-    }    
-    
-    var popoverTimeoutHandle;
-    function ownerReview(elem) {
-        clearTimeout(popoverTimeoutHandle);
-        var content = '<?php _e("Sorry, owner cannot write a review on his own item") ?>';
-        var link = $(elem);
-        
-        link.not('.popover-active').addClass('popover-active').popover({
-            trigger: 'manual',
-            placement: 'top',
-            toggle: 'popover',
-            content: content,
-            title: "<?php _e('Write a review') ?>",
-            container: 'body',
-            html: true
-        });
-    
-        link.popover('show');
-    
-        popoverTimeoutHandle = setTimeout(function () {
-            link.popover('hide')
-            $('.popover-active').popover('hide');
-        }, 5000);
-        
-        return false;
-    }    
-    
-</script>

@@ -424,3 +424,6 @@ input.subscription {
 .resume-ratings .pull-right {margin-top:5px}
 
 #pi-comment.userSection .container {width:auto;max-width:none}
+
+.my .pi-comment-single .avatar-column img,
+.my .pi-comment-single .avatar-column {width:100px}

@@ -1438,7 +1438,6 @@ class Api extends AbstractApi
                     'active'    => 1,
                 );
             }
-            //vd($wherePost);
             if ($mainImage || $specialCondition) {
                 $where = array();
                 foreach ($wherePost as $field => $value) {
@@ -1505,7 +1504,11 @@ class Api extends AbstractApi
         $rowset = Pi::db()->query($selectPost);
         $list = array();
         $ids = array();
-        $idsByType = array();
+        $idsByModule = array(
+            'guide' => array(),
+            'news' => array(),
+            'event' => array(),
+        );
         foreach ($rowset as $row) {
             $list[] = (array) $row;
             $ids[] = $row['id'];
@@ -1515,7 +1518,6 @@ class Api extends AbstractApi
         }
         //Find main_image
         if ($mainImage) {
-            $select = Pi::db()->select();
             $selects = array();
             $sql = new\Zend\Db\Sql\Sql(Pi::db()->getAdapter());
             
@@ -1529,7 +1531,8 @@ class Api extends AbstractApi
             if (Pi::service('module')->isActive('news')) {
                 $idsByModule['news'][] = -1;
                 $newsTable = Pi::model('story', 'news')->getTable();
-                $selectNews = $sql->select()->from($newsTable)->columns(array('id', 'module' => new \Zend\Db\Sql\Expression('"news"'),'main_image'))->where(array(new \Zend\Db\Sql\Predicate\In('id', $idsByModule['news'])));;
+                $selectNews = $sql->select()->from($newsTable)->columns(array('id', 'module' => new \Zend\Db\Sql\Expression('"news"'),'main_image'))->where(array(new \Zend\Db\Sql\Predicate\In('id', $idsByModule['news'] + $idsByModule['event'])));;
+                
                 $selects[] = $selectNews;
             }
             
@@ -1541,7 +1544,6 @@ class Api extends AbstractApi
                 }
                 $rowset = Pi::db()->query($selects[1]);
             }
-            
             $mainImages = array();
             foreach ($rowset as $row)
             {
@@ -1552,14 +1554,17 @@ class Api extends AbstractApi
         // Find replies
         $select->where(array(new \Zend\Db\Sql\Predicate\In('post.reply', $ids)));
         $rowset = Pi::db()->query($select);
-        foreach ($rowset as $row) {
-            $list[] = (array) $row;
+        if (count($rowset)) {
+            foreach ($rowset as $row) {
+                $list[] = (array) $row;
+            }
         }
         $ids = array();
         foreach ($list as $row) {
             $post = (array) $row;
             $post['rating'] = array();
-            $post['imageUrl'] = isset($post['item']) && isset($mainImages[$post['module']][$post['item']]) ? Pi::url((string) Pi::api('doc','media')->getSingleLinkUrl($mainImages[$post['module']][$post['item']])->setConfigModule($post['module'])->thumb('thumbnail')) : null;
+            $post['module'] = $post['module'] == 'event' ? 'news' : $post['module'];
+            $post['imageUrl'] = isset($post['item']) && isset($mainImages[$post['module']][$post['item']]) ? Pi::url((string) Pi::api('doc','media')->getSingleLinkUrl($mainImages[$post['module']][$post['item']])->setConfigModule($post['module'])->thumb('medium')) : null;
             if ($notByRoot) {
                 $result[$post['id']][$post['id']] = $post;
             } else {
@@ -1987,6 +1992,7 @@ class Api extends AbstractApi
                 
         
         $posts = $this->renderList($posts, $renderOptions);
+        $where['reply'] = 0;
         $count = $this->getCount($where);
         
         $paginator = Paginator::factory($count, array(

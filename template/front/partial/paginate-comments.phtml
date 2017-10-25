@@ -18,6 +18,7 @@ EOT;
 
 $templateUserReview = <<<'EOT'
     <div itemscope itemtype="http://schema.org/Review">
+        <meta itemprop="itemReviewed" content="%s" />
         <div class="small ratings">%s</div>
         <div class="media-heading" itemprop="author" itemscope itemtype="https://schema.org/Person">
             <ul class="list-inline no-margin-bottom">
@@ -139,6 +140,7 @@ EOT;
                     }
                     echo sprintf(
                         $templateUserReview,
+                        $this->serverUrl(true),
                         $ratings,
                         $url,
                         $item['user']['name'],

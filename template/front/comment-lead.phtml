@@ -204,7 +204,7 @@
                         if (id) {
                             el = $('#comment-' + id);
                             _elToScroll = el;
-                            window.setTimeout(scrollTo, 100);    
+                            window.setTimeout(scrollTo, 500);    
                         }
                         
                     }
@@ -305,20 +305,21 @@
             var hash = window.location.hash.substr(1);
             if (hash.length) {
                 hash = hash.split('/');
-                var type = hash[0];
-                var page = hash[1];
-                var id = hash[2];
-                if (page != 1) {
-                    getPage(page, type, id);
-                } else {
-                    _elToScroll = $('#comment-' + id);    
-                    window.setTimeout(scrollTo, 100);
-
+                if (hash.length == 3) { 
+                    var type = hash[0];
+                    var page = hash[1];
+                    var id = hash[2];
+                    if (page != 1) {
+                        getPage(page, type, id);
+                    } else {
+                        _elToScroll = $('#comment-' + id);    
+                        window.setTimeout(scrollTo, 500);
+                    }
                 }
             }      
         };
         checkComment();
-        
+        initGallery();
     });
     
     var popoverTimeoutHandle;

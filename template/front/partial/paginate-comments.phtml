@@ -20,12 +20,12 @@ $templateUserReview = <<<'EOT'
     <div itemscope itemtype="https://schema.org/Review">
         <meta itemprop="itemReviewed" content="%s" />
         <span itemprop="reviewRating" itemscope itemtype="http://schema.org/Rating">
-            <span itemprop="ratingValue">%s</span>
+            <meta itemprop="ratingValue" content="%s" />
         </span>
         <div class="small ratings">%s</div>
         <div class="media-heading" itemprop="author" itemscope itemtype="https://schema.org/Person">
             <ul class="list-inline no-margin-bottom">
-                <li><a href="%s" target="_blank" itemprop="name">%s</a></li>
+                <li><a href="%s" target="_blank"><span itemprop="name">%s</span></a></li>
                 <li class="muted small gray">%s</li>
                 <li class="muted small">%s</li>
             </ul>

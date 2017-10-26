@@ -11,13 +11,15 @@ $templateRating = <<<'EOT'
 EOT;
 ?>
 <?php foreach ($posts[0] as $post) { ?>
-    <div class="pi-comment-single media">
-        <div class="avatar-column text-center">
+    <div class="pi-comment-single media row">
+        <div class="text-center col-md-2">
             <?php if ($post['imageUrl']) { ?>
-                <img class="img-responsive main_image" src="<?php echo $post['imageUrl'] ?>" />';*
+                <img class="img-responsive main_image" src="<?php echo $post['imageUrl'] ?>" />
+            <?php } else { ?>
+                <img class="img-responsive main_image" src="" />
             <?php } ?>
         </div>
-        <div class="media-body">
+        <div class="col-md-10">
             <ul class="list-inline">
                 <li class="pull-right muted pi-comment-time"><?php echo _date($post['time']); ?></li>
             </ul>

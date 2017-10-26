@@ -17,8 +17,11 @@ $templateUserComment = <<<'EOT'
 EOT;
 
 $templateUserReview = <<<'EOT'
-    <div itemscope itemtype="http://schema.org/Review">
+    <div itemscope itemtype="https://schema.org/Review">
         <meta itemprop="itemReviewed" content="%s" />
+        <span itemprop="reviewRating" itemscope itemtype="http://schema.org/Rating">
+            <span itemprop="ratingValue">%s</span>
+        </span>
         <div class="small ratings">%s</div>
         <div class="media-heading" itemprop="author" itemscope itemtype="https://schema.org/Person">
             <ul class="list-inline no-margin-bottom">
@@ -74,6 +77,13 @@ EOT;
         $badge = '<img src="' . $badgeAdmin . '" />';
         
     }
+    
+    $avgRating = null;
+    foreach ($item['rating'] as $rating) {
+        $avgRating+= $rating['rating'];
+    }
+    $avgRating = $avgRating/count($item['rating']);
+    
 ?>
     <?php $url = ($item['uid'] > 0) ? $item['user']['url'] : '#comments'; ?>
     <div class="fake-anchor" id="comment-<?php echo $item['id']; ?>"></div>
@@ -141,6 +151,7 @@ EOT;
                     echo sprintf(
                         $templateUserReview,
                         $this->serverUrl(true),
+                        $avgRating,
                         $ratings,
                         $url,
                         $item['user']['name'],

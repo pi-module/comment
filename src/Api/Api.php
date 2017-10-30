@@ -2005,7 +2005,9 @@ class Api extends AbstractApi
             'limit'         => $limit,
 
         ));
-        
+        if ($uid != Pi::user()->getId()) {
+            $paginator->setUrlOptions(array('params' => array('id' => $uid)));    
+        }
         return array(
             'count' => $count,
             'posts' => $posts,

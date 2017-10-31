@@ -568,7 +568,7 @@ class Api extends AbstractApi
                 }
                 if ($uids) {
                     $uids = array_unique($uids);
-                    $users = Pi::service('user')->mget($uids, array($label, 'role', 'location_city', 'location_country'));
+                    $users = Pi::service('user')->mget($uids, array($label, 'role', 'city', 'country'));
                     $avatars = null;
                     if (false !== $avatar) {
                         $avatars = Pi::service('avatar')->getList(

@@ -1961,7 +1961,7 @@ class Api extends AbstractApi
         return Pi::model('post', 'comment')->count($where);        
     }
     
-    public function getComments($page, $uid = null)
+    public function getComments($page, $uid = null, $params = array())
     {
         $perpage = Pi::config('leading_limit', 'comment') ?: 5;
         $limit  = Pi::config('list_limit', 'comment') ?: 10;
@@ -2006,8 +2006,10 @@ class Api extends AbstractApi
 
         ));
         if ($uid != Pi::user()->getId()) {
-            $paginator->setUrlOptions(array('params' => array('id' => $uid)));    
+            $params['id'] = $uid;
         }
+        $paginator->setUrlOptions(array('params' => $params));
+        
         return array(
             'count' => $count,
             'posts' => $posts,

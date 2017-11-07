@@ -1,0 +1,23 @@
+<div class="row">
+    <div class="<?php echo $userSection ? 'col-md-9' : 'col-md-12' ?>">
+        <div class="user-min-body pi-comment-list my" id="pi-comment-lead">
+            <p>&nbsp;</p>
+            <?php if ($posts) { ?>
+                
+                <?php 
+                    include $this->templateModule('front/partial/paginate-comments-list-my', 'comment'); 
+                ?>
+
+                <?php
+                if ($paginator) {
+                    echo $this->paginationControl($paginator, 'Sliding', 'paginator.phtml',array('class' => 'pagination-left'));
+                }
+            } else { ?>
+                <div class="well">
+                    <?php _e('No data available.'); ?>
+                </div>
+            <?php } ?>
+        </div>
+    </div>
+</div>
+

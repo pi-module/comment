@@ -11,76 +11,43 @@ namespace Module\Comment\Controller\Front;
 
 use Pi;
 use Pi\Mvc\Controller\ActionController;
-use Module\Comment\Form\PostForm;
-use Module\Comment\Form\PostFilter;
-use Module\Media\Form\View\Helper\FormMedia;
+use Pi\Paginator\Paginator;
+use Zend\Db\Sql\Expression;
+
+/**
+ * Comment list controller
+ *
+ * @author Taiwen Jiang <taiwenjiang@tsinghua.org.cn>
+ */
 class IndexController extends ActionController
 {
     /**
-     * Demo for article with comments
+     * All comment posts
      */
     public function indexAction()
     {
-        //$this->redirect('', array('controller' => 'demo'));
-        $title = sprintf(__('Comment portal for %s'), Pi::config('sitename'));
-        $links = array(
-            'all-active'   => array(
-                'title' => __('All active comment posts'),
-                'url'   => Pi::api('api', 'comment')->getUrl('list', array()),
-            ),
-            'article'   => array(
-                'title' => __('Commented articles'),
-                'url'   => $this->url('', array(
-                    'controller'    => 'list',
-                    'action'        => 'article',
-                )),
-            ),
-            'module'   => array(
-                'title' => __('Comment posts for module "Comment"'),
-                'url'   => Pi::api('api', 'comment')->getUrl('module', array(
-                    'name'  => 'comment',
-                )),
-            ),
-            'type'   => array(
-                'title' => __('Comment posts for module "Comment" with type "Article"'),
-                'url'   => Pi::api('api', 'comment')->getUrl('module', array(
-                    'name'      => 'comment',
-                    'type'  => 'article',
-                )),
-            ),
-            'user'   => array(
-                'title' => sprintf(
-                    __('Comment posts by %s'),
-                    Pi::service('user')->get(1, 'name')
-                ),
-                'url'   => Pi::api('api', 'comment')->getUrl('user', array(
-                    'uid'   => 1,
-                )),
-            ),
-        );
-        if ($uid = Pi::service('user')->getId()) {
-            $links['my-post'] = array(
-                'title' => __('Comment posts by me'),
-                'url'   => Pi::api('api', 'comment')->getUrl('user', array(
-                    'uid'   => $uid,
-                )),
-            );
-            $links['my-article'] = array(
-                'title' => __('Commented articles by me'),
-                'url'   => $this->url('', array(
-                    'controller'    => 'list',
-                    'action'        => 'article',
-                    'uid'           => $uid,
-                )),
-            );
-        }
-        $this->view()->assign(array(
-            'title' => $title,
-            'links' => $links,
-        ));
-        $this->view()->setTemplate('comment-index');
-    }
+        $page   = _get('page', 'int') ?: 1;
+        $where = array('active' => 1);
+               
+        $result = Pi::api('api', 'comment')->getComments($page, null);
 
+        $this->view()->assign('comment', array(
+            'title'     => $this->config('head_title'),
+            'count'     => $result['count'],
+            'posts'     => $result['posts'],
+            'paginator' => $result['paginator'],
+        ));
+        
+        $this->view()->setTemplate('comment-list');
+        $this->view()->headTitle($this->config('head_title'));
+        $this->view()->headMeta($this->config('head_title'), 'twitter:title', 'name');
+        $this->view()->headMeta($this->config('head_title'), 'og:title', 'property');
+        $this->view()->headDescription($this->config('description'), 'set');
+        $this->view()->headMeta($this->config('description'), 'twitter:description');
+        $this->view()->headMeta($this->config('description'), 'og:description', 'property');
+        $this->view()->headKeywords($this->config('keywords'), 'set');
+    }
+   
     /**
      * Action for comment JavaScript loading
      */
@@ -140,5 +107,5 @@ class IndexController extends ActionController
             'status'    => 1,
         );  
         return $result;
-    }   
+    } 
 }

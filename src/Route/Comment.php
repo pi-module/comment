@@ -80,7 +80,7 @@ class Comment extends Standard
                     );
                 }
 
-            } 
+            }
 
             if ($matches && $parts) {
                 $matches = array_merge($matches, $this->parseParams($parts));

@@ -15,8 +15,8 @@
 return array(
     'meta'  => array(
         'title'         => _a('Comment'),
-        'description'   => _a('Comment management and services.'),
-        'version'       => '1.3.0',
+        'description'   => _a('Comment & Review management and services.'),
+        'version'       => '1.3.8',
         'license'       => 'New BSD',
         'demo'          => 'http://demo.pialog.org',
         'icon'          => 'fa-comment-o'
@@ -24,9 +24,9 @@ return array(
     // Author information
     'author'    => array(
         // Author full name, required
-        'Dev'       => 'Taiwen Jiang; Zongshu Lin',
-        'UI/UE'     => '@zhangsimon, @loidco',
-        'QA'        => '@lavenderli',
+        'Dev'       => 'Taiwen Jiang; Zongshu Lin; Marc Desrousseaux; Frederic Tissot; Mickael Stamm; Hossein Azizabadi',
+        'UI/UE'     => '@zhangsimon, @loidco, @marc-pi',
+        'QA'        => '@lavenderlin, @marc-pi',
         // Email address, optional
         'Email'     => 'taiwenjiang@tsinghua.org.cn',
         // Website link, optional

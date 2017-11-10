@@ -9,6 +9,10 @@
     padding: 10px 15px;
     margin-bottom: 20px;
 }
+
+.userSection .pi-comment {padding:0; border:none}
+.userSection .comment {margin:0}
+
 .pi-comment-header {
     font-size: 16px;
     font-weight: bold;
@@ -25,6 +29,8 @@ div.media > .pull-left {
     margin-right: 5px;
     margin-left: 5px;
 }
+.manage-sidebar div.media > .pull-left {margin:0}
+
 img {
     border-radius: 3px;
 }
@@ -133,18 +139,15 @@ a.muted:hover,
     margin: 10px 0 0 0;
     font-size: 13px;
 }
+.pi-comment-list.my .pi-comment-desc {
+    margin: -10px 0 0 0;
+}
+
 .form-cancel {
     font-size: 14px;
     display: inline-block;
     vertical-align: bottom;
     margin-right: 10px;
-}
-
-.nav-tabs a {
-    font-size: 13px;
-    font-weight: bold;
-    color: #0088cc;
-    font-family: helvetica;
 }
 
 .comment-title-hidden {
@@ -226,7 +229,9 @@ a.pi-comment-count:hover {
 }
 
 .comment-item {
-  margin-top: 20px;
+  margin-top: 40px;
+  z-index:10;
+  position:relative;
 }
 
 .comment-operation {
@@ -243,8 +248,8 @@ a.pi-comment-count:hover {
 
 /* Comment single */
 .pi-comment-single {
-    margin-top:-50px!important;
-    padding-top:50px!important;
+    /*margin-top:-50px!important;
+    padding-top:50px!important;*/
     
 }
 
@@ -255,14 +260,18 @@ a.pi-comment-count:hover {
 /* RATINGS */ 
 .rating {
    direction: rtl;
-   width:80px;
+   width:85px;
 }
 .rating span,
 .rating a {
    color: #aaa;
    text-decoration: none;
    transition: color .4s;
+   color:orange;
+   
 }
+.rating a:before {content:"\f006"}
+
 .rating a:hover,
 .rating a:focus,
 .rating span.active,
@@ -274,11 +283,25 @@ a.pi-comment-count:hover {
    color: orange;
    cursor: pointer;
 }
+.rating a:hover:before,
+.rating a:focus:before,
+.rating span.active:before,
+.rating a.active:before,
+.rating span.active ~ span:before,
+.rating a.active ~ a:before,
+.rating a:hover ~ a:before,
+.rating a:focus ~ a:before {content:"\f005"}
+
 
 .ratings div {
     display:inline-block; 
     margin-right:10px
 }
+
+.my-star,
+.item-rating .fa-star,
+.item-rating .fa-star-o,
+.item-rating .fa-star.active {color: orange;}
 
 /* POST FORM */
 .inline label {
@@ -288,18 +311,36 @@ a.pi-comment-count:hover {
 .inline .rating {
     display:inline-block;
 }
-#ratings .inline label {
-    width:100px; 
-}
+
 .inline input {
     width:50%; 
     margin-left:20px
 }
 
 /* COMMENT LIST */
-.is-reply {
-    margin-left:50px
+.comment-item.is-reply {
+    margin-left:110px;
+    margin-right:50px;
 }
+
+.is-reply .avatar-img-wrapper img {
+    width:52px
+}
+
+.no-margin-bottom {
+    margin-bottom:0!important
+}
+
+.avatar-column {
+    float:left;
+    width:90px;
+    margin-right:30px
+}
+
+.avatar-column img {
+    width:80px
+}
+
 .images a {
     float:left
 }
@@ -317,3 +358,74 @@ a.pi-comment-count:hover {
 input.subscription {
     margin-left: 20px;
 }
+
+.comment-admin,
+.comment-owner {
+}
+
+.resume-ratings span.inline-block {
+    font-weight:bold;
+}
+
+.resume-ratings > div:first-child {margin-bottom:20px}
+/*
+.is-review,
+.is-comment,
+#write-review {
+    margin-top:-90px!important;
+    padding-top:90px!important;
+    z-index:1;
+    position:relative;
+}
+*/
+
+.fake-anchor {
+    margin-top:-50px!important;
+    padding-top:50px!important;
+    display:block;
+    visibility:hidden;
+}
+.guide .fake-anchor {
+    margin-top:-90px!important;
+    padding-top:90px!important;
+}
+
+#rating_fakeinput {
+    width:1px; 
+    position:absolute; 
+    top:0; 
+    border:none; 
+    background:transparent; 
+    outline:none;
+}
+
+
+.comment-admin .avatar-img-wrapper img {
+        border: 5px solid #03A9F4;
+        padding: 0
+    }
+.comment-owner .avatar-img-wrapper img {
+    border: 5px solid #FFBF00;
+    padding: 0
+}
+.badge-owner {border-radius:.25em;
+    padding:.2em .6em .3em .4em;
+    margin-left:0em;
+    display:inline-block;
+    width:auto;
+    background:#FFBF00
+}
+    
+.gray,
+.avatar-column small,
+.comment-operation a {color:#999}
+.comment-operation a:hover {color:#337ab7}
+
+.resume-ratings .pull-right {margin-top:5px}
+
+#pi-comment.userSection .container {width:auto;max-width:none}
+
+.my .pi-comment-single .avatar-column img,
+.my .pi-comment-single .avatar-column {width:100px}
+.pi-comment-single.media .col-md-2 {padding: 0 5px}
+

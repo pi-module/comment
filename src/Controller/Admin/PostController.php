@@ -30,6 +30,23 @@ class PostController extends ActionController
     {
         $id = _get('id', 'int') ?: 1;
         $post = Pi::api('api', 'comment')->getPost($id);
+        $review = $post['type'] == 'REVIEW';
+        $ratings = array();
+        $ratingsType = array();
+        if ($review) {
+            
+            $select = Pi::model('rating_type', 'comment')->select();
+            $rowset = Pi::model('rating_type', 'comment')->selectWith($select);
+            foreach ($rowset as $row) {
+                $ratingsType[$row['id']] = $row['type']; 
+            }
+            $select = Pi::model('post_rating', 'comment')->select()->where(array('post' => $post['id']));
+            $rowset = Pi::model('post_rating', 'comment')->selectWith($select);
+            foreach ($rowset as $row) {
+                $ratings[] = $row->toArray(); 
+            }
+        }
+        
         $target = array();
         if ($post) {
             $post['content'] = Pi::api('api', 'comment')->renderPost($post);
@@ -69,8 +86,12 @@ class PostController extends ActionController
             'title'     => $title,
             'post'      => $post,
             'target'    => $target,
+            'review' => $review,
+            'ratings' => $ratings,
+            'ratings_type' => $ratingsType,
+             
         ));
-        $this->view()->setTemplate('comment-view', '', 'front');
+        $this->view()->setTemplate('comment-view');
     }
 
     public function editAction()
@@ -94,16 +115,39 @@ class PostController extends ActionController
             'post'      => $post,
             'target'    => $target,
         ));
-
+        
+        $review = $post['type'] == 'REVIEW';
+        
         $data = array_merge($post, array(
             'redirect' => $redirect,
+        
         ));
-        $form = Pi::api('api', 'comment')->getForm($data);
+        
+        $ratings = array();
+        if ($review) {
+            $data['time_experience'] = date('Y-m-d', $post['time_experience']);
+            // Add rating to data 
+            $select = Pi::model('post_rating', 'comment')->select()->where(array('post' => $post['id']));
+            $rowset = Pi::model('post_rating', 'comment')->selectWith($select);
+            foreach ($rowset as $row) {
+                $data['rating-' . $row['rating_type']] = $row['rating'];
+                $ratings[] = $row->toArray(); 
+            }
+            //
+        }
+     
+        $options = array(
+            'review' => $review
+        );
+        
+        $form = Pi::api('api', 'comment')->getForm($data, $options);
         $form->setAttribute('action', $this->url('', array(
             'action'    => 'submit',
         )));
 
         $this->view()->assign('form', $form);
+        $this->view()->assign('review', $review);
+        $this->view()->assign('ratings', $ratings);
         $this->view()->setTemplate('comment-edit', '', 'front');
     }
 
@@ -131,8 +175,8 @@ class PostController extends ActionController
                 $redirect = urldecode($redirect);
             } elseif (!empty($result['data'])) {
                 $redirect = $this->url('', array(
-                    'action'    => 'index',
-                    'id'        => $result['data']
+                    'controller'    => 'list',
+                    'active' => -1
                 ));
             } else {
                 $redirect = $this->url('', array('controller' => 'list'));
@@ -155,8 +199,11 @@ class PostController extends ActionController
         if ($this->request->isPost()) {
             $data = $this->request->getPost();
             $markup = $data['markup'];
-            $form = new PostForm('comment-post', $markup);
-            $form->setInputFilter(new PostFilter);
+            $ratings = isset($data['review']) && $data['review'] ? Pi::api('api', 'comment')->getRatings() : array();
+            $form = new PostForm('comment-post', $markup, $ratings);
+            $options = array('reply' => $data['reply'], 'review' => $data['review'], 'ratings' => $ratings);
+            $form->setInputFilter(new PostFilter($options));
+            
             $form->setData($data);
             if ($form->isValid()) {
                 $values = $form->getData();
@@ -230,7 +277,6 @@ class PostController extends ActionController
                 Pi::service('event')->trigger('post_disable', $id);
             }
         }
-
         if (!$return) {
             if ($redirect) {
                 $redirect = urldecode($redirect);
@@ -305,7 +351,7 @@ class PostController extends ActionController
                 ? __('Operation succeeded.') : __('Operation failed.');
         }
         if (0 < $status && $id) {
-            Pi::service('event')->trigger('post_delete', $post['root']);
+            Pi::service('event')->trigger('post_delete', array('root' => $post['root'], 'id' => $post['id']));
         }
 
         if (!$return) {

@@ -30,35 +30,31 @@ class PostController extends ActionController
     {
         $id      = _get('id', 'int') ?: 1;
         $post   = Pi::api('api', 'comment')->getPost($id);
-
+        
         if ($post && $post['active']) {
-            $post['content'] = Pi::api('api', 'comment')->renderPost($post);
-            $target = Pi::api('api', 'comment')->getTarget($post['root']);
-            $user = Pi::service('user')->get($post['uid'], array('name'));
-            $user['url'] =  Pi::service('user')->getUrl('profile', $post['uid']);
-            $user['avatar'] = Pi::service('avatar')->get($post['uid']);
-            $post['user'] = $user;
-
-            // User operations
-            $operations = array(
-                'permanent' => array(
-                    'title' => __('Permanent link'),
-                    'url'   => Pi::api('api', 'comment')->getUrl('post', array(
-                        'post'  => $id,
-                    )),
-                ),
+            $where = array(
+                'active' => 1,
+                'reply' => 0,
+                'root' => $post['root'],
+                'type' => $post['type'] == 'REVIEW' ? 'REVIEW' : 'SIMPLE'
             );
-            $post['operations'] = $operations;
-            $title = sprintf(__('Comment %s on %s'), _number($post['id']), $target['title']);
-            $this->view()->assign('comment', array(
-                'title'     => $title,
-                'post'      => $post,
-                'target'    => $target,
-            ));
-            $this->view()->setTemplate('comment-view');
-            $this->view()->headTitle($title);
-            $this->view()->headDescription($title, 'set');
-            $this->view()->headKeywords(__('Comment,information,post,user'), 'set');
+        
+            $select = Pi::model('post', 'comment')->select()->where($where)->order('id desc');
+            $posts = Pi::model('post', 'comment')->selectWith($select);
+            
+            $count = 0;
+            $perpage = $this->config('leading_limit') ?: 5;
+            foreach ($posts as $apost) {
+                if ($apost['id'] == $post['id']) {
+                    break;
+                }
+                $count++;
+                
+            }
+            $page = ((int)($count / $perpage)) + 1;
+            $target = Pi::api('api', 'comment')->getTarget($post['root']);
+            $type = $post['type'] == 'REVIEW' ? 'review' : 'comment'; 
+            Pi::service('url')->redirect($target['url'] . '#' . $type . '/' . $page . '/' . $post['id'], false, 301);
         } else {
             $this->view()->setTemplate('comment-404');
         }
@@ -295,6 +291,7 @@ class PostController extends ActionController
                     }
                 }
                 if (0 < $status) {
+                    $values['source'] = 'WEB';
                     $id = Pi::api('api', 'comment')->addPost($values, $currentUid);
                     if ($id) {
                         $status = 1;
@@ -405,7 +402,7 @@ class PostController extends ActionController
         
         $time = $post['time_updated'] ? $post['time_updated'] : $post['time'];
         $canDelete = false;
-        if (time() - $time <= Pi::service('config')->get('time_to_edit', 'comment')) {
+        if (time() - $time <= Pi::service('config')->get('time_to_edit_or_delete', 'comment')) {
             $canDelete = true;    
         }
         

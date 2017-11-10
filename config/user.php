@@ -16,17 +16,13 @@
 return array(
     // Activity
     'activity' => array(
-        'post'    => array(
-            'title' => _a('Comment posts by me'),
+        'comment'    => array(
+            'title' => _a('Reviews & Comments'),
             //'link'  => Pi::service('url')->assemble('default', array('module' => 'comment')),
-            'icon'  => 'fa-comment',
-            'callback'  => 'Module\Comment\Comment\Post',
-        ),
-        'article'   => array(
-            'title' => _a('Comment posts on my articles'),
-            //'link'  => Pi::service('url')->assemble('default', array('module' => 'comment')),
-            'icon'  => 'fa-comment',
-            'callback'  => 'Module\Comment\Comment\Post',
-        ),
+            'callback'  => 'Module\Comment\Plugin\Comment',
+            'template' => 'user-comment',
+            'icon'  => '',
+            
+        )
     ),
 );

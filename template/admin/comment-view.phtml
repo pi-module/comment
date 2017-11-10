@@ -1,0 +1,125 @@
+<?php
+$this->jQuery();
+$this->backbone();
+$this->css($this->assetModule('css/admin.css', 'comment'));
+$this->headMeta('noindex', 'robots');
+
+// Target data:
+// Title, time, user
+// uid, name, avatar, profile_url
+$target = $comment['target'];
+
+// Comment post
+// content, time, user
+$post = $comment['post'];
+
+?>
+<div class="pi-comment">
+    <h1 class="pi-comment-header"><?php _e('Comment detail'); ?></h1>
+    <div class="media">
+        <?php if ($post['uid'] > 0) { ?>
+            <a class="pull-left" href="<?php echo $post['user']['url']; ?>">
+                <?php echo Pi::avatar()->get($post['uid'], 'medium'); ?>
+            </a>
+        <?php } else { ?>
+            <p class="pull-left">
+                <?php echo Pi::avatar()->get($post['uid'], 'medium'); ?>
+            </p>
+        <?php } ?>
+        <div class="media-body">
+            <?php if ($post) { ?>
+                <div class="pi-comment-single">
+                    <div class="clearfix ">
+                        <ul class="list-inline">
+                            <li class="pi-comment-user">
+                                <?php if ($post['uid'] > 0) { ?>
+                                    <a href="<?php echo $post['user']['url']; ?>" target="_blank" title="<?php echo $post['user']['name']; ?>" class="highlight">
+                                        <?php echo $post['user']['name']; ?>
+                                    </a>
+                                <?php } else { ?>
+                                    <?php echo $post['identity']; ?>
+                                <?php } ?>
+                            </li>
+                            <?php if ($post['reply']) { ?>
+                                <li style="font-size: 14px"><?php _e('In reply to:'); ?></li>
+                                <li style="font-size: 14px"><a class="highlight" href="<?php echo Pi::service('comment')->getUrl('post', array('post' => $post['reply'])); ?>" target="_blank" title="<?php _e('Click to open'); ?>">
+                                        <?php echo sprintf(__('Comment #%d'), $post['reply']); ?>
+                                    </a>
+                                </li>
+                            <?php } ?>
+                            <li class="pull-right muted pi-comment-time"><?php echo _date($post['time']); ?></li>
+                        </ul>
+                    </div>
+                    <div class="pi-comment-desc">
+                        <ul class="list-inline">
+                            <li class="muted pull-left"><?php _e('Commented on '); ?></li>
+                            <li>
+                                <a href="<?php echo $target['url']; ?>" title="<?php echo _escape($target['title']); ?>">
+                                    <?php echo _escape($target['title']); ?>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    (<?php echo _a('source') ?>: <?php echo $post['source'] ?>)
+                            
+                            <?php if ($post['type'] == 'REVIEW' && $post['reply'] == 0) { ?>
+                                <div>
+<?php 
+$templateRating =<<<'EOT'
+    <div class="rating">
+        <span class="fa %s"></span>
+        <span class="fa %s"></span>
+        <span class="fa %s"></span>
+        <span class="fa %s"></span>
+        <span class="fa %s"></span>
+    </div>
+EOT;
+?>                                
+                                    <?php
+                                        $ratings = '';
+                                        foreach ($comment['ratings'] as $id => $rating) {
+                                        $star = sprintf($templateRating, 
+                                            $rating['rating'] == 5 ? 'fa-star' : 'fa-star-o',
+                                            $rating['rating'] == 4 ? 'fa-star' : 'fa-star-o',
+                                            $rating['rating'] == 3 ? 'fa-star' : 'fa-star-o',
+                                            $rating['rating'] == 2 ? 'fa-star' : 'fa-star-o',
+                                            $rating['rating'] == 1 ? 'fa-star' : 'fa-star-o'
+                                            );  
+                                        $ratings .= '<div data-value="' . $rating['rating'] . '" for="rating-' . $id . '">' . $comment['ratings_type'][$rating['rating_type']] . ' : ';
+                                        $ratings .=  $star;
+                                        $ratings .=  '</div>';
+                                    }
+                                    echo $ratings;
+                                    ?>
+                                                        
+    
+                                </div>
+                                <div>
+                                    <br/>
+                                    <?php echo _a('Experience date') ?>: <?php echo _date($post['time_experience']) ?>  
+                                </div>
+                            <?php } ?> 
+                            
+                    <div class="pi-comment-content">
+                        <?php echo $post['content']; ?>
+                    </div>
+                    <?php if ($post['uid'] > 0) { ?>
+                        <div class="pi-comment-operation">
+                            <ul class="list-inline">
+                                <?php foreach ($post['operations'] as $operation => $optData) { ?>
+                                    <li class="operation muted">
+                                        <a href="<?php echo $optData['url']; ?>"<?php echo 'delete' == $operation ? sprintf(' onclick="return confirm(\'%s\')"', __('Are you sure to delete this comment?')) : ''; ?>>
+                                            <?php echo _escape($optData['title']); ?>
+                                        </a>
+                                    </li>
+                                <?php } ?>
+                            </ul>
+                        </div>
+                    <?php } ?>
+                </div>
+            <?php } else { ?>
+                <div class="pi-comment-none"><?php _e('No content.'); ?></div>
+            <?php } ?>
+        </div>
+    </div>
+</div>

@@ -26,44 +26,52 @@ class ListController extends ActionController
      */
     public function indexAction()
     {
+        $orphan = _get('orphan');
         $active = _get('active');
         if (-1 == $active) {
             $active = null;
         }
-        $page   = _get('page', 'int') ?: 1;
-        $limit  = $this->config('list_limit') ?: 10;
-        $offset = ($page - 1) * $limit;
-
+        
+        if ($orphan) {
+            $page = 1;
+            $limit = 0;
+            $offset = 0;
+        } else {
+            $page   = _get('page', 'int') ?: 1;
+            $limit  = $this->config('list_limit') ?: 10;
+            $offset = ($page - 1) * $limit;
+        }
+        
         $datas = Pi::api('api', 'comment')->getList(
             \Module\Comment\Model\Post::TYPE_ALL,
             array('active' => $active),
             $limit,
             $offset
         );
-        /*
-        // Comprehensive mode
-        $posts = Pi::api('api', 'comment')->renderList($posts, array(
-            'user'      => array(
-                'field'     => 'name',
-                'url'       => 'comment',
-                'avatar'    => 'small'
-            ),
-            'target'    => true,
-            'operation'     => array(
-                'uid'       => Pi::service('user')->getId(),
-                'section'   => 'admin',
-                'level'     => 'admin',
-            ),
-        ));
-        */
-        /*
-        // Lean mode
-        $posts = Pi::api('api', 'comment')->renderList($posts, array(
-            'user'      => true,
-            'target'    => true,
-            'operation' => true,
-        ));
-        */
+        
+        if ($orphan) {
+            $orphans = array();
+            $tests = array();
+            foreach ($datas as $data) {
+                foreach ($data as $key => $adata) {
+                    if (isset($tests[$adata['root']])) {
+                        $target = $tests[$adata['root']];    
+                    } else {
+                        $target = Pi::api('api', 'comment')->getTarget($adata['root']);
+                        $tests[$adata['root']] = $target;
+                    }
+                     
+                    if ($target['url'] == '') {
+                        $orphans[$key][$adata['id']] = $adata;    
+                    }
+                }
+                
+            }
+            $datas = $orphans;            
+        }
+        
+                    
+       
         // Default mode
         $datas = Pi::api('api', 'comment')->renderList($datas, array(
             'operation'     => 'admin',
@@ -77,7 +85,7 @@ class ListController extends ActionController
                 $posts[$key] = $data;
             }
         }
-        
+        krsort($posts);
         $count = Pi::service('comment')->getCount(array('active' => $active));
 
         $paginator = Paginator::factory($count, array(
@@ -156,11 +164,18 @@ class ListController extends ActionController
             $limit,
             $offset
         );
-        $posts = Pi::api('api', 'comment')->renderList($posts, array(
+        $datas = Pi::api('api', 'comment')->renderList($posts, array(
             'user'      => false,
             'target'    => true,
             'operation' => 'admin',
         ));
+        $posts = array();
+        foreach ($datas as $list) {
+            foreach ($list as $key => $data) {
+                $posts[$key] = $data;
+            }
+        }
+        
         $count = Pi::service('comment')->getCount($where);
 
         $paginator = Paginator::factory($count, array(
@@ -320,12 +335,18 @@ class ListController extends ActionController
             $limit,
             $offset
         );
-        $posts = Pi::api('api', 'comment')->renderList($posts, array(
+        $datas = Pi::api('api', 'comment')->renderList($posts, array(
             'operation' => 'admin',
             'user'      => array(
                 'avatar'    => 'medium',
             ),
         ));
+        $posts = array();
+        foreach ($datas as $list) {
+            foreach ($list as $key => $data) {
+                $posts[$key] = $data;
+            }
+        }
         $count = Pi::service('comment')->getCount($where);
 
         $params = array('name' => $module, 'active' => $active);
@@ -528,7 +549,7 @@ class ListController extends ActionController
             'tabs'      => $navTabs,
         ));
         */
-        $this->view()->setTemplate('comment-article', '', 'front');
+        $this->view()->setTemplate('comment-article');
     }
 
     /**

@@ -89,6 +89,7 @@ class Event extends AbstractApi
     {
         // Clear cache for leading comments
         Pi::service('comment')->clearPagination($id);
+        Pi::service('comment')->timelineDelete($id);
 
         return;
     }
@@ -98,10 +99,10 @@ class Event extends AbstractApi
      *
      * @param int|int[] $root
      */
-    public function postdelete($root)
+    public function postdelete($params)
     {
-        Pi::service('comment')->clearPagination($root, true);
-
+        Pi::service('comment')->clearPagination($params['root'], true);
+        Pi::service('comment')->timelineDelete($params['id']);
         return;
     }
 

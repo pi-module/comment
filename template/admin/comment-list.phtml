@@ -36,7 +36,7 @@ $active = $comment['active'];
                         <td style="width: 100px">
                             <?php if ($post['uid'] > 0) { ?>
                                 <a class="<?php echo 0 === $post['active'] && 0 !== $active ? ' muted' : ''; ?>" href="<?php echo $post['user']['url']; ?>">
-                                    <strong><?php echo _escape($post['user']['name']); ?></strong>
+                                    <strong><?php echo isset($post['user']['name']) ? _escape($post['user']['name']) : ''; ?></strong>
                                 </a>
                             <?php } else { ?>
                                 <div class="<?php echo 0 === $post['active'] && 0 !== $active ? ' muted' : ''; ?>">
@@ -46,9 +46,48 @@ $active = $comment['active'];
                             <div class="muted"><?php echo _escape($post['ip']); ?></div>
                         </td>
                         <td>
-                            <a class="pi-comment-article-title<?php echo 0 === $post['active'] && 0 !== $active ? ' muted' : ''; ?>" target="_blank" href="<?php echo $post['target']['url']; ?>" title="<?php echo _escape($post['target']['title']); ?>">
-                                <strong><?php echo _escape($post['target']['title']); ?></strong>
+                            <a class="pi-comment-article-title<?php echo 0 === $post['active'] && 0 !== $active ? ' muted' : ''; ?>" target="_blank" href="<?php echo Pi::url(Pi::api('api', 'comment')->getUrl('post', array('post' => $post['id']))) ?>" title="<?php echo _escape($post['target']['title']); ?>">
+                                <strong><?php echo _escape($post['target']['title']); ?></strong>  
                             </a>
+                            (<?php echo _a('source') ?>: <?php echo $post['source'] ?>)
+                            
+                            <?php if ($post['type'] == 'REVIEW' && $post['reply'] == 0) { ?>
+                                <div>
+<?php 
+$templateRating =<<<'EOT'
+    <div class="rating">
+        <span class="fa %s"></span>
+        <span class="fa %s"></span>
+        <span class="fa %s"></span>
+        <span class="fa %s"></span>
+        <span class="fa %s"></span>
+    </div>
+EOT;
+?>                                
+                                    <?php
+                                        $ratings = '';
+                                        foreach ($post['rating'] as $id => $rating) {
+                                        $star = sprintf($templateRating, 
+                                            $rating['rating'] >= 5 ? 'fa-star' : 'fa-star-o',
+                                            $rating['rating'] >= 4 ? 'fa-star' : 'fa-star-o',
+                                            $rating['rating'] >= 3 ? 'fa-star' : 'fa-star-o',
+                                            $rating['rating'] >= 2 ? 'fa-star' : 'fa-star-o',
+                                            $rating['rating'] >= 1 ? 'fa-star' : 'fa-star-o'
+                                        );  
+                                        $ratings .= '<div data-value="' . $rating['rating'] . '" for="rating-' . $id . '">' . $rating['type'] . ' : ';
+                                        $ratings .=  $star;
+                                        $ratings .=  '</div>';
+                                    }
+                                    echo $ratings;
+                                    ?>
+                                                        
+    
+                                </div>
+                                <div>
+                                    <br/>
+                                    <?php echo _a('Experience date') ?>: <?php echo _date($post['time_experience']) ?>  
+                                </div>
+                            <?php } ?> 
                             <div class="pi-comment-content<?php echo 0 === $post['active'] && 0 !== $active ? ' muted' : ''; ?>">
                                 <?php echo $post['content']; ?>
                             </div>

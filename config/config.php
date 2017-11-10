@@ -84,13 +84,38 @@ $config = array(
         ),
         'filter'        => 'array',
     ),
-    
-     'time_to_edit' => array(
+   'linkify_trust_domain'  => array(
+        'title'         => _t('Trust domain'),
+        'description'   => _t("Separe domains by a comma. Trust domains urls are dofollow, otherwise non trust domains urls are rel=nofollow. Mydomain.com filters any subdomain or directories (e.g. www.mydomain.com, shop.mydomain.com, ..., but also mydomain.com/user, etc.). Left the field empty if you want url to be nofollow. Put a star * to trust every url in comments (dofollow)."),
+        'filter'        => 'text',
+        'value'         => parse_url(Pi::url())['host']
+    ),
+    'time_to_edit_or_delete' => array(
         'title'         => _t('Time to edit/delete '),
         'description'   => _t('Time to edit/delete a comment, in second'),
         'value'         => 300,
         'filter'        => 'int',
     ),
+
+     'datetime_format' => array(
+        'title'         => _t('Date & Time format '),
+        'description'   => _t('Indicate here the desired Date & Time format (PHP way - for instance d/m/Y H:i)'),
+        'value'         => "d/m/Y H:i",
+        'filter'        => 'text',
+    ),
+    'badge_admin' => array(
+        'title'         => _t('URL for admin badge'),
+        'value'         => "",
+        'filter'        => 'text',
+    ),
+    'intro' => array(
+        'title'         => _t('Intro for Index Page'),
+        'value'         => _t("Text displayed on top of Index Page Comment List"),
+        'filter'        => 'string',
+        'edit'          => 'textarea',
+        
+    ),
+   
 
      /*
     'user_domain'   => array(

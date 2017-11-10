@@ -24,13 +24,16 @@ class Block
         // Set options
         $limit = intval($block['limit']);
         $where = array(
-        	'active' => 1
+            'active' => 1
         );
         // Get posts list
         $posts = Pi::api('api', 'comment')->getList(
             \Module\Comment\Model\Post::TYPE_ALL,
             $where,
-            $limit
+            $limit,
+            null,
+            null,
+            isset($options['not_by_root']) ? $options['not_by_root'] : false
         );
         // Set render options
         $renderOptions = array(
@@ -42,7 +45,28 @@ class Block
             ),
         );
         // Get render posts list
-        $block['posts'] = Pi::api('api', 'comment')->renderList($posts, $renderOptions);
+        $datas = Pi::api('api', 'comment')->renderList($posts, $renderOptions);
+        $posts = array();
+        foreach ($datas as $list) {
+            foreach ($list as $key => $data) {
+                $posts[$key] = $data;
+            }
+        }
+         
+        krsort($posts);        
+        if (count($posts) > $limit) {
+            while(count($posts) > $limit) {
+                array_pop($posts);
+            }
+        } 
+        $block['posts'] = $posts;
+        foreach ($block['posts'] as &$post) {
+            if ($post['type'] == 'REVIEW' && $post['reply'] == 0) { 
+                $post['globalRating'] = Pi::api('api', 'comment')->globalRatingByPost($post['id']);
+            }
+            
+        }
+        
         // return
         return $block;
     }
@@ -112,3 +136,4 @@ class Block
         return $block;
     }
 }    
+

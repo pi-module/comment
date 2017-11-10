@@ -63,6 +63,7 @@ CREATE TABLE `{post}` (
   `time_experience` INT( 11 ) NULL DEFAULT NULL,
   `main_image`      VARCHAR(255),
   `additional_images`   TEXT,
+  `source` 	 ENUM ("WEB", "MOBILE") NOT NULL DEFAULT  'WEB',
   PRIMARY KEY (`id`),
   KEY `uid` (`uid`),
   KEY `root` (`root`)
@@ -81,6 +82,8 @@ CREATE TABLE `{post_rating}` (
   `rating` tinyint(1)  NOT NULL,
   KEY `id` (`id`)
 );
+INSERT INTO `{post_rating}` (`id`, `type`) VALUES (NULL, 'Global');
+
 
 CREATE TABLE `{subscription}` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,

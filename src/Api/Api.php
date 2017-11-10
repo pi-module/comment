@@ -1557,11 +1557,14 @@ class Api extends AbstractApi
         }
 
         // Find replies
-        $select->where(array(new \Zend\Db\Sql\Predicate\In('post.reply', $ids)));
-        $rowset = Pi::db()->query($select);
-        if (count($rowset)) {
-            foreach ($rowset as $row) {
-                $list[] = (array) $row;
+        if (count($ids)) {
+            $select->where(array(new \Zend\Db\Sql\Predicate\In('post.reply', $ids)));
+            $rowset = Pi::db()->query($select);
+            if ($rowset && count($rowset)) {
+                
+                foreach ($rowset as $row) {
+                    $list[] = (array) $row;
+                }
             }
         }
         $ids = array();

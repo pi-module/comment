@@ -5,6 +5,7 @@
             <?php if ($posts) { ?>
                 
                 <?php 
+                    $badgeAdmin = Pi::service('config') -> get('badge_admin', 'comment');
                     include $this->templateModule('front/partial/paginate-comments-list-my', 'comment'); 
                 ?>
 

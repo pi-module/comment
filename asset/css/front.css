@@ -229,7 +229,7 @@ a.pi-comment-count:hover {
 }
 
 .comment-item {
-  margin-top: 40px;
+  /*margin-top: 40px;*/
   z-index:10;
   position:relative;
 }

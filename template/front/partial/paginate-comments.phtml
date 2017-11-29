@@ -82,7 +82,9 @@ EOT;
     foreach ($item['rating'] as $rating) {
         $avgRating+= $rating['rating'];
     }
-    $avgRating = $avgRating/count($item['rating']);
+    if (count($item['rating'])) {
+        $avgRating = $avgRating/count($item['rating']);
+    } 
     
 ?>
     <?php $url = ($item['uid'] > 0) ? $item['user']['url'] : '#comments'; ?>

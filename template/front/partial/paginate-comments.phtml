@@ -156,7 +156,7 @@ EOT;
                         $avgRating,
                         $ratings,
                         $url,
-                        $item['user']['name'],
+                        isset($item['user']['name']) ? $item['user']['name'] : null ,
                         _date($item['time'], null, null, null, null, null, null,  Pi::config('datetime_format', 'comment')),
                         $badge,
                         date('Y-m-d', $item['time_experience']),

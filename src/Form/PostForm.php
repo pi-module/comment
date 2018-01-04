@@ -166,7 +166,7 @@ $html =<<<'EOT'
     </div>
     <div class="col-md-4 no-padding">
     
-    <div class="rating" for="%s">
+    <div class="rating" data-for="%s">
         <a href="#" data-value="5" class="fa my-star"></a>
         <a href="#" data-value="4" class="fa my-star"></a>
         <a href="#" data-value="3" class="fa my-star"></a>

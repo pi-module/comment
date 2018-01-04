@@ -126,10 +126,10 @@
                 ratings.each(
                     function (index)
                     {
-                        var id = $(this).attr('for');
+                        var id = $(this).data('for');
                         var rating = $(this).data('value');
                         form.find('[name=' + id + ']').val(rating);
-                        form.find('[for=' + id + '] a[data-value=' + rating + ']').addClass('active');
+                        form.find('[data-for=' + id + '] a[data-value=' + rating + ']').addClass('active');
                     }
                     
                 );
@@ -418,7 +418,7 @@ EOT;
                             <?php } else { ?> 
                                 onclick="return loginForReview(this)" 
                             <?php } ?>>
-                                <input type="checkbox"/> <span class="text-muted"><?php _e('Subscribe to the thread') ?></span>
+                                <span class="fa fa-square-o text-muted"></span> <span class="text-muted"><?php _e('Subscribe to the thread') ?></span>
                             </a>
                         <?php } ?>    
                     <?php } ?>
@@ -468,7 +468,7 @@ EOT;
                     <?php } else { ?> 
                         onclick="return loginForReview(this)" 
                     <?php } ?>>
-                        <input type="checkbox" /> <span class="text-muted"><?php _e('Subscribe to the thread') ?></span>
+                        <span class="fa fa-square-o text-muted"></span> <span class="text-muted"><?php _e('Subscribe to the thread') ?></span>
                     </a>
                 <?php } ?>    
             <?php } ?>

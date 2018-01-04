@@ -46,7 +46,7 @@ $form = Pi::service('comment')->getForm($formData, $options);
                 <h4 class="modal-title" id="navigationModalLabel"><?php echo _e("Submit for review"); ?></h4>
             </div>
             <div class="modal-body">
-                <p>
+               
                     
 <?php } ?>                     
 <div class="<?php echo $review ? 'hide' : '' ?> comment-item" id="<?php echo $review ? 'js-review-form' : 'js-comment-form' ?>">
@@ -148,7 +148,7 @@ $form = Pi::service('comment')->getForm($formData, $options);
                                          
 <?php // Review form in a modale ?>
 <?php if ($review) { ?>
-                </p>
+                
             </div>
             
         </div>
@@ -233,7 +233,7 @@ $form = Pi::service('comment')->getForm($formData, $options);
         $('.rating a').click(
             function () {
                   document.getElementById("rating_fakeinput").setCustomValidity("");
-                  var id = $(this).parent().attr('for');
+                  var id = $(this).parent().data('for');
                   $('[name=' + id + ']').val($(this).data('value'));
                   $(this).parent().find('a').removeClass('active');
                   $(this).addClass('active');

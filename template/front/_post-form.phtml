@@ -92,7 +92,7 @@ $form = Pi::service('comment')->getForm($formData, $options);
         </div>
         <?php if ($review)  { ?>
             <div class="col-md-12 special-review">
-            <br/>
+            <br>
                 <?php echo $this->formMedia($form->get('main_image')); ?>
                 <?php echo $this->formMedia($form->get('additional_images')); ?>
             </div>
@@ -119,8 +119,8 @@ $form = Pi::service('comment')->getForm($formData, $options);
     <?php if ($userId > 0 && method_exists(Pi::api('comment', Pi::service('module')->current()), 'canonize')) { ?> 
         <div class="<?php echo $review ? '' : 'hide' ?>  clearfix comment-form <?php echo $colClass; ?> text-right">
             <?php echo $this->formElement($form->get('subscribe')); ?>
-            <span class="text-muted"><?php _e('Subscribe to the thread') ?></span><br/>
-            <br/>
+            <span class="text-muted"><?php _e('Subscribe to the thread') ?></span><br>
+            <br>
         </div>
     <?php } ?>
     <div class="<?php echo $review ? '' : 'hide' ?>  clearfix comment-form <?php echo $colClass; ?> text-right">

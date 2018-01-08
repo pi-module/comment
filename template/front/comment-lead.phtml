@@ -389,7 +389,7 @@ $templateRating =<<<'EOT'
 EOT;
 
 ?>
-<div class="panel panel-default nodeco" id="comments">
+<div class="panel panel-default nodeco comments-lead">
     <?php if ($review) { ?>
         <div class="row panel-heading resume-ratings">
             <div>
@@ -407,7 +407,7 @@ EOT;
                     <?php _e('All comments '); ?>
                     <strong>(<?php echo _number($count) ?: _number(0); ?>)</strong>
                 </h2>
-                &nbsp;<span class="global-ratings"><?php echo $star; ?></span> <?php echo isset($globalRatings[0]) && $globalRatings[0]['number'] >= 1 ? _number($globalRatings[0]['number']) : '' ?>
+                &nbsp;<div class="inline-block global-ratings"><?php echo $star; ?></div> <?php echo isset($globalRatings[0]) && $globalRatings[0]['number'] >= 1 ? _number($globalRatings[0]['number']) : '' ?>
                 <div class="pull-right">
                     <?php if (method_exists(Pi::api('comment', Pi::service('module')->current()), 'canonize')) { ?>
                         <?php if (Pi::user()->getId() > 0) { ?>

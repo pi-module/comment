@@ -80,7 +80,7 @@ EOT;
                                             $rating['rating'] == 2 ? 'fa-star' : 'fa-star-o',
                                             $rating['rating'] == 1 ? 'fa-star' : 'fa-star-o'
                                         );  
-                                        $ratings .= '<div data-value="' . $rating['rating'] . '" for="rating-' . $id . '">' . $rating['type'] . ' : ';
+                                        $ratings .= '<div data-value="' . $rating['rating'] . '" data-for="rating-' . $id . '">' . $rating['type'] . ' : ';
                                         $ratings .=  $star;
                                         $ratings .=  '</div>';
                                     }

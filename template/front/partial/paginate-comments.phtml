@@ -10,9 +10,9 @@ $templateUserComment = <<<'EOT'
                 <li class="muted small">%s</li>
             </ul>
         </div>
-        <p>
+        <div>
             <div class="clearfix commentText" itemprop="commentText" rel="%s">%s</div>
-        </p>
+        </div>
         <meta itemprop="commentTime" content="%s" />
 EOT;
 
@@ -34,9 +34,9 @@ $templateUserReview = <<<'EOT'
             %s : 
             %s
         </div>
-        <p>
+        <div>
             <div class="clearfix commentText" itemprop="reviewBody">%s</div>
-        </p>
+        </div>
         %s
         <meta itemprop="datePublished" content="%s" />
     </div>
@@ -52,9 +52,9 @@ $templateGuest = <<<'EOT'
             <li class="muted small gray">%s</li>
         </ul>
     </div>
-    <p>
+    <div>
         <div class="clearfix commentText" itemprop="commentText">%s</div>
-    </p>
+    </div>
     <meta itemprop="commentTime" content="%s" />
 EOT;
 
@@ -127,7 +127,7 @@ EOT;
                     $images = '<div class="gallery images clearfix" data-main_image="' . $item['main_image'] . '" data-additional_images="' . $item['additional_images'] . '">';
                     if ($item['main_image']) {
                         $images .= '<a href="' . Pi::url((string) Pi::api('doc','media')->getSingleLinkUrl($item['main_image'])->setConfigModule('guide')->thumb('large')) . '">'; 
-                        $images .= '<img class="img-responsive main_image" src="' . Pi::url((string) Pi::api('doc','media')->getSingleLinkUrl($item['main_image'])->setConfigModule('guide')->thumb('thumbnail')) . '" />';
+                        $images .= '<img class="img-responsive main_image" src="' . Pi::url((string) Pi::api('doc','media')->getSingleLinkUrl($item['main_image'])->setConfigModule('guide')->thumb('thumbnail')) . '" alt="" />';
                         $images .= '</a>';
                     }
                     foreach ($galleryImages as $key => $galleryImage) {
@@ -146,7 +146,7 @@ EOT;
                             $rating['rating'] > 3 ? 'fa-star' : 'fa-star-o',
                             $rating['rating'] > 4 ? 'fa-star' : 'fa-star-o'
                         );  
-                        $ratings .= '<div data-value="' . $rating['rating'] . '" for="rating-' . $id . '">' . $rating['type'] . ' : ';
+                        $ratings .= '<div data-value="' . $rating['rating'] . '" data-for="rating-' . $id . '">' . $rating['type'] . ' : ';
                         $ratings .=  $star;
                         $ratings .=  '</div>';
                     }

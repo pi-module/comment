@@ -61,7 +61,7 @@ EOT;
                         $rating['rating'] > 3 ? 'fa-star' : 'fa-star-o',
                         $rating['rating'] > 4 ? 'fa-star' : 'fa-star-o'
                     );  
-                    $ratings .= '<div data-value="' . $rating['rating'] . '" for="rating-' . $id . '">' . $rating['type'] . ' : ';
+                    $ratings .= '<div data-value="' . $rating['rating'] . '" data-for="rating-' . $id . '">' . $rating['type'] . ' : ';
                     $ratings .=  $star;
                     $ratings .=  '</div>';
                 }
@@ -138,7 +138,7 @@ EOT;
                                 $rating['rating'] > 3 ? 'fa-star' : 'fa-star-o',
                                 $rating['rating'] > 4 ? 'fa-star' : 'fa-star-o'
                             );  
-                            $ratings .= '<div data-value="' . $rating['rating'] . '" for="rating-' . $id . '">' . $rating['type'] . ' : ';
+                            $ratings .= '<div data-value="' . $rating['rating'] . '" data-for="rating-' . $id . '">' . $rating['type'] . ' : ';
                             $ratings .=  $star;
                             $ratings .=  '</div>';
                         }

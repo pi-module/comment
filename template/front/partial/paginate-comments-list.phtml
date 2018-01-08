@@ -25,8 +25,8 @@ EOT;
             <?php } ?>
             </div>
             <small>
-                <?php echo !empty($post['user']['city']) ? $post['user']['city']  . '</br>' : ''?>
-                <?php echo !empty($post['user']['country']) ? $post['user']['country']  . '</br>' : ''?>
+                <?php echo !empty($post['user']['city']) ? $post['user']['city']  . '<br>' : ''?>
+                <?php echo !empty($post['user']['country']) ? $post['user']['country']  . '<br>' : ''?>
                 <?php echo $post['user']['contributions'] ?>&nbsp;<?php _e('contributions') ?>
             </small>
         </div>
@@ -79,7 +79,7 @@ EOT;
             </div>                           
         </div>
     </div>
-    <br/>
+    <br>
     <hr/>
     <?php if (isset($posts[$post['id']])) { ?>
         <?php $replies = array_reverse($posts[$post['id']]); ?>
@@ -156,7 +156,7 @@ EOT;
                     </div>                           
                 </div>
             </div>
-            <br/>
+            <br>
             <hr/>
         <?php } ?>
     <?php } ?>

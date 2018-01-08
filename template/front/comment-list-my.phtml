@@ -22,7 +22,7 @@ $badgeAdmin = Pi::service('config') -> get('badge_admin', 'comment');
             <div class="col-md-9">
        
             <?php if ($posts) { ?>
-                <div class="pi-comment-list my" id="pi-comment-lead">
+                <div class="pi-comment-lead pi-comment-list my">
                     <div class="page-header">
                         <h1 class=""><?php echo __('All active comments ') . " ({$count})"; ?></h1>
                     </div>

@@ -88,6 +88,8 @@ class IndexController extends ActionController
     
     public function subscriptionAction()
     {
+        header("X-Robots-Tag: noindex, nofollow", true);
+
         $uri = $this->params('uri');
         $subscription = $this->params('subscription');
         $routeMatch = Pi::service('url')->match($uri);

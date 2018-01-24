@@ -1888,6 +1888,7 @@ class Api extends AbstractApi
         $ratingTypeTable = Pi::model('rating_type', 'comment')->getTable();
         $postTable = Pi::model('post', 'comment')->getTable();
         
+        // the global average rating 
         $select = Pi::db()->select();
         $select->from(array('post' => $postTable))->columns(array('id'))
         ->join(
@@ -1900,7 +1901,7 @@ class Api extends AbstractApi
             'rating_type.id = post_rating.rating_type',
             array('rating_type_id' => 'id', 'type')
         )->group('post.root')
-        ->where(array('post.root = ' . $root));
+        ->where(array('post.root = ' . $root, 'reply' => 0));
         
         $rowset = Pi::db()->query($select);
         foreach ($rowset as $row) {
@@ -1911,6 +1912,7 @@ class Api extends AbstractApi
             );
         }
         
+       // average rating for each type of rating 
        $select = Pi::db()->select();
        $select->from(array('post' => $postTable))->columns(array('id'))
         ->join(
@@ -1923,7 +1925,7 @@ class Api extends AbstractApi
             'rating_type.id = post_rating.rating_type',
             array('rating_type_id' => 'id', 'type')
         )->group('rating_type.id')
-        ->where(array('post.root = ' . $root));
+        ->where(array('post.root = ' . $root, 'reply' => 0));
         
         $rowset = Pi::db()->query($select);
         foreach ($rowset as $row) {

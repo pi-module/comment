@@ -46,32 +46,32 @@ $form = Pi::service('comment')->getForm($formData, $options);
                 <h4 class="modal-title" id="navigationModalLabel"><?php echo _e("Submit for review"); ?></h4>
             </div>
             <div class="modal-body">
-               
-                    
-<?php } ?>                     
+
+
+<?php } ?>
 <div class="<?php echo $review ? 'hide' : '' ?> comment-item" id="<?php echo $review ? 'js-review-form' : 'js-comment-form' ?>">
     <?php echo $this->form()->openTag($form); ?>
-    
-    <?php if (!$review) { ?> 
+
+    <?php if (!$review) { ?>
         <div class="form-group">
             <textarea placeholder="<?php _e('Type your content'); ?>" class="form-control js-comment-txt" rows="3"></textarea>
         </div>
-    <?php } ?> 
-    
+    <?php } ?>
+
     <div class="<?php echo $review ? '' : 'hide' ?> clearfix comment-form form-group">
         <div class="special-review">
             <?php if ($review)  { ?>
                 <input type="submit" id="rating_fakeinput" value="" onclick="return false"/>
                 <div id="ratings" class="form-group">
-                    <?php foreach ($form->ratings as $key => $rating) { ?> 
+                    <?php foreach ($form->ratings as $key => $rating) { ?>
                         <div class="col-md-6 inline">
-                            <?php echo $this->formElement($form->get('star-' . $key)); ?>    
+                            <?php echo $this->formElement($form->get('star-' . $key)); ?>
                             <?php echo $this->formElement($form->get('rating-' . $key)); ?>
                         </div>
                     <?php } ?>
                     <div class="clearfix"></div>
                 </div>
-                
+
                 <div class="col-md-12 inline form-group">
                     <div class="col-md-3 no-padding">
                         <label><i class="text-danger" style="margin-right: 5px;" title="Requis">*</i><?php _e('Experience time') ?></label>
@@ -82,7 +82,7 @@ $form = Pi::service('comment')->getForm($formData, $options);
                 </div>
             <?php } ?>
         </div>
-        
+
         <?php echo $this->formElement($form->get('reply')); ?>
         <?php echo $this->formElement($form->get('id')); ?>
         <div class="col-md-12 ">
@@ -115,8 +115,8 @@ $form = Pi::service('comment')->getForm($formData, $options);
         </div>
         <?php $colClass = 'col-md-4'; ?>
     <?php } ?>
-    
-    <?php if ($userId > 0 && method_exists(Pi::api('comment', Pi::service('module')->current()), 'canonize')) { ?> 
+
+    <?php if ($userId > 0 && method_exists(Pi::api('comment', Pi::service('module')->current()), 'canonize')) { ?>
         <div class="<?php echo $review ? '' : 'hide' ?>  clearfix comment-form <?php echo $colClass; ?> text-right">
             <?php echo $this->formElement($form->get('subscribe')); ?>
             <span class="text-muted"><?php _e('Subscribe to the thread') ?></span><br>
@@ -144,22 +144,22 @@ $form = Pi::service('comment')->getForm($formData, $options);
     <?php } ?>
 </div>
 
-                    
-                                         
+
+
 <?php // Review form in a modale ?>
 <?php if ($review) { ?>
-                
+
             </div>
-            
+
         </div>
     </div>
 </div>
-<?php } ?>                     
+<?php } ?>
 
 <script>
     (function ($) {
-        <?php if (!$review) { ?> 
-        
+        <?php if (!$review) { ?>
+
             var comment = {
                 el: $('#js-comment-form'),
                 $: function (selector) {
@@ -194,19 +194,19 @@ $form = Pi::service('comment')->getForm($formData, $options);
 
             comment.init();
         <?php } ?>
-            
+
         // Textarea auto height
         $.each($('textarea[data-autoresize]'), function() {
             var offset = this.offsetHeight - this.clientHeight;
-         
+
             $(this).css('overflow-y', 'hidden').css('resize', 'none');
             var resizeTextarea = function(el) {
                 $(el).css('height', 'auto').css('height', el.scrollHeight + offset);
-                
+
             };
             $(this).on('keyup input', function() { resizeTextarea(this); }).removeAttr('data-autoresize');
-        });     
-        
+        });
+
         // Form control for ratings
         var submitForm = function() {
                 if ($('form#review-post [name=reply]').val() != "") {
@@ -219,17 +219,17 @@ $form = Pi::service('comment')->getForm($formData, $options);
                             ratings = false;
                         }
                     }
-                );       
+                );
                 if (!ratings) {
                     document.getElementById("rating_fakeinput").setCustomValidity("<?php _e("Don't forget your rating") ?>");
                     document.getElementById("rating_fakeinput").reportValidity();
-                        
+
                     return false;
-                } 
+                }
                 return true;
         };
-        $('#review-post').submit(submitForm);   
-        
+        $('#review-post').submit(submitForm);
+
         $('.rating a').click(
             function () {
                   document.getElementById("rating_fakeinput").setCustomValidity("");
@@ -237,10 +237,10 @@ $form = Pi::service('comment')->getForm($formData, $options);
                   $('[name=' + id + ']').val($(this).data('value'));
                   $(this).parent().find('a').removeClass('active');
                   $(this).addClass('active');
-                  return false;  
+                  return false;
             }
         );
-                        
+
 
     })(jQuery)
 </script>
@@ -252,3 +252,16 @@ $form = Pi::service('comment')->getForm($formData, $options);
         location.href = '<?php $this->url(); ?>' + $(this).data('id');
     });
 </script>
+
+<?php
+    /** @var Pi\View\Helper\HeadScript $headScript */
+    $headScript = $this->plugin('headScript');
+    foreach($headScript as $head){
+        if(preg_match('#module-media#', $head->attributes['src'])){
+            echo '<script  src="'.$head->attributes['src'].'"></script>';
+        }
+    }
+
+    echo $this->plugin('headLink');
+    echo $this->plugin('footScript');
+?>

@@ -254,14 +254,19 @@ $form = Pi::service('comment')->getForm($formData, $options);
 </script>
 
 <?php
-    /** @var Pi\View\Helper\HeadScript $headScript */
-    $headScript = $this->plugin('headScript');
-    foreach($headScript as $head){
-        if(preg_match('#module-media#', $head->attributes['src'])){
-            echo '<script  src="'.$head->attributes['src'].'"></script>';
+    if(empty($GLOBALS['modalSetLoaded'])){
+        /** @var Pi\View\Helper\HeadScript $headScript */
+        $headScript = $this->plugin('headScript');
+        foreach($headScript as $head){
+            if(preg_match('#module-media#', $head->attributes['src'])){
+                echo '<script  src="'.$head->attributes['src'].'"></script>';
+            }
         }
+
+        echo $this->plugin('headLink');
+        echo $this->plugin('footScript');
+
+        $GLOBALS['modalSetLoaded'] = true;
     }
 
-    echo $this->plugin('headLink');
-    echo $this->plugin('footScript');
 ?>

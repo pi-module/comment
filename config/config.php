@@ -38,7 +38,13 @@ $config = array(
             ),
         ),
     ),
-
+    'ajax_load'  => array(
+        'title'         => _t('Load by ajax'),
+        'edit'          => 'checkbox',
+        'value'         => 0,
+        'filter'        => 'int',
+    ),
+    
     'auto_approve'  => array(
         'title'         => _t('Auto approve submission'),
         'edit'          => 'checkbox',

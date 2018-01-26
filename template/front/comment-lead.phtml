@@ -10,7 +10,23 @@
     
 ?>
 <script>
-    $(function() {
+
+
+$(function() {
+    (function($) {
+        $.getStylesheet = function (href) {
+            var $d = $.Deferred();
+            var $link = $('<link/>', {
+               rel: 'stylesheet',
+               type: 'text/css',
+               href: href
+            }).appendTo('head');
+            $d.resolve($link);
+            return $d.promise();
+        };
+    })(jQuery);
+    
+    var myinit = function() {
         initGallery = function()
         {
             $('.gallery').each(function() {
@@ -57,7 +73,7 @@
             
             $('.cancel').addClass('hide');
             $('.special-review').show();
-        }
+        };
         
         var initCancel = function() {
             $('.btn.cancel').click(
@@ -68,7 +84,7 @@
                     return false;
                 }
             );
-        }
+        };
         
         var reply = function (elem, review) {
             var form = review ? $('form#review-post') : $('form#comment-post');
@@ -209,7 +225,7 @@
                         
                     }
                 });
-        }
+        };
         $('.paginator').click(
             function () {
                 var page = $(this).data('page');
@@ -320,8 +336,27 @@
         };
         checkComment();
         initGallery();
-    });
+        
+        el = $(window.location.hash);
+        if (el.length) {
+            _elToScroll = el;
+            window.setTimeout(scrollTo, 500);
+        }    
+        
+    };
     
+    
+    $.when(
+        $.getScript( "/static/vendor/jquery/extension/jquery.magnific-popup.min.js" ),
+        $.getStylesheet( "/static/vendor/jquery/extension/magnific-popup.css" ),
+        $.getStylesheet( "/asset/module-comment/css/front.css" ),
+        $.Deferred(function( deferred ){
+            $( deferred.resolve );
+        })
+    ).done(myinit);
+
+    });
+
     var popoverTimeoutHandle;
     function loginForReview(elem) {
          clearTimeout(popoverTimeoutHandle);

@@ -53,8 +53,6 @@ class IndexController extends ActionController
      */
     public function loadAction()
     {
-        $options['review'] = true;
-        
         $uri = $this->params('uri');
         $review = $this->params('review');
         $content = Pi::service('comment')->loadContent(array('uri' => $uri, 'review' => $review));

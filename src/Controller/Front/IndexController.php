@@ -55,7 +55,8 @@ class IndexController extends ActionController
     {
         $uri = $this->params('uri');
         $review = $this->params('review');
-        $content = Pi::service('comment')->loadContent(array('uri' => $uri, 'review' => $review));
+        $caller = $this->params('caller');
+        $content = Pi::service('comment')->loadContent(array('uri' => $uri, 'review' => $review, 'caller' => $caller));
         $result = array(
             'status'    => 1,
             'content'   => $content,

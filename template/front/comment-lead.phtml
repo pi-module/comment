@@ -1,7 +1,7 @@
 <?php 
     $this->jQuery(array(
         'extension/jquery.magnific-popup.min.js',
-        'extension/magnific-popup.css',
+        'extension/magnific-popup.min.css',
     ));
     if (!empty($script)) {
         $this->footScript()->appendScript($script);
@@ -349,7 +349,7 @@ $(function() {
     
     $.when(
         $.getScript( "/static/vendor/jquery/extension/jquery.magnific-popup.min.js" ),
-        $.getStylesheet( "/static/vendor/jquery/extension/magnific-popup.css" ),
+        $.getStylesheet( "/static/vendor/jquery/extension/magnific-popup.min.css" ),
         $.getStylesheet( "/asset/module-comment/css/front.css" ),
         $.Deferred(function( deferred ){
             $( deferred.resolve );

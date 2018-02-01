@@ -28,7 +28,8 @@ $formData['redirect'] = rawurlencode($uri);
 
 $options = array(
     'review' => $review,
-    'name' => $review ? 'review-post' : 'comment-post'
+    'name' => $review ? 'review-post' : 'comment-post',
+    'caller' => $caller
 );
 
 $form = Pi::service('comment')->getForm($formData, $options);
@@ -116,7 +117,7 @@ $form = Pi::service('comment')->getForm($formData, $options);
         <?php $colClass = 'col-md-4'; ?>
     <?php } ?>
 
-    <?php if ($userId > 0 && method_exists(Pi::api('comment', Pi::service('module')->current()), 'canonize')) { ?>
+    <?php if ($userId > 0 && method_exists(Pi::api('comment', $caller), 'canonize')) { ?>
         <div class="<?php echo $review ? '' : 'hide' ?>  clearfix comment-form <?php echo $colClass; ?> text-right">
             <?php echo $this->formElement($form->get('subscribe')); ?>
             <span class="text-muted"><?php _e('Subscribe to the thread') ?></span><br>

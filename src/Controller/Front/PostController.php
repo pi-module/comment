@@ -204,6 +204,7 @@ class PostController extends ActionController
             }
 
             if ($result['data']) {
+                $redirect = strstr($redirect, '#', true);
                 $this->redirect($redirect . '#comment-' . $result['data']);
             } else {
                 $this->jump($redirect, $result['message']);

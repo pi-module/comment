@@ -35,7 +35,7 @@ $templateUserReview = <<<'EOT'
             %s
         </div>
         <div>
-            <div class="clearfix commentText" itemprop="reviewBody">%s</div>
+            <div class="clearfix commentText" itemprop="reviewBody" data-rel="%s">%s</div>
         </div>
         %s
         <meta itemprop="datePublished" content="%s" />
@@ -162,6 +162,7 @@ EOT;
                         date('Y-m-d', $item['time_experience']),
                         __('Experience time'),
                         _date($item['time_experience']),
+                        htmlspecialchars($item['initial_content']),
                         $item['content'],
                         $images,
                         date("Y-m-d H:i:s", $item['time'])
@@ -214,6 +215,7 @@ EOT;
                 <?php } ?>
                 <a href="<?php echo Pi::url(Pi::api('api', 'comment')->getUrl('post', array('post' => $item['id']))) ?>" target="_blank"><span class="fa fa-share-alt"></span> <?php _e('Share') ?></a>
             </div>
+            <?php include dirname(realpath(__FILE__)) .  '/../_reply-form.phtml' ?>
         </div>
     </div>
     <?php if (isset($posts[$item['id']])) { ?>
@@ -279,7 +281,7 @@ EOT;
                                     __('Delete')
                                 );
                             } ?>
-                            <a href="#" class="edit" data-id="<?php echo $reply['id'] ?>"><span class="fa fa-close"></span> <?php _e('Edit') ?></a>
+                            <a href="#" class="editReply" data-id="<?php echo $reply['id'] ?>"><span class="fa fa-close"></span> <?php _e('Edit') ?></a>
                         <?php } ?>
                         <?php if (Pi::user()->getId() > 0) { ?>
                             <?php if ($item['type'] == 'SIMPLE' || $owner || $admin || $item['uid'] == $uid) { ?>
@@ -297,6 +299,8 @@ EOT;
                         <?php } ?>
                         <a href="<?php echo Pi::url(Pi::api('api', 'comment')->getUrl('post', array('post' => $item['id']))) ?>" target="_blank"><span class="fa fa-share-alt"></span> <?php _e('Share') ?></a>
                     </div>
+                    <?php include dirname(realpath(__FILE__)) .  '/../_reply-form.phtml' ?>
+
                 </div>
             </div>
         <?php } ?>

@@ -14,6 +14,7 @@ use Pi\Application\Api\AbstractApi;
 use Pi\Db\Sql\Where;
 use Pi\Db\RowGateway\RowGateway;
 use Module\Comment\Form\PostForm;
+use Module\Comment\Form\ReplyForm;
 use Zend\Mvc\Router\RouteMatch;
 use Pi\Paginator\Paginator;
 
@@ -343,7 +344,7 @@ class Api extends AbstractApi
             $params = (array) $routeMatch;
         }
         $limit = Pi::config('leading_limit', 'comment') ?: 5;
-        $offset = isset($options['page']) && $options['page'] >= 1 ? ($options['page'] - 1) * $limit : 0; 
+        $offset = isset($options['page']) && $options['page'] >= 1 ? ($options['page'] - 1) * $limit : 0;
 
         // Look up root against route data
         $data = $this->findRoot($params);
@@ -828,6 +829,30 @@ class Api extends AbstractApi
         return $form;
     }
     
+    /**
+     * Get comment post edit form
+     *
+     * @param array $data
+     *
+     * @return ReplyForm
+     */
+    public function getFormReply(array $data = array(), array $options = array())
+    {
+        $name = isset($options['name']) ? $options['name'] : '';
+        $markup = isset($options['markup'])
+            ? $options['markup']
+            : Pi::config('markup_format', $this->module);
+        
+            
+        $form = new ReplyForm($name, $markup, $options);
+        if ($data) {
+            $form->setData($data);
+        }
+
+        return $form;
+    }
+    
+    
     public function getRatings()
     {
         $select = Pi::model('rating_type', 'comment')->select();
@@ -948,18 +973,20 @@ class Api extends AbstractApi
         
         $ratingData = $this->canonizeRating($data);
         Pi::model('post_rating', 'comment')->delete(array('post' => $newId));
-        foreach ($ratingData as $key => $value) {
-            if (strstr($key, 'rating-')) {
-                $ratingType = str_replace('rating-', '', $key);
-                $rowRating = Pi::model('post_rating', 'comment')->createRow(
-                    array(
-                        'post' => $newId,
-                        'rating_type' => $ratingType,
-                        'rating' => $value
-                    )
-                );  
-                $rowRating->save();
-            }   
+        if ($row->reply == 0) { 
+            foreach ($ratingData as $key => $value) {
+                if (strstr($key, 'rating-')) {
+                    $ratingType = str_replace('rating-', '', $key);
+                    $rowRating = Pi::model('post_rating', 'comment')->createRow(
+                        array(
+                            'post' => $newId,
+                            'rating_type' => $ratingType,
+                            'rating' => $value
+                        )
+                    );  
+                    $rowRating->save();
+                }   
+            }
         }
         
         // notify, except for edit 

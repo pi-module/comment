@@ -1,8 +1,7 @@
-<?php 
-    $this->jQuery(array(
-        'extension/jquery.magnific-popup.min.js',
-        'extension/magnific-popup.min.css',
-    ));
+<?php
+    $this->jQuery(array('extension/jquery.magnific-popup.min.js' => array('deferr' => 'defer')));
+    $this->jQuery('extension/magnific-popup.min.css');
+
     if (!empty($script)) {
         $this->footScript()->appendScript($script);
     }
@@ -349,8 +348,6 @@ $(function() {
     
     
     $.when(
-        $.getScript( "/static/vendor/jquery/extension/jquery.magnific-popup.min.js" ),
-        $.getStylesheet( "/static/vendor/jquery/extension/magnific-popup.min.css" ),
         $.getStylesheet( "/asset/module-comment/css/front.css" ),
         $.Deferred(function( deferred ){
             $( deferred.resolve );
@@ -570,3 +567,17 @@ EOT;
     </div>
 </div>
 
+
+<script>
+    window.addEventListener('DOMContentLoaded', function() {
+        $('.gallery').each(function() {
+            $(this).magnificPopup({
+                delegate: 'a',
+                type: 'image',
+                gallery: {
+                    enabled:true
+                }
+            });
+        });
+    });
+</script>

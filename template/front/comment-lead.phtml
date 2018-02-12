@@ -44,13 +44,15 @@ $(function() {
     var myinit = function() {
         initGallery = function()
         {
-            $('.gallery').each(function() {
-                $(this).magnificPopup({
-                    delegate: 'a',
-                    type: 'image',
-                    gallery: {
-                        enabled:true
-                    }
+            window.addEventListener('DOMContentLoaded', function() {
+                $('.gallery').each(function() {
+                    $(this).magnificPopup({
+                        delegate: 'a',
+                        type: 'image',
+                        gallery: {
+                            enabled:true
+                        }
+                    });
                 });
             });
         }

@@ -1,14 +1,29 @@
-<?php 
-    $this->jQuery(array(
-        'extension/jquery.magnific-popup.min.js',
-        'extension/magnific-popup.min.css',
-    ));
+<?php
+    $this->jQuery(array('extension/jquery.magnific-popup.min.js' => array('defer' => 'defer')));
+
     if (!empty($script)) {
         $this->footScript()->appendScript($script);
     }
-    $this->css($this->assetModule('css/front.css', 'comment')); 
-    
 ?>
+
+<noscript id="deferred-comment">
+    <link rel="stylesheet" type="text/css" href="<?php echo $this->assetModule('css/front.css', 'comment') ?>"/>
+    <link rel="stylesheet" type="text/css" href="<?php echo Pi::url('static/' . Pi\View\Helper\JQuery::DIR_ROOT . '/extension/magnific-popup.min.css') ?>"/>
+</noscript>
+<script>
+    var loadDeferredComment = function() {
+        var addStylesNode = document.getElementById("deferred-comment");
+        var replacement = document.createElement("div");
+        replacement.innerHTML = addStylesNode.textContent;
+        document.body.appendChild(replacement)
+        addStylesNode.parentElement.removeChild(addStylesNode);
+    };
+    var rafComment = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
+        window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+    if (rafComment) rafComment(function() { window.setTimeout(loadDeferredComment, 0); });
+    else window.addEventListener('load', loadDeferredComment);
+</script>
+
 <script>
 
 
@@ -29,13 +44,15 @@ $(function() {
     var myinit = function() {
         initGallery = function()
         {
-            $('.gallery').each(function() {
-                $(this).magnificPopup({
-                    delegate: 'a',
-                    type: 'image',
-                    gallery: {
-                        enabled:true
-                    }
+            window.addEventListener('DOMContentLoaded', function() {
+                $('.gallery').each(function() {
+                    $(this).magnificPopup({
+                        delegate: 'a',
+                        type: 'image',
+                        gallery: {
+                            enabled:true
+                        }
+                    });
                 });
             });
         }
@@ -351,8 +368,6 @@ $(function() {
     
     
     $.when(
-        $.getScript( "/static/vendor/jquery/extension/jquery.magnific-popup.min.js" ),
-        $.getStylesheet( "/static/vendor/jquery/extension/magnific-popup.min.css" ),
         $.getStylesheet( "/asset/module-comment/css/front.css" ),
         $.Deferred(function( deferred ){
             $( deferred.resolve );
@@ -539,9 +554,11 @@ EOT;
     <?php } ?>
 
     <div class="panel-body" itemscope itemtype="https://schema.org/UserComments">
-        
-        <?php include realpath(__FILE__) . './../_post-form.phtml' ?>
-       
+
+        <?php if (Pi::user()->getId() > 0) { ?>
+            <?php include realpath(__FILE__) . './../_post-form.phtml' ?>
+        <?php } ?>
+
         <?php if (count($posts)) { ?>
             <div id="<?php echo $review ? 'paginate-reviews' : 'paginate-comments' ?>">
                 <?php include realpath(__FILE__) . './../partial/paginate-comments.phtml' ?>
@@ -572,3 +589,17 @@ EOT;
     </div>
 </div>
 
+
+<script>
+    window.addEventListener('DOMContentLoaded', function() {
+        $('.gallery').each(function() {
+            $(this).magnificPopup({
+                delegate: 'a',
+                type: 'image',
+                gallery: {
+                    enabled:true
+                }
+            });
+        });
+    });
+</script>

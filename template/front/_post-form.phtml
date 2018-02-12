@@ -49,106 +49,106 @@ $form = Pi::service('comment')->getForm($formData, $options);
             <div class="modal-body">
 
 
-<?php } ?>
-<div class="<?php echo $review ? 'hide' : '' ?> comment-item" id="<?php echo $review ? 'js-review-form' : 'js-comment-form' ?>">
-    <?php echo $this->form()->openTag($form); ?>
+                <?php } ?>
+                <div class="<?php echo $review ? 'hide' : '' ?> comment-item" id="<?php echo $review ? 'js-review-form' : 'js-comment-form' ?>">
+                    <?php echo $this->form()->openTag($form); ?>
 
-    <?php if (!$review) { ?>
-        <div class="form-group">
-            <textarea placeholder="<?php _e('Type your content'); ?>" class="form-control js-comment-txt" rows="3"></textarea>
-        </div>
-    <?php } ?>
-
-    <div class="<?php echo $review ? '' : 'hide' ?> clearfix comment-form form-group">
-        <div class="special-review">
-            <?php if ($review)  { ?>
-                <input type="submit" id="rating_fakeinput" value="" onclick="return false"/>
-                <div id="ratings" class="form-group">
-                    <?php foreach ($form->ratings as $key => $rating) { ?>
-                        <div class="col-md-6 inline">
-                            <?php echo $this->formElement($form->get('star-' . $key)); ?>
-                            <?php echo $this->formElement($form->get('rating-' . $key)); ?>
+                    <?php if (!$review) { ?>
+                        <div class="form-group">
+                            <textarea placeholder="<?php _e('Type your content'); ?>" class="form-control js-comment-txt" rows="3"></textarea>
                         </div>
                     <?php } ?>
-                    <div class="clearfix"></div>
-                </div>
 
-                <div class="col-md-12 inline form-group">
-                    <div class="col-md-3 no-padding">
-                        <label><i class="text-danger" style="margin-right: 5px;" title="Requis">*</i><?php _e('Experience time') ?></label>
+                    <div class="<?php echo $review ? '' : 'hide' ?> clearfix comment-form form-group">
+                        <div class="special-review">
+                            <?php if ($review)  { ?>
+                                <input type="submit" id="rating_fakeinput" value="" onclick="return false"/>
+                                <div id="ratings" class="form-group">
+                                    <?php foreach ($form->ratings as $key => $rating) { ?>
+                                        <div class="col-md-6 inline">
+                                            <?php echo $this->formElement($form->get('star-' . $key)); ?>
+                                            <?php echo $this->formElement($form->get('rating-' . $key)); ?>
+                                        </div>
+                                    <?php } ?>
+                                    <div class="clearfix"></div>
+                                </div>
+
+                                <div class="col-md-12 inline form-group">
+                                    <div class="col-md-3 no-padding">
+                                        <label><i class="text-danger" style="margin-right: 5px;" title="Requis">*</i><?php _e('Experience time') ?></label>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <?php echo $this->formElement($form->get('time_experience')); ?>
+                                    </div>
+                                </div>
+                            <?php } ?>
+                        </div>
+
+                        <?php echo $this->formElement($form->get('reply')); ?>
+                        <?php echo $this->formElement($form->get('id')); ?>
+                        <div class="col-md-12 ">
+                            <label class="reply-hide"><i class="text-danger" style="margin-right: 5px;" title="Requis">*</i><?php echo $review ? __('Your review') : __('Your comment') ?></label>
+                            <label class="reply-show"><i class="text-danger" style="margin-right: 5px;" title="Requis">*</i><?php _e('Your reply') ?></label>
+                            <?php echo $this->formElement($form->get('content')); ?>
+                        </div>
+                        <?php if ($review)  { ?>
+                            <div class="col-md-12 special-review">
+                                <br>
+                                <?php echo $this->formMedia($form->get('main_image')); ?>
+                                <?php echo $this->formMedia($form->get('additional_images')); ?>
+                            </div>
+                        <?php } ?>
                     </div>
-                    <div class="col-md-9">
-                        <?php echo $this->formElement($form->get('time_experience')); ?>
+                    <?php if ($guestApprove === 1 && $userId === 0) { ?>
+                        <div class="row hide clearfix comment-form-guest col-md-8">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label><?php _e('Name'); ?></label>
+                                    <?php echo $this->formElement($form->get('identity')); ?>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label><?php _e('Email'); ?></label>
+                                    <?php echo $this->formElement($form->get('email')); ?>
+                                </div>
+                            </div>
+                        </div>
+                        <?php $colClass = 'col-md-4'; ?>
+                    <?php } ?>
+
+                    <?php if ($userId > 0 && method_exists(Pi::api('comment', $caller), 'canonize')) { ?>
+                        <div class="<?php echo $review ? '' : 'hide' ?>  clearfix comment-form <?php echo $colClass; ?> text-right">
+                            <?php echo $this->formElement($form->get('subscribe')); ?>
+                            <span class="text-muted"><?php _e('Subscribe to the thread') ?></span><br>
+                            <br>
+                        </div>
+                    <?php } ?>
+                    <div class="<?php echo $review ? '' : 'hide' ?>  clearfix comment-form <?php echo $colClass; ?> text-right">
+                        <a href="#" class="hide cancel btn btn-primary"><?php _e('Cancel') ?></a>
+                        <?php echo $this->formElement($form->get('submit')); ?>
                     </div>
+                    <div class="hide clearfix comment-form">
+                        <?php
+                        $elements = $form->elementList();
+                        foreach ($elements['hidden'] as $element) {
+                            echo $this->formElement($element);
+                        }
+                        ?>
+                    </div>
+                    <?php echo $this->form()->closeTag(); ?>
+                    <?php if (!$userId && !$guestApprove) { ?>
+                        <div class="hide well well-sm comment-login">
+                            <?php $modalEnabled = Pi::user()->config('enable_modal'); ?>
+                            <?php echo sprintf(__('Please <a href="%s" data-target="#loginRegisterModal" data-redirect-anchor="#pi-comment-lead-anchor" data-action="login" data-toggle="%s">login</a> to leave comments.'), $modalEnabled ? '#' : Pi::service('authentication')->getUrl('login', $uri), $modalEnabled ? 'modal' : ''); ?>
+                        </div>
+                    <?php } ?>
                 </div>
-            <?php } ?>
-        </div>
-
-        <?php echo $this->formElement($form->get('reply')); ?>
-        <?php echo $this->formElement($form->get('id')); ?>
-        <div class="col-md-12 ">
-            <label class="reply-hide"><i class="text-danger" style="margin-right: 5px;" title="Requis">*</i><?php echo $review ? __('Your review') : __('Your comment') ?></label>
-            <label class="reply-show"><i class="text-danger" style="margin-right: 5px;" title="Requis">*</i><?php _e('Your reply') ?></label>
-            <?php echo $this->formElement($form->get('content')); ?>
-        </div>
-        <?php if ($review)  { ?>
-            <div class="col-md-12 special-review">
-            <br>
-                <?php echo $this->formMedia($form->get('main_image')); ?>
-                <?php echo $this->formMedia($form->get('additional_images')); ?>
-            </div>
-        <?php } ?>
-    </div>
-    <?php if ($guestApprove === 1 && $userId === 0) { ?>
-        <div class="row hide clearfix comment-form-guest col-md-8">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label><?php _e('Name'); ?></label>
-                    <?php echo $this->formElement($form->get('identity')); ?>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label><?php _e('Email'); ?></label>
-                    <?php echo $this->formElement($form->get('email')); ?>
-                </div>
-            </div>
-        </div>
-        <?php $colClass = 'col-md-4'; ?>
-    <?php } ?>
-
-    <?php if ($userId > 0 && method_exists(Pi::api('comment', $caller), 'canonize')) { ?>
-        <div class="<?php echo $review ? '' : 'hide' ?>  clearfix comment-form <?php echo $colClass; ?> text-right">
-            <?php echo $this->formElement($form->get('subscribe')); ?>
-            <span class="text-muted"><?php _e('Subscribe to the thread') ?></span><br>
-            <br>
-        </div>
-    <?php } ?>
-    <div class="<?php echo $review ? '' : 'hide' ?>  clearfix comment-form <?php echo $colClass; ?> text-right">
-        <a href="#" class="hide cancel btn btn-primary"><?php _e('Cancel') ?></a>
-        <?php echo $this->formElement($form->get('submit')); ?>
-    </div>
-    <div class="hide clearfix comment-form">
-        <?php
-        $elements = $form->elementList();
-        foreach ($elements['hidden'] as $element) {
-            echo $this->formElement($element);
-        }
-        ?>
-    </div>
-    <?php echo $this->form()->closeTag(); ?>
-    <?php if (!$userId && !$guestApprove) { ?>
-        <div class="hide well well-sm comment-login">
-            <?php $modalEnabled = Pi::user()->config('enable_modal'); ?>
-            <?php echo sprintf(__('Please <a href="%s" data-target="#loginRegisterModal" data-redirect-anchor="#pi-comment-lead-anchor" data-action="login" data-toggle="%s">login</a> to leave comments.'), $modalEnabled ? '#' : Pi::service('authentication')->getUrl('login', $uri), $modalEnabled ? 'modal' : ''); ?>
-        </div>
-    <?php } ?>
-</div>
 
 
 
-<?php // Review form in a modale ?>
-<?php if ($review) { ?>
+                <?php // Review form in a modale ?>
+                <?php if ($review) { ?>
 
             </div>
 
@@ -161,39 +161,39 @@ $form = Pi::service('comment')->getForm($formData, $options);
     (function ($) {
         <?php if (!$review) { ?>
 
-            var comment = {
-                el: $('#js-comment-form'),
-                $: function (selector) {
-                    return this.el.find(selector);
-                },
-                init: function () {
-                    this.textarea = this.$('.js-comment-txt');
+        var comment = {
+            el: $('#js-comment-form'),
+            $: function (selector) {
+                return this.el.find(selector);
+            },
+            init: function () {
+                this.textarea = this.$('.js-comment-txt');
 
-                    this.events();
-                },
-                events: function () {
-                    var self = this;
-                    var guest = <?php echo $guestApprove; ?>;
-                    this.textarea.focus(function () {
+                this.events();
+            },
+            events: function () {
+                var self = this;
+                var guest = <?php echo $guestApprove; ?>;
+                this.textarea.focus(function () {
 
-                        $.getJSON('<?php echo $url; ?>?' + new Date().getTime()).done(function (data) {
-                            self.textarea.hide();
-                            if (data.uid) {
-                                self.$('.comment-form').removeClass('hide');
-                                self.$('[name=content]').focus();
-                            } else if (guest == 1) {
-                                self.$('.comment-form').removeClass('hide');
-                                self.$('.comment-form-guest').removeClass('hide');
-                                self.$('[name=content]').focus();
-                            } else {
-                                self.$('.comment-login').removeClass('hide');
-                            }
-                        });
+                    $.getJSON('<?php echo $url; ?>?' + new Date().getTime()).done(function (data) {
+                        self.textarea.hide();
+                        if (data.uid) {
+                            self.$('.comment-form').removeClass('hide');
+                            self.$('[name=content]').focus();
+                        } else if (guest == 1) {
+                            self.$('.comment-form').removeClass('hide');
+                            self.$('.comment-form-guest').removeClass('hide');
+                            self.$('[name=content]').focus();
+                        } else {
+                            self.$('.comment-login').removeClass('hide');
+                        }
                     });
-                }
-            };
+                });
+            }
+        };
 
-            comment.init();
+        comment.init();
         <?php } ?>
 
         // Textarea auto height
@@ -210,35 +210,35 @@ $form = Pi::service('comment')->getForm($formData, $options);
 
         // Form control for ratings
         var submitForm = function() {
-                if ($('form#review-post [name=reply]').val() != "") {
-                    return true;
-                }
-                var ratings = true;
-                $('#ratings input[type=hidden]').each(
-                    function(el) {
-                        if ($(this).val() == '') {
-                            ratings = false;
-                        }
-                    }
-                );
-                if (!ratings) {
-                    document.getElementById("rating_fakeinput").setCustomValidity("<?php _e("Don't forget your rating") ?>");
-                    document.getElementById("rating_fakeinput").reportValidity();
-
-                    return false;
-                }
+            if ($('form#review-post [name=reply]').val() != "") {
                 return true;
+            }
+            var ratings = true;
+            $('#ratings input[type=hidden]').each(
+                function(el) {
+                    if ($(this).val() == '') {
+                        ratings = false;
+                    }
+                }
+            );
+            if (!ratings) {
+                document.getElementById("rating_fakeinput").setCustomValidity("<?php _e("Don't forget your rating") ?>");
+                document.getElementById("rating_fakeinput").reportValidity();
+
+                return false;
+            }
+            return true;
         };
         $('#review-post').submit(submitForm);
 
         $('.rating a').click(
             function () {
-                  document.getElementById("rating_fakeinput").setCustomValidity("");
-                  var id = $(this).parent().data('for');
-                  $('[name=' + id + ']').val($(this).data('value'));
-                  $(this).parent().find('a').removeClass('active');
-                  $(this).addClass('active');
-                  return false;
+                document.getElementById("rating_fakeinput").setCustomValidity("");
+                var id = $(this).parent().data('for');
+                $('[name=' + id + ']').val($(this).data('value'));
+                $(this).parent().find('a').removeClass('active');
+                $(this).addClass('active');
+                return false;
             }
         );
 
@@ -252,24 +252,34 @@ $form = Pi::service('comment')->getForm($formData, $options);
     $('.js-comment-status').click(function() {
         location.href = '<?php $this->url(); ?>' + $(this).data('id');
     });
+
+    $('.dropzone').removeClass('dropzone').addClass('dropzoneOld');
 </script>
 
 <?php
-    if (Pi::service('config')->get('ajax_load', 'comment')) {
-        if(empty($GLOBALS['modalSetLoaded'])){
-            /** @var Pi\View\Helper\HeadScript $headScript */
-            $headScript = $this->plugin('headScript');
-            foreach($headScript as $head){
-                if(preg_match('#module-media#', $head->attributes['src'])){
-                    echo '<script  src="'.$head->attributes['src'].'"></script>';
-                }
+if (Pi::service('config')->get('ajax_load', 'comment')) {
+    if(empty($GLOBALS['modalSetLoaded'])){
+
+
+
+
+        /** @var Pi\View\Helper\HeadScript $headScript */
+        $headScript = $this->plugin('headScript');
+        foreach($headScript as $head){
+            if(preg_match('#module-media#', $head->attributes['src'])){
+                echo '<script src="'.$head->attributes['src'].'"></script>';
             }
-    
-            echo $this->plugin('headLink');
-            echo $this->plugin('footScript');
-    
-            $GLOBALS['modalSetLoaded'] = true;
         }
+
+        echo $this->plugin('headLink');
+        echo $this->plugin('footScript');
+
+        $GLOBALS['modalSetLoaded'] = true;
     }
+}
 
 ?>
+
+<script>
+    $('.dropzoneOld').removeClass('dropzoneOld').addClass('dropzone');
+</script>

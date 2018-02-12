@@ -231,7 +231,8 @@ EOT;
                 }
             ?>
             <?php $url = ($reply['uid'] > 0) ? $reply['user']['url'] : '#comments'; ?>
-            <div class="pi-comment-single media comment-item clearfix is-reply <?php echo'comment-' . strtolower($reply['writer']) ?>"   data-reply="<?php echo $reply['reply'] ?>" id="comment-<?php echo $reply['id']; ?>">
+            <div class="fake-anchor" id="comment-<?php echo $reply['id']; ?>"></div>
+            <div class="pi-comment-single media comment-item clearfix is-reply <?php echo'comment-' . strtolower($reply['writer']) ?>"   data-reply="<?php echo $reply['reply'] ?>" >
                 <?php if ($reply['uid'] > 0) { ?>
                     <a class="pull-left avatar-img-wrapper" href="<?php echo $reply['user']['url']; ?>" target="_blank">
                         <?php echo $reply['user']['avatar']; ?>
@@ -297,7 +298,7 @@ EOT;
                                 <span class="fa fa-mail-reply"></span> <?php _e('Reply') ?>
                             </a>
                         <?php } ?>
-                        <a href="<?php echo Pi::url(Pi::api('api', 'comment')->getUrl('post', array('post' => $item['id']))) ?>" target="_blank"><span class="fa fa-share-alt"></span> <?php _e('Share') ?></a>
+                        <a href="<?php echo Pi::url(Pi::api('api', 'comment')->getUrl('post', array('post' => $reply['id']))) ?>" target="_blank"><span class="fa fa-share-alt"></span> <?php _e('Share') ?></a>
                     </div>
                     <?php include dirname(realpath(__FILE__)) .  '/../_reply-form.phtml' ?>
 

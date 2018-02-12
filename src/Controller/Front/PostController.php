@@ -30,7 +30,9 @@ class PostController extends ActionController
     {
         $id      = _get('id', 'int') ?: 1;
         $post   = Pi::api('api', 'comment')->getPost($id);
-        
+        if ($post['reply'] > 0) {
+            $post   = Pi::api('api', 'comment')->getPost($post['reply']);    
+        }
         if ($post && $post['active']) {
             $where = array(
                 'active' => 1,
@@ -54,7 +56,7 @@ class PostController extends ActionController
             $page = ((int)($count / $perpage)) + 1;
             $target = Pi::api('api', 'comment')->getTarget($post['root']);
             $type = $post['type'] == 'REVIEW' ? 'review' : 'comment'; 
-            Pi::service('url')->redirect($target['url'] . '#' . $type . '/' . $page . '/' . $post['id'], false, 301);
+            Pi::service('url')->redirect($target['url'] . '#' . $type . '/' . $page . '/' . $id, false, 301);
         } else {
             $this->view()->setTemplate('comment-404');
         }
@@ -204,7 +206,9 @@ class PostController extends ActionController
             }
 
             if ($result['data']) {
-                $redirect = strstr($redirect, '#', true);
+                if (strstr($redirect, '#')) {
+                    $redirect = strstr($redirect, '#', true);
+                }
                 $this->redirect($redirect . '#comment-' . $result['data']);
             } else {
                 $this->jump($redirect, $result['message']);

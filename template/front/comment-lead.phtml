@@ -339,11 +339,13 @@ $(function() {
         checkComment();
         initGallery();
         
-        el = $(window.location.hash);
-        if (el.length) {
-            _elToScroll = el;
-            window.setTimeout(scrollTo, 500);
-        }    
+        if (window.location.hash.split('/').length != 3) {
+            el = $(window.location.hash);
+            if (el.length) {
+                _elToScroll = el;
+                window.setTimeout(scrollTo, 500);
+            }    
+        }
         
     };
     

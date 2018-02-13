@@ -1,28 +1,12 @@
 <?php
     $this->jQuery(array('extension/jquery.magnific-popup.min.js' => array('defer' => 'defer')));
+    $this->jQuery(array('extension/magnific-popup.min.css' => array('defer' => 'defer')));
+    $this->css(array($this->assetModule('css/front.css', 'comment') => array('defer' => 'defer')));
 
     if (!empty($script)) {
         $this->footScript()->appendScript($script);
     }
 ?>
-
-<noscript id="deferred-comment">
-    <link rel="stylesheet" type="text/css" href="<?php echo $this->assetModule('css/front.css', 'comment') ?>"/>
-    <link rel="stylesheet" type="text/css" href="<?php echo Pi::url('static/' . Pi\View\Helper\JQuery::DIR_ROOT . '/extension/magnific-popup.min.css') ?>"/>
-</noscript>
-<script>
-    var loadDeferredComment = function() {
-        var addStylesNode = document.getElementById("deferred-comment");
-        var replacement = document.createElement("div");
-        replacement.innerHTML = addStylesNode.textContent;
-        document.body.appendChild(replacement)
-        addStylesNode.parentElement.removeChild(addStylesNode);
-    };
-    var rafComment = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
-        window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
-    if (rafComment) rafComment(function() { window.setTimeout(loadDeferredComment, 0); });
-    else window.addEventListener('load', loadDeferredComment);
-</script>
 
 <script>
 

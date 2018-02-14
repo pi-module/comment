@@ -1,5 +1,10 @@
 <?php
     $this->jQuery(array('extension/jquery.magnific-popup.min.js' => array('defer' => 'defer')));
+    
+    $this->js(array(
+        $this->assetModule('script/system-msg.js', 'system'),
+    ));
+
     $this->jQuery(array('extension/magnific-popup.min.css' => array('defer' => 'defer')));
     $this->css(array($this->assetModule('css/front.css', 'comment') => array('defer' => 'defer')));
 
@@ -108,21 +113,25 @@ $(function() {
             );    
         };
         
-        var editReply = function(elem) 
-        {
-            var form = $(elem).parent().parent().find('.comment-item').find('form');
-            var html = $(elem).parent().parent().find(".commentText").data('rel');
-            reply(elem);
-            form.find('[name=id]').val($(elem).data('id'));
-            form.find('textarea[name=content]').html(html);
-            $('.reply-hide').hide();
-            $('.reply-show').show();
-        }
         var edit = function(elem) {
+            
             var review = $(elem).parent().hasClass('is-review');
-            var form = review ? $('form#review-post') : $('form#comment-post');
-             
+            var reply = $(elem).parent().hasClass('is-reply');
+            
+            // edit with contenteditable
+            if (!review || reply) {
+                _editable = $(elem).parent().parent().find('.commentText')[0];
+                $(elem).parent().parent().find('.commentText').attr('contenteditable', true);
+                toggleAction($(elem).parent());
+                window.setTimeout(editableFocus, 100);
+                return;
+            }
+            
+            // else edit with modal
+            
+            var form = $('form#review-post');
             form.find('.cancel').removeClass('hide');
+            
             var html = $(elem).parent().parent().find(".commentText").data('rel');
             form.find('[name=id]').val($(elem).data('id'));
 
@@ -152,6 +161,7 @@ $(function() {
         };
         
         var initEdit = function() {
+            $('.edit').unbind('click');
             $('.edit').click(
                 function (e) {
                     e.preventDefault();
@@ -159,22 +169,14 @@ $(function() {
                     edit(this);
                     
                     var review = $(this).parent().hasClass('is-review') == true;
-                    showForm(review);
+                    var reply = $(this).parent().hasClass('is-reply');
+                    if (review && !reply) {
+                        $('#modalForm').modal();
+                    }
                     
                     return false;
                 }
-            );    
-            
-            $('.editReply').click(
-                function (e) {
-                    e.preventDefault();
-                    cancel(e);
-                    editReply(this);
-                   
-                    return false;
-                }
-            );    
-            
+            ); 
         };
         
         var initForm = function() {
@@ -190,6 +192,75 @@ $(function() {
         initEdit();
         initCancel();
         initForm();
+        
+        
+        
+        
+        // Edit with contenteditable
+        var _editable = null;
+        var editableFocus = function(elem)
+        {
+            _editable.focus()
+        }
+        var toggleAction = function(elem) 
+        {
+            elem.find('a').each(
+                function (i, a) {
+                    if ($(a).is(':visible')) {
+                        $(a).hide();
+                    } else {
+                        $(a).show();
+                        $(a).removeClass('hide');
+                    }
+                }
+            );  
+        }
+        
+        $('.validateedit').unbind('click');
+        $('.validateedit').click(
+            function(e) {$
+                e.preventDefault();
+                toggleAction($(this).parent());
+                
+                $(this).parent().parent().find('.commentText').attr('contenteditable', false);
+                var commentText = $(this).parent().parent().find('.commentText');
+                var initcontent = commentText.html();
+                var content = initcontent.replace(/\n/gi, '').replace(/\r\n/gi, '').replace(/<br>/gi, '\n').replace(/<br \/>/gi, '\n').replace(/<br\/>/gi, '\n');
+                var review = $(this).parent().hasClass('is-review') ? 1 : 0;
+                var id = $(this).data('id');
+                var reply = $(this).data('reply');
+                $.ajax({ 
+                    url: '<?php echo $this->url('comment', array('module' => 'comment', 'controller' => 'post', 'action' => 'submit')); ?>',  
+                    type: "POST",  
+                    data: {'content' : content, 'id' : id, 'review' : review, 'reply' : reply, 'return' : true, root: <?php echo $root['id'] ?>},
+                    dataType :'json',  
+                    success: function(data) {
+                        if (data.status) {
+                            commentText.attr('data-rel', initcontent);
+                            systemMessage.succ(data.message);
+                        } else {
+                            systemMessage.succ(data.message);
+                        }
+                    },
+                    error: function() {
+                         systemMessage.fail("<?php echo __("Error on detect information, please contact to admin") ?>");
+                    } 
+                    
+                }); 
+            }  
+        );
+        
+        $('.canceledit').unbind('click');
+        $('.canceledit').click(
+            function(e) {
+                e.preventDefault();
+                _editable = null;
+                $(this).parent().parent().find('.commentText').attr('contenteditable', false);
+                toggleAction($(this).parent());
+                $(this).parent().parent().find('.commentText').html($(this).parent().parent().find('.commentText').data('rel'));
+            }
+        );
+        //    
         
         var getPage = function(page, type, id)
         {
@@ -260,15 +331,6 @@ $(function() {
                 return false;
             }
         );
-        var showForm = function(review)
-        {
-
-            if (review) {
-                $('#modalForm').modal();
-            } else {
-                $('textarea.js-comment-txt')[0].focus();
-            }
-        };
             
         <?php if ($review) { ?>
             $('#js-review-form').removeClass('hide');
@@ -281,7 +343,8 @@ $(function() {
                         e.preventDefault();
                     }
                     cancel();
-                    showForm(true);    
+                    $('#modalForm').modal();
+    
                 }
             );
         <?php } ?>

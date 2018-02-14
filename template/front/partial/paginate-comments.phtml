@@ -11,7 +11,7 @@ $templateUserComment = <<<'EOT'
             </ul>
         </div>
         <div>
-            <div class="clearfix commentText" itemprop="commentText" data-rel="%s">%s</div>
+            <div class="clearfix commentText" itemprop="commentText" data-rel="%s" placeholder="Write a comment..."  contenteditable="false">%s</div>
         </div>
         <meta itemprop="commentTime" content="%s" />
 EOT;
@@ -35,7 +35,7 @@ $templateUserReview = <<<'EOT'
             %s
         </div>
         <div>
-            <div class="clearfix commentText" itemprop="reviewBody" data-rel="%s">%s</div>
+            <div class="clearfix commentText" itemprop="reviewBody" data-rel="%s" placeholder="Write a comment..."  contenteditable="false">%s</div>
         </div>
         %s
         <meta itemprop="datePublished" content="%s" />
@@ -117,7 +117,7 @@ EOT;
                         $item['user']['name'],
                         _date($item['time'], null, null, null, null, null, null,  Pi::config('datetime_format', 'comment')),
                         $badge,
-                        htmlspecialchars($item['initial_content']),
+                        htmlspecialchars($item['content']),
                         $item['content'],
                         date("Y-m-d H:i:s", $item['time'])
                     );
@@ -198,6 +198,9 @@ EOT;
                         );
                     } ?>
                     <a href="#" class="edit" data-id="<?php echo $item['id'] ?>"><span class="fa fa-edit"></span> <?php _e('Edit') ?></a>
+                    <a href="#" class="hide validateedit" data-id="<?php echo $item['id'] ?>"><span class="fa fa-check"></span> <?php _e('Save') ?></a>
+                    <a href="#" class="hide canceledit"><span class="fa fa-close"></span> <?php _e('Cancel') ?></a>
+                    
                 <?php } ?> 
                 <?php if (Pi::user()->getId() > 0) { ?>
                     <?php if ($item['type'] == 'SIMPLE' || $owner || $admin || $item['uid'] == $uid) { ?>
@@ -250,7 +253,7 @@ EOT;
                             $reply['user']['name'],
                             _date($reply['time'], null, null, null, null, null, null,  Pi::config('datetime_format', 'comment')),
                             $badge,
-                            htmlspecialchars($reply['initial_content']),
+                            htmlspecialchars($reply['content']),
                             $reply['content'],
                             date("Y-m-d H:i:s", $reply['time'])
                         );
@@ -282,7 +285,9 @@ EOT;
                                     __('Delete')
                                 );
                             } ?>
-                            <a href="#" class="editReply" data-id="<?php echo $reply['id'] ?>"><span class="fa fa-close"></span> <?php _e('Edit') ?></a>
+                            <a href="#" class="edit" data-id="<?php echo $reply['id'] ?>"><span class="fa fa-close"></span> <?php _e('Edit') ?></a>
+                            <a href="#" class="hide validateedit" data-id="<?php echo $reply['id'] ?>" data-reply="<?php echo $reply['reply'] ?>"><span class="fa fa-check"></span> <?php _e('Save') ?></a>
+                            <a href="#" class="hide canceledit"><span class="fa fa-close"></span> <?php _e('Cancel') ?></a>
                         <?php } ?>
                         <?php if (Pi::user()->getId() > 0) { ?>
                             <?php if ($item['type'] == 'SIMPLE' || $owner || $admin || $item['uid'] == $uid) { ?>
@@ -301,7 +306,6 @@ EOT;
                         <a href="<?php echo Pi::url(Pi::api('api', 'comment')->getUrl('post', array('post' => $reply['id']))) ?>" target="_blank"><span class="fa fa-share-alt"></span> <?php _e('Share') ?></a>
                     </div>
                     <?php include dirname(realpath(__FILE__)) .  '/../_reply-form.phtml' ?>
-
                 </div>
             </div>
         <?php } ?>

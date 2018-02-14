@@ -282,6 +282,10 @@ class PostController extends ActionController
                         $isNew = true;
                     } else {
                         $post = Pi::api('api', 'comment')->getPost($values['id']);
+                        $values['root'] = $post['root'];
+                        $values['reply'] = $post['reply'];
+                        $values['type'] = $post['type'];
+                        $values['review'] = $post['type'] == 'REVIEW';
                         if (!$post) {
                             $status = -2;
                             $message = __('Invalid post parameter.');
@@ -434,13 +438,39 @@ class PostController extends ActionController
         if (0 < $status && $id) {
             Pi::service('event')->trigger('post_delete', $post['root']);
         }
-
+        // find next comment 
+        $nextComment == null;
+        if ($post['reply']) {
+            $select = Pi::model('post', 'comment')->select()->where(array('active' => 1, 'reply' => $post['reply'], new \Zend\Db\Sql\Predicate\Expression('id < ' . $post['id'])))->order('id DESC');
+            $row = Pi::model('post', 'comment')->selectWith($select)->current();
+            if ($row == null) {
+                $nextComment = $post['reply'];
+            }   else {
+                $nextComment = $row['id'];
+            }
+        } else {
+           $select = Pi::model('post', 'comment')->select()->where(array('active' => 1, 'reply' => 0, 'type' => $post['type'], new \Zend\Db\Sql\Predicate\Expression('id > ' . $post['id'])))->order('id');
+           $row = Pi::model('post', 'comment')->selectWith($select)->current();
+           if ($row != null) {
+                $nextComment = $row['id'];
+            }
+        }
+        
         if (!$return) {
-            $redirect = $redirect
-                ? urldecode($redirect)
-                : $this->getRequest()->getServer('HTTP_REFERER');
-            if (!$redirect) {
-                $redirect = Pi::service('url')->assemble('comment');
+            if ($nextComment == null) {
+                $redirect = $redirect
+                    ? urldecode($redirect)
+                    : $this->getRequest()->getServer('HTTP_REFERER');
+                if (!$redirect) {
+                    $redirect = Pi::service('url')->assemble('comment');
+                }
+                if (strstr($redirect, '#')) {
+                    $redirect = strstr($redirect, '#', true);
+                }
+                $redirect = $redirect . '#comments';
+            } else {
+                $redirect = Pi::api('api', 'comment')->getUrl('post', array('post' => $nextComment));
+                
             }
             $this->jump($redirect, $message, $status > 0 ? 'success' : 'error');
         } else {

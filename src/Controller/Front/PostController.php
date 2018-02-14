@@ -467,7 +467,11 @@ class PostController extends ActionController
                 if (strstr($redirect, '#')) {
                     $redirect = strstr($redirect, '#', true);
                 }
-                $redirect = $redirect . '#comments';
+                if ($post['type'] == 'REVIEW') {
+                    $redirect = $redirect . '#write-review';
+                } else {
+                    $redirect = $redirect . '#js-comment-form';
+                }
             } else {
                 $redirect = Pi::api('api', 'comment')->getUrl('post', array('post' => $nextComment));
                 

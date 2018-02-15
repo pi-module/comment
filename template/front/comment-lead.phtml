@@ -44,14 +44,16 @@ $(function() {
                     });
                 });
             });
-        }
-        var cancel = function() {
-            // time experience
+        };
+
+        var cancel = function(){
+            /**
+             *   time experience
+             */
             if ($('form#review-post [name=time_experience]').length) {
                 $('form#review-post [name=time_experience]').datepicker("setDate", null);
                 $('form#review-post [name=time_experience]').attr("required", true);
             }
-            //
             
             $('form#comment-post textarea[name=content]').html('');
             $('form#review-post textarea[name=content]').html(''); 
@@ -61,21 +63,24 @@ $(function() {
             
             $('form#comment-post [name=reply]').val(null);
             $('form#review-post [name=reply]').val(null);
-                        
-            // ratings
-            $('#ratings input[type=hidden]').val(null)
-            $('#ratings .active').removeClass('active')
-            //
+
+            /**
+             *   ratings
+             */
+            $('#ratings input[type=hidden]').val(null);
+            $('#ratings .active').removeClass('active');
+
             $('.reply-hide').show();
             $('.reply-show').hide();
-            
-            // images
+
+            /**
+             *   images
+             */
             $('form#review-post [name=main_image]').val(null);
                 $('form#review-post [name=additional_images]').val(null);
                 $( ".media-form-list" ).each(function(){
                     refreshFormList($(this));
                 });
-            //
             
             $('.cancel').addClass('hide');
             $('.special-review').show();
@@ -117,8 +122,10 @@ $(function() {
             
             var review = $(elem).parent().hasClass('is-review');
             var reply = $(elem).parent().hasClass('is-reply');
-            
-            // edit with contenteditable
+
+            /**
+             *   edit with contenteditable
+             */
             if (!review || reply) {
                 _editable = $(elem).parent().parent().find('.commentText')[0];
                 $(elem).parent().parent().find('.commentText').attr('contenteditable', true);
@@ -126,9 +133,11 @@ $(function() {
                 window.setTimeout(editableFocus, 100);
                 return;
             }
-            
-            // else edit with modal
-            
+
+            /**
+             *   else edit with modal
+             */
+
             var form = $('form#review-post');
             form.find('.cancel').removeClass('hide');
             
@@ -192,16 +201,16 @@ $(function() {
         initEdit();
         initCancel();
         initForm();
-        
-        
-        
-        
-        // Edit with contenteditable
+
+
+        /**
+         * Edit with contenteditable
+         */
         var _editable = null;
         var editableFocus = function(elem)
         {
             _editable.focus()
-        }
+        };
         var toggleAction = function(elem) 
         {
             elem.find('a').each(
@@ -214,11 +223,11 @@ $(function() {
                     }
                 }
             );  
-        }
+        };
         
         $('.validateedit').unbind('click');
         $('.validateedit').click(
-            function(e) {$
+            function(e) {
                 e.preventDefault();
                 toggleAction($(this).parent());
                 
@@ -232,7 +241,7 @@ $(function() {
                 $.ajax({ 
                     url: '<?php echo $this->url('comment', array('module' => 'comment', 'controller' => 'post', 'action' => 'submit')); ?>',  
                     type: "POST",  
-                    data: {'content' : content, 'id' : id, 'review' : review, 'reply' : reply, 'return' : true, root: <?php echo $root['id'] ?>},
+                    data: {'content' : content, 'id' : id, 'review' : review, 'reply' : reply, 'return' : true, root: '<?php echo $root['id'] ?>'},
                     dataType :'json',  
                     success: function(data) {
                         if (data.status) {
@@ -260,7 +269,6 @@ $(function() {
                 $(this).parent().parent().find('.commentText').html($(this).parent().parent().find('.commentText').data('rel'));
             }
         );
-        //    
         
         var getPage = function(page, type, id)
         {
@@ -444,7 +452,7 @@ $(function() {
         link.popover('show');
     
          popoverTimeoutHandle = setTimeout(function () {
-            link.popover('hide')
+            link.popover('hide');
             $('.popover-active').popover('hide');
         }, 5000);
         
@@ -470,7 +478,7 @@ $(function() {
         link.popover('show');
     
         popoverTimeoutHandle = setTimeout(function () {
-            link.popover('hide')
+            link.popover('hide');
             $('.popover-active').popover('hide');
         }, 5000);
         

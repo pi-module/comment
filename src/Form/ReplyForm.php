@@ -36,7 +36,7 @@ class ReplyForm extends BaseForm
     public function __construct($name = '', $markup = '', $options)
     {
         $this->markup = $markup ?: $this->markup;
-        $this->caller = $options['caller'];
+        $this->caller = isset($options['caller']) ? $options['caller'] : null;
         $this->reply = $options['reply'];
         $this->review = $options['review'];
         parent::__construct();

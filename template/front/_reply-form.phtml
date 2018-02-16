@@ -16,6 +16,8 @@
     $formData['redirect'] = rawurlencode($uri);
 
     $formReply = Pi::service('comment')->getFormReply($formData, $options);
+    $colClass = empty($colClass) ? '' : $colClass; 
+    $userId = empty($userId) ? null : $userId;
 ?>
 <div class="hide comment-item">
     <?php echo $this->form()->openTag($formReply); ?>

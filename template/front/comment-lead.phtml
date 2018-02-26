@@ -420,10 +420,9 @@ $(function() {
         }
         
     };
-    
-    
+
     $.when(
-        $.getStylesheet( "/asset/module-comment/css/front.css" ),
+        $.getStylesheet( "<?php echo Pi::url('asset/module-comment/css/front.css') ?>" ),
         $.Deferred(function( deferred ){
             $( deferred.resolve );
         })

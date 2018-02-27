@@ -241,7 +241,7 @@ $(function() {
                 $.ajax({ 
                     url: '<?php echo $this->url('comment', array('module' => 'comment', 'controller' => 'post', 'action' => 'submit')); ?>',  
                     type: "POST",  
-                    data: {'content' : content, 'id' : id, 'review' : review, 'reply' : reply, 'return' : true, root: '<?php echo $root['id'] ?>'},
+                    data: {'content' : content, 'id' : id, 'review' : review, 'reply' : reply, 'return' : true, root: '<?php echo !empty($root['id']) ? $root['id'] : '' ?>'},
                     dataType :'json',  
                     success: function(data) {
                         if (data.status) {
@@ -420,10 +420,9 @@ $(function() {
         }
         
     };
-    
-    
+
     $.when(
-        $.getStylesheet( "/asset/module-comment/css/front.css" ),
+        $.getStylesheet( "<?php echo Pi::url('asset/module-comment/css/front.css') ?>" ),
         $.Deferred(function( deferred ){
             $( deferred.resolve );
         })

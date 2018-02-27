@@ -873,8 +873,10 @@ class Api extends AbstractApi
      *
      * @return int|bool
      */
-    public function addPost(array $data, $uid)
+    public function addPost(array $data, $uid = null )
     {
+        $uid = $uid ?: Pi::service('user')->getUser()->get('id');
+        
         $id = isset($data['id']) ? (int) $data['id'] : 0;
         if (isset($data['id'])) {
             unset($data['id']);
@@ -944,7 +946,6 @@ class Api extends AbstractApi
                 $canEdit = true;    
             }
             
-            $uid = Pi::service('user')->getUser()->get('id');
             if ($uid == 0 ||  ($uid != $row->uid && !Pi::service('user')->getUser()->isAdmin('comment')) || !$canEdit) {
                 return false;
             } 

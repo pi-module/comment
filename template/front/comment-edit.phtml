@@ -12,7 +12,6 @@ $target = $comment['target'];
 $post = $comment['post'];
 
 $uid = Pi::user()->getId();
-$avatar = Pi::avatar()->get($uid, 'medium', false);
 if ($uid) {
     $url = Pi::service('user')->getUrl('profile', $uid);
 } else {
@@ -28,7 +27,7 @@ if ($uid) {
     <?php } ?>
     <div class="media">
         <a class="pull-left" href="<?php echo $url; ?>">
-            <img class="media-object" src="<?php echo $avatar; ?>">
+           <?php echo $post['user']['avatar']; ?>
         </a>
         <div class="media-body">
             <?php if ($post) { ?>
@@ -100,7 +99,7 @@ if ($uid) {
         $('.rating a').click(
             function () {
                   document.getElementById("rating_fakeinput").setCustomValidity("");
-                  var id = $(this).parent().attr('for');
+                  var id = $(this).parent().attr('data-for');
                   $('[name=' + id + ']').val($(this).data('value'));
                   $(this).parent().find('a').removeClass('active');
                   $(this).addClass('active');
@@ -109,7 +108,7 @@ if ($uid) {
         );
                         
 <?php foreach ($ratings as $rating) { ?>
-        $('[for=rating-<?php echo $rating['rating_type'] ?>] > a[data-value=<?php echo $rating['rating'] ?>]').addClass('active');   
+        $('[data-for=rating-<?php echo $rating['rating_type'] ?>] > a[data-value=<?php echo $rating['rating'] ?>]').addClass('active');   
 <?php } ?>
 
     })(jQuery)

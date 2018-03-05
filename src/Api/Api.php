@@ -821,7 +821,7 @@ class Api extends AbstractApi
             ? $this->getRatings()
             : array();
             
-        $form = new PostForm($name, $markup, $ratings, $options['caller']);
+        $form = new PostForm($name, $markup, $ratings, isset($options['caller']) ? $options['caller'] : '');
         if ($data) {
             $form->setData($data);
         }

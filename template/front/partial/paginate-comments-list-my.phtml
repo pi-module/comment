@@ -14,9 +14,9 @@ EOT;
     <div class="pi-comment-single media">
         <div class="text-center col-md-2">
             <?php if ($post['imageUrl']) { ?>
-                <img class="img-responsive main_image" src="<?php echo $post['imageUrl'] ?>" />
+                <img class="img-responsive main_image" src="<?php echo $post['imageUrl'] ?>" alt="" />
             <?php } else { ?>
-                <img class="img-responsive main_image" src="" />
+                <img class="img-responsive main_image" src="" alt="" />
             <?php } ?>
         </div>
         <div class="col-md-10">
@@ -41,7 +41,7 @@ EOT;
                         $rating['rating'] > 3 ? 'fa-star' : 'fa-star-o',
                         $rating['rating'] > 4 ? 'fa-star' : 'fa-star-o'
                     );  
-                    $ratings .= '<div data-value="' . $rating['rating'] . '" for="rating-' . $id . '">' . $rating['type'] . ' : ';
+                    $ratings .= '<div data-value="' . $rating['rating'] . '" data-for="rating-' . $id . '">' . $rating['type'] . ' : ';
                     $ratings .=  $star;
                     $ratings .=  '</div>';
                 }
@@ -59,7 +59,7 @@ EOT;
             </div>                           
         </div>
     </div>
-    <br/>
+    <br>
     <hr/>
     <?php if (isset($posts[$post['id']])) { ?>
         <?php $replies = array_reverse($posts[$post['id']]); ?>
@@ -118,7 +118,7 @@ EOT;
                                 $rating['rating'] > 3 ? 'fa-star' : 'fa-star-o',
                                 $rating['rating'] > 4 ? 'fa-star' : 'fa-star-o'
                             );  
-                            $ratings .= '<div data-value="' . $rating['rating'] . '" for="rating-' . $id . '">' . $rating['type'] . ' : ';
+                            $ratings .= '<div data-value="' . $rating['rating'] . '" data-for="rating-' . $id . '">' . $rating['type'] . ' : ';
                             $ratings .=  $star;
                             $ratings .=  '</div>';
                         }
@@ -136,7 +136,7 @@ EOT;
                     </div>                           
                 </div>
             </div>
-            <br/>
+            <br>
             <hr/>
         <?php } ?>
     <?php } ?>

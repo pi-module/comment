@@ -14,6 +14,7 @@ use Pi\Application\Api\AbstractApi;
 use Pi\Db\Sql\Where;
 use Pi\Db\RowGateway\RowGateway;
 use Module\Comment\Form\PostForm;
+use Module\Comment\Form\ReplyForm;
 use Zend\Mvc\Router\RouteMatch;
 use Pi\Paginator\Paginator;
 
@@ -343,7 +344,7 @@ class Api extends AbstractApi
             $params = (array) $routeMatch;
         }
         $limit = Pi::config('leading_limit', 'comment') ?: 5;
-        $offset = isset($options['page']) && $options['page'] >= 1 ? ($options['page'] - 1) * $limit : 0; 
+        $offset = isset($options['page']) && $options['page'] >= 1 ? ($options['page'] - 1) * $limit : 0;
 
         // Look up root against route data
         $data = $this->findRoot($params);
@@ -819,13 +820,38 @@ class Api extends AbstractApi
         $ratings = isset($options['review']) && $options['review']
             ? $this->getRatings()
             : array();
-        $form = new PostForm($name, $markup, $ratings);
+            
+        $form = new PostForm($name, $markup, $ratings, isset($options['caller']) ? $options['caller'] : '');
         if ($data) {
             $form->setData($data);
         }
 
         return $form;
     }
+    
+    /**
+     * Get comment post edit form
+     *
+     * @param array $data
+     *
+     * @return ReplyForm
+     */
+    public function getFormReply(array $data = array(), array $options = array())
+    {
+        $name = isset($options['name']) ? $options['name'] : '';
+        $markup = isset($options['markup'])
+            ? $options['markup']
+            : Pi::config('markup_format', $this->module);
+        
+            
+        $form = new ReplyForm($name, $markup, $options);
+        if ($data) {
+            $form->setData($data);
+        }
+
+        return $form;
+    }
+    
     
     public function getRatings()
     {
@@ -847,8 +873,10 @@ class Api extends AbstractApi
      *
      * @return int|bool
      */
-    public function addPost(array $data, $uid)
+    public function addPost(array $data, $uid = null )
     {
+        $uid = $uid ?: Pi::service('user')->getUser()->get('id');
+        
         $id = isset($data['id']) ? (int) $data['id'] : 0;
         if (isset($data['id'])) {
             unset($data['id']);
@@ -918,7 +946,6 @@ class Api extends AbstractApi
                 $canEdit = true;    
             }
             
-            $uid = Pi::service('user')->getUser()->get('id');
             if ($uid == 0 ||  ($uid != $row->uid && !Pi::service('user')->getUser()->isAdmin('comment')) || !$canEdit) {
                 return false;
             } 
@@ -947,18 +974,20 @@ class Api extends AbstractApi
         
         $ratingData = $this->canonizeRating($data);
         Pi::model('post_rating', 'comment')->delete(array('post' => $newId));
-        foreach ($ratingData as $key => $value) {
-            if (strstr($key, 'rating-')) {
-                $ratingType = str_replace('rating-', '', $key);
-                $rowRating = Pi::model('post_rating', 'comment')->createRow(
-                    array(
-                        'post' => $newId,
-                        'rating_type' => $ratingType,
-                        'rating' => $value
-                    )
-                );  
-                $rowRating->save();
-            }   
+        if ($row->reply == 0) { 
+            foreach ($ratingData as $key => $value) {
+                if (strstr($key, 'rating-')) {
+                    $ratingType = str_replace('rating-', '', $key);
+                    $rowRating = Pi::model('post_rating', 'comment')->createRow(
+                        array(
+                            'post' => $newId,
+                            'rating_type' => $ratingType,
+                            'rating' => $value
+                        )
+                    );  
+                    $rowRating->save();
+                }   
+            }
         }
         
         // notify, except for edit 
@@ -1888,6 +1917,7 @@ class Api extends AbstractApi
         $ratingTypeTable = Pi::model('rating_type', 'comment')->getTable();
         $postTable = Pi::model('post', 'comment')->getTable();
         
+        // the global average rating 
         $select = Pi::db()->select();
         $select->from(array('post' => $postTable))->columns(array('id'))
         ->join(
@@ -1900,7 +1930,7 @@ class Api extends AbstractApi
             'rating_type.id = post_rating.rating_type',
             array('rating_type_id' => 'id', 'type')
         )->group('post.root')
-        ->where(array('post.root = ' . $root));
+        ->where(array('post.root = ' . $root, 'reply' => 0));
         
         $rowset = Pi::db()->query($select);
         foreach ($rowset as $row) {
@@ -1911,6 +1941,7 @@ class Api extends AbstractApi
             );
         }
         
+       // average rating for each type of rating 
        $select = Pi::db()->select();
        $select->from(array('post' => $postTable))->columns(array('id'))
         ->join(
@@ -1923,7 +1954,7 @@ class Api extends AbstractApi
             'rating_type.id = post_rating.rating_type',
             array('rating_type_id' => 'id', 'type')
         )->group('rating_type.id')
-        ->where(array('post.root = ' . $root));
+        ->where(array('post.root = ' . $root, 'reply' => 0));
         
         $rowset = Pi::db()->query($select);
         foreach ($rowset as $row) {

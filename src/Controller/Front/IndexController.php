@@ -53,11 +53,11 @@ class IndexController extends ActionController
      */
     public function loadAction()
     {
-        $options['review'] = true;
-        
         $uri = $this->params('uri');
         $review = $this->params('review');
-        $content = Pi::service('comment')->loadContent(array('uri' => $uri, 'review' => $review));
+        $caller = $this->params('caller');
+        $owner = $this->params('owner');
+        $content = Pi::service('comment')->loadContent(array('uri' => $uri, 'review' => $review, 'caller' => $caller, 'owner' => $owner));
         $result = array(
             'status'    => 1,
             'content'   => $content,
@@ -88,6 +88,8 @@ class IndexController extends ActionController
     
     public function subscriptionAction()
     {
+        header("X-Robots-Tag: noindex, nofollow", true);
+
         $uri = $this->params('uri');
         $subscription = $this->params('subscription');
         $routeMatch = Pi::service('url')->match($uri);

@@ -394,11 +394,16 @@ input.subscription {
     width:1px; 
     position:absolute; 
     top:0; 
+    left:30px;
     border:none; 
     background:transparent; 
     outline:none;
 }
 
+#rating_fakeinput:invalid {
+    box-shadow: none; /* FF */
+    outline: 0;       /* IE 10 */
+}
 
 .comment-admin .avatar-img-wrapper img {
         border: 5px solid #03A9F4;
@@ -429,3 +434,8 @@ input.subscription {
 .my .pi-comment-single .avatar-column {width:100px}
 .pi-comment-single.media .col-md-2 {padding: 0 5px}
 
+.commentText {display:inline-block}
+div[contenteditable=true] {
+  min-width: 100%;
+  min-height:30px;  
+}

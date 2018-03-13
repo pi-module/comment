@@ -33,11 +33,12 @@ class PostForm extends BaseForm
      * @param string|int    $name   Optional name for the element
      * @param string        $markup Page type: text, html, markdown
      */
-    public function __construct($name = '', $markup = '', $ratings = array())
+    public function __construct($name = '', $markup = '', $ratings = array(), $caller = '')
     {
         $name = $name ?: 'comment-post';
         $this->markup = $markup ?: $this->markup;
         $this->ratings = $ratings;
+        $this->caller = $caller;
         parent::__construct($name);
         $this->setAttribute('action', Pi::service('comment')->getUrl('submit'));
     }
@@ -128,7 +129,7 @@ class PostForm extends BaseForm
             ),
         ));
         
-        if (method_exists(Pi::api('comment', Pi::service('module')->current()), 'canonize')) {
+        if (method_exists(Pi::api('comment', $this->caller), 'canonize')) {
             $this->add(array(
                     'name' => 'subscribe',
                     'type' => 'checkbox',
@@ -166,7 +167,7 @@ $html =<<<'EOT'
     </div>
     <div class="col-md-4 no-padding">
     
-    <div class="rating" for="%s">
+    <div class="rating" data-for="%s">
         <a href="#" data-value="5" class="fa my-star"></a>
         <a href="#" data-value="4" class="fa my-star"></a>
         <a href="#" data-value="3" class="fa my-star"></a>

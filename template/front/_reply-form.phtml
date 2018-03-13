@@ -1,0 +1,51 @@
+<?php 
+    $options['reply'] = $item['id'];
+    $options['review'] = $item['type'] == 'SIMPLE' ? 0 : 1;
+    
+    if (!empty($root['id'])) {
+        $formData = array(
+            'root' => $root['id']
+        );
+    } else {
+        $formData = array(
+            'module'    => $root['module'],
+            'type'      => $root['type'],
+            'item'      => $root['item'],
+        );
+    }
+    $formData['redirect'] = rawurlencode($uri);
+
+    $formReply = Pi::service('comment')->getFormReply($formData, $options);
+    $colClass = empty($colClass) ? '' : $colClass; 
+    $userId = empty($userId) ? null : $userId;
+?>
+<div class="hide comment-item">
+    <?php echo $this->form()->openTag($formReply); ?>
+
+        <div class="form-group">
+            <?php echo $this->formElement($formReply->get('content')); ?>
+        </div>
+  
+    <?php if ($userId > 0 && method_exists(Pi::api('comment', $caller), 'canonize')) { ?>
+        <div class="clearfix comment-form <?php echo $colClass; ?> text-right">
+            <?php echo $this->formElement($formReply->get('subscribe')); ?>
+            <span class="text-muted"><?php _e('Subscribe to the thread') ?></span><br>
+            <br>
+        </div>
+    <?php } ?>
+    <div class="clearfix comment-form <?php echo $colClass; ?> text-right">
+        <?php echo $this->formElement($formReply->get('submit')); ?>
+    </div>
+    <div class="hide clearfix comment-form">
+        <?php
+        $elements = $formReply->elementList();
+        foreach ($elements['hidden'] as $element) {
+            echo $this->formElement($element);
+        }
+        ?>
+    </div>
+    <?php echo $this->form()->closeTag(); ?>
+    
+</div>
+
+

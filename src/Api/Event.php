@@ -99,10 +99,10 @@ class Event extends AbstractApi
      *
      * @param int|int[] $root
      */
-    public function postdelete($params)
+    public function postdelete($id)
     {
-        Pi::service('comment')->clearPagination($params['root'], true);
-        Pi::service('comment')->timelineDelete($params['id']);
+        Pi::service('comment')->clearPagination($id, true);
+        Pi::service('comment')->timelineDelete($id);
         return;
     }
 

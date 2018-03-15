@@ -24,6 +24,9 @@ class Post extends Model
     const TYPE_ALL = 3;
     
     protected $mediaLinks = array('main_image', 'additional_images');
-    
-    
+
+    /**
+     * {@inheritDoc}
+     */
+    protected $rowClass = 'Module\Comment\Model\Post\RowGateway';
 }

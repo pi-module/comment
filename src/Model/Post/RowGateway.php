@@ -39,7 +39,7 @@ class RowGateway extends \Pi\Db\RowGateway\RowGateway
 
         foreach($latestComments['posts'] as $post){
             if(isset($post['id']) && $this->id == $post['id']){
-                Pi::service('cache')->flushCacheByUrl('/', 'system');
+                Pi::service('cache')->flushCacheByUrl(Pi::url('www') . '/', 'system');
             }
         }
     }

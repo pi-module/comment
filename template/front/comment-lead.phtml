@@ -1,13 +1,4 @@
 <?php
-    $this->jQuery(array('extension/jquery.magnific-popup.min.js' => array('defer' => 'defer')));
-    
-    $this->js(array(
-        $this->assetModule('script/system-msg.js', 'system'),
-    ));
-
-    $this->jQuery(array('extension/magnific-popup.min.css' => array('defer' => 'defer')));
-    $this->css(array($this->assetModule('css/front.css', 'comment') => array('defer' => 'defer')));
-
     if (!empty($script)) {
         $this->footScript()->appendScript($script);
     }
@@ -645,7 +636,7 @@ EOT;
 
 
 <script>
-    window.addEventListener('DOMContentLoaded', function() {
+    $(function() {
         $('.gallery').each(function() {
             $(this).magnificPopup({
                 delegate: 'a',

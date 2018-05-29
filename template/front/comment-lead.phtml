@@ -6,7 +6,6 @@
 
 <script>
 
-
 $(function() {
     (function($) {
         $.getStylesheet = function (href) {
@@ -600,9 +599,7 @@ EOT;
 
     <div class="panel-body" itemscope itemtype="https://schema.org/UserComments">
 
-        <?php if (Pi::user()->getId() > 0) { ?>
-            <?php include realpath(__FILE__) . './../_post-form.phtml' ?>
-        <?php } ?>
+        <?php include realpath(__FILE__) . './../_post-form.phtml' ?>
 
         <?php if (count($posts)) { ?>
             <div id="<?php echo $review ? 'paginate-reviews' : 'paginate-comments' ?>">

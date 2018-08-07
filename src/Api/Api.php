@@ -1556,7 +1556,7 @@ class Api extends AbstractApi
         $config = Pi::service('registry')->config->read('event');
         $dayLifetime = $config['event_deactivation_lifetime'];
         $dayLifetimeSeconds = $dayLifetime * 24 * 60 * 60;
-        $selectPost->where('extra.id IS NULL OR (extra.id IS NOT NULL AND (extra.always_keep = 1 OR event_time.time_end > (CAST(UNIX_TIMESTAMP() as signed) - CAST('.$dayLifetimeSeconds.' as signed))))');
+        $selectPost->where('(extra.id IS NULL OR (extra.id IS NOT NULL AND (extra.always_keep = 1 OR event_time.time_end > (CAST(UNIX_TIMESTAMP() as signed) - CAST('.$dayLifetimeSeconds.' as signed)))))');
 
         $rowset = Pi::db()->query($selectPost);
         $list = array();

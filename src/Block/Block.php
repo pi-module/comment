@@ -33,7 +33,8 @@ class Block
             $limit,
             null,
             null,
-            isset($options['not_by_root']) ? $options['not_by_root'] : false
+            isset($options['not_by_root']) ? $options['not_by_root'] : false,
+            true
         );
         // Set render options
         $renderOptions = array(

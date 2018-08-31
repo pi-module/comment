@@ -1,4 +1,12 @@
 <?php
+
+/**
+ * If user logged out, no review form (no JS assets)
+ */
+if(!Pi::user()->getId()){
+    $review = null;
+}
+
 if (isset($root['active']) && empty($root['active'])) {
     echo '<div class="well well-sm">' . __('Comment is disabled.') . '</div>';
     return;

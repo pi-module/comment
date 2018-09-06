@@ -2024,6 +2024,12 @@ class Api extends AbstractApi
         $limit  = Pi::config('list_limit', 'comment') ?: 10;
         $offset = ($page - 1) * $limit;
         
+        if ($params['showall']) {
+            $page = 1;
+            $limit = PHP_INT_MAX;
+            $offset = 0;
+        }
+        
         $where = array(
             'active' => 1,
         );

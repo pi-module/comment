@@ -1537,25 +1537,31 @@ class Api extends AbstractApi
         }
 
         /**
-         * Filters
+         * Event Always keep filter
          */
-        $commentRootModel = Pi::model('root', 'comment');
-        $newsModel = Pi::model('story', 'news');
-        $extraModel = Pi::model('extra', 'event');
-        $eventTimeTable = Pi::model("event_time", 'event')->getTable();
+        if (Pi::service('module')->isActive('event') && ($mainImage || $specialCondition)) {
 
-        if ($mainImage || $specialCondition) {
-            $selectPost->join(array('event' => $newsModel->getTable()), new \Zend\Db\Sql\Expression('root.type = "event" AND root.item = event.id AND event.status = 1'), array(), \Zend\Db\Sql\Select::JOIN_LEFT);
-            $selectPost->join(array('extra' => $extraModel->getTable()), new \Zend\Db\Sql\Expression('event.id = extra.id'), array(), \Zend\Db\Sql\Select::JOIN_LEFT);
-            $selectPost->join(array('event_time' => $eventTimeTable), 'event_time.event = extra.id', array(), 'left');
+            $config = Pi::service('module')->loadMeta('event');
 
-            /**
-             * Always keep and lifetime
-             */
-            $config = Pi::service('registry')->config->read('event');
-            $dayLifetime = $config['event_deactivation_lifetime'];
-            $dayLifetimeSeconds = $dayLifetime * 24 * 60 * 60;
-            $selectPost->where('(extra.id IS NULL OR (extra.id IS NOT NULL AND (extra.always_keep = 1 OR event_time.time_end > (CAST(UNIX_TIMESTAMP() as signed) - CAST('.$dayLifetimeSeconds.' as signed)))))');
+            if(isset($config['dependency']) && in_array('comment', $config['dependency'])){
+
+                $newsModel = Pi::model('story', 'news');
+                $extraModel = Pi::model('extra', 'event');
+                $eventTimeTable = Pi::model("event_time", 'event')->getTable();
+
+                $selectPost->join(array('event' => $newsModel->getTable()), new \Zend\Db\Sql\Expression('root.type = "event" AND root.item = event.id AND event.status = 1'), array(), \Zend\Db\Sql\Select::JOIN_LEFT);
+                $selectPost->join(array('extra' => $extraModel->getTable()), new \Zend\Db\Sql\Expression('event.id = extra.id'), array(), \Zend\Db\Sql\Select::JOIN_LEFT);
+                $selectPost->join(array('event_time' => $eventTimeTable), 'event_time.event = extra.id', array(), 'left');
+
+                /**
+                 * Always keep and lifetime
+                 */
+                $config = Pi::service('registry')->config->read('event');
+                $dayLifetime = $config['event_deactivation_lifetime'];
+                $dayLifetimeSeconds = $dayLifetime * 24 * 60 * 60;
+                $selectPost->where('(extra.id IS NULL OR (extra.id IS NOT NULL AND (extra.always_keep = 1 OR event_time.time_end > (CAST(UNIX_TIMESTAMP() as signed) - CAST('.$dayLifetimeSeconds.' as signed)))))');
+            }
+
         }
 
         $rowset = Pi::db()->query($selectPost);

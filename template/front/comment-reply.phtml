@@ -62,18 +62,18 @@ $this->headStyle()->appendStyle($style);
             <?php if ($post) { ?>
                 <div class="pi-comment-single clearfix">
                     <ul class="list-inline">
-                        <li class="pi-comment-user">
+                        <li class="list-inline-item pi-comment-user">
                             <a href="<?php echo $post['user']['url']; ?>" target="_blank" title="<?php echo $post['user']['name']; ?>" class="highlight">
                                 <?php echo $post['user']['name']; ?>
                             </a>
                         </li>
-                        <li class="pull-right muted pi-comment-time"><?php echo _date($post['time']); ?></li>
+                        <li class="list-inline-item pull-right muted pi-comment-time"><?php echo _date($post['time']); ?></li>
                     </ul>
                 </div>
                 <div class="pi-comment-desc">
                     <ul>
-                        <li class="muted"><?php _e('Commented on '); ?></li>
-                        <li>
+                        <li class="list-inline-item muted"><?php _e('Commented on '); ?></li>
+                        <li class="list-inline-item">
                             <a class="highlight" href="<?php echo $target['url']; ?>" title="<?php echo _escape($target['title']); ?>">
                                 <?php echo _escape($target['title']); ?>
                             </a>
@@ -89,7 +89,7 @@ $this->headStyle()->appendStyle($style);
         </div>
     </div>
     <?php if ($post) { ?>
-        <div class="well well-sm ">
+        <div class="card card-body bg-light mb-3 ">
             <?php echo $this->form()->openTag($form); ?>
             <div class="form-group">
                 <?php echo $this->formElement($form->get('content')); ?>

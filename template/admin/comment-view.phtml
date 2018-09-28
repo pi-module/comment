@@ -31,7 +31,7 @@ $post = $comment['post'];
                 <div class="pi-comment-single">
                     <div class="clearfix ">
                         <ul class="list-inline">
-                            <li class="pi-comment-user">
+                            <li class="list-inline-item pi-comment-user">
                                 <?php if ($post['uid'] > 0) { ?>
                                     <a href="<?php echo $post['user']['url']; ?>" target="_blank" title="<?php echo $post['user']['name']; ?>" class="highlight">
                                         <?php echo $post['user']['name']; ?>
@@ -41,19 +41,19 @@ $post = $comment['post'];
                                 <?php } ?>
                             </li>
                             <?php if ($post['reply']) { ?>
-                                <li style="font-size: 14px"><?php _e('In reply to:'); ?></li>
-                                <li style="font-size: 14px"><a class="highlight" href="<?php echo Pi::service('comment')->getUrl('post', array('post' => $post['reply'])); ?>" target="_blank" title="<?php _e('Click to open'); ?>">
+                                <li class="list-inline-item" style="font-size: 14px"><?php _e('In reply to:'); ?></li>
+                                <li class="list-inline-item" style="font-size: 14px"><a class="highlight" href="<?php echo Pi::service('comment')->getUrl('post', array('post' => $post['reply'])); ?>" target="_blank" title="<?php _e('Click to open'); ?>">
                                         <?php echo sprintf(__('Comment #%d'), $post['reply']); ?>
                                     </a>
                                 </li>
                             <?php } ?>
-                            <li class="pull-right muted pi-comment-time"><?php echo _date($post['time']); ?></li>
+                            <li class="list-inline-item pull-right muted pi-comment-time"><?php echo _date($post['time']); ?></li>
                         </ul>
                     </div>
                     <div class="pi-comment-desc">
                         <ul class="list-inline">
-                            <li class="muted pull-left"><?php _e('Commented on '); ?></li>
-                            <li>
+                            <li class="list-inline-item muted pull-left"><?php _e('Commented on '); ?></li>
+                            <li class="list-inline-item">
                                 <a href="<?php echo $target['url']; ?>" title="<?php echo _escape($target['title']); ?>">
                                     <?php echo _escape($target['title']); ?>
                                 </a>
@@ -107,7 +107,7 @@ EOT;
                         <div class="pi-comment-operation">
                             <ul class="list-inline">
                                 <?php foreach ($post['operations'] as $operation => $optData) { ?>
-                                    <li class="operation muted">
+                                    <li class="list-inline-item operation muted">
                                         <a href="<?php echo $optData['url']; ?>"<?php echo 'delete' == $operation ? sprintf(' onclick="return confirm(\'%s\')"', __('Are you sure to delete this comment?')) : ''; ?>>
                                             <?php echo _escape($optData['title']); ?>
                                         </a>

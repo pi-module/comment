@@ -426,7 +426,7 @@ $(function() {
          clearTimeout(popoverTimeoutHandle);
         var content = '<?php _e("Please login for write a review") ?>';
         var loginLinkLabel = "<?php _e('login/register') ?>";
-        content += '<div class="text-center"><button onclick="$(\'.popover-active\').popover(\'hide\')" type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#loginRegisterModal">'+loginLinkLabel+'</button></div>';
+        content += '<div class="text-center"><button onclick="$(\'.popover-active\').popover(\'hide\')" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#loginRegisterModal">'+loginLinkLabel+'</button></div>';
         var link = $(elem);
         
         link.not('.popover-active').addClass('popover-active').popover({
@@ -508,9 +508,9 @@ $templateRating =<<<'EOT'
 EOT;
 
 ?>
-<div class="panel panel-default nodeco comments-lead">
+<div class="card card-body bg-light mb-3 nodeco comments-lead">
     <?php if ($review) { ?>
-        <div class="row panel-heading resume-ratings">
+        <div class="row card-heading resume-ratings">
             <div>
                 <?php  
                     $star = sprintf($templateRating, 
@@ -522,7 +522,7 @@ EOT;
                     );  
                 ?>
                 
-                <h2 class="panel-title inline-block">
+                <h2 class="card-title inline-block">
                     <?php _e('All comments '); ?>
                     <strong>(<?php echo _number($count) ?: _number(0); ?>)</strong>
                 </h2>
@@ -572,8 +572,8 @@ EOT;
             </div>
         </div>
     <?php } else { ?>
-        <div class="row panel-heading">
-            <h2 class="panel-title inline-block">
+        <div class="row card-heading">
+            <h2 class="card-title inline-block">
                 <?php _e('All comments'); ?>
                 <strong>(<?php echo _number($count) ?: _number(0); ?>)</strong>
             </h2>
@@ -618,7 +618,7 @@ EOT;
         </div>
     <?php } ?>
 
-    <div class="panel-body" itemscope itemtype="https://schema.org/UserComments">
+    <div class="card-body" itemscope itemtype="https://schema.org/UserComments">
 
         <?php include realpath(__FILE__) . './../_post-form.phtml' ?>
 

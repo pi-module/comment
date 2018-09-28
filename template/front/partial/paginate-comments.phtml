@@ -5,9 +5,9 @@ $badgeAdmin = Pi::service('config') -> get('badge_admin', 'comment');
 $templateUserComment = <<<'EOT'
         <div class="media-heading" itemprop="creator" itemscope itemtype="https://schema.org/Person">
             <ul class="list-inline">
-                <li><a href="%s" target="_blank" itemprop="name">%s</a></li>
-                <li class="muted small gray">%s</li>
-                <li class="muted small">%s</li>
+                <li class="list-inline-item"><a href="%s" target="_blank" itemprop="name">%s</a></li>
+                <li class="list-inline-item muted small gray">%s</li>
+                <li class="list-inline-item muted small">%s</li>
             </ul>
         </div>
         <div>
@@ -25,9 +25,9 @@ $templateUserReview = <<<'EOT'
         <div class="small ratings">%s</div>
         <div class="media-heading" itemprop="author" itemscope itemtype="https://schema.org/Person">
             <ul class="list-inline no-margin-bottom">
-                <li><a href="%s" target="_blank"><span itemprop="name">%s</span></a></li>
-                <li class="muted small gray">%s</li>
-                <li class="muted small">%s</li>
+                <li class="list-inline-item"><a href="%s" target="_blank"><span itemprop="name">%s</span></a></li>
+                <li class="list-inline-item muted small gray">%s</li>
+                <li class="list-inline-item muted small">%s</li>
             </ul>
         </div>
         <div class="small gray time-experience clearfix" data-time="%s">
@@ -46,10 +46,10 @@ EOT;
 $templateGuest = <<<'EOT'
     <div class="media-heading" itemprop="creator" itemscope itemtype="https://schema.org/Person">
         <ul class="list-inline">
-            <li>%s</li>
-            <li class="muted small">%s</li>
-            <li class="muted small"><a href="%s" target="_blank"><i class="fa fa-external-link"></i></a></li>
-            <li class="muted small gray">%s</li>
+            <li class="list-inline-item">%s</li>
+            <li class="list-inline-item muted small">%s</li>
+            <li class="list-inline-item muted small"><a href="%s" target="_blank"><i class="fa fa-external-link"></i></a></li>
+            <li class="list-inline-item muted small gray">%s</li>
         </ul>
     </div>
     <div>
@@ -127,12 +127,12 @@ EOT;
                     $images = '<div class="gallery images clearfix" data-main_image="' . $item['main_image'] . '" data-additional_images="' . $item['additional_images'] . '">';
                     if ($item['main_image']) {
                         $images .= '<a href="' . Pi::url((string) Pi::api('doc','media')->getSingleLinkUrl($item['main_image'])->setConfigModule('guide')->thumb('large')) . '">'; 
-                        $images .= '<img class="img-responsive main_image" src="' . Pi::url((string) Pi::api('doc','media')->getSingleLinkUrl($item['main_image'])->setConfigModule('guide')->thumb('thumbnail')) . '" alt="" />';
+                        $images .= '<img class="img-fluid main_image" src="' . Pi::url((string) Pi::api('doc','media')->getSingleLinkUrl($item['main_image'])->setConfigModule('guide')->thumb('thumbnail')) . '" alt="" />';
                         $images .= '</a>';
                     }
                     foreach ($galleryImages as $key => $galleryImage) {
                         $images .= '<a href="' . $galleryImage['url'] . '" title="' .  $this->escape($galleryImage['title']) . '">';
-                        $images .= '<img class="img-responsive" src="' . $galleryImage['resized_url'] . '" alt="' . $this->escape($galleryImage['title']) . '" itemprop="image"/>';
+                        $images .= '<img class="img-fluid" src="' . $galleryImage['resized_url'] . '" alt="' . $this->escape($galleryImage['title']) . '" itemprop="image"/>';
                         $images .= '</a>';
                     }
                     $images .= '</div>';

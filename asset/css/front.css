@@ -300,8 +300,8 @@ a.pi-comment-count:hover {
 
 .my-star,
 .item-rating .fa-star,
-.item-rating .fa-star-o,
 .item-rating .fa-star.active {color: orange;}
+.item-rating .fa-star-o {color:#ccc}
 
 /* POST FORM */
 .inline label {

@@ -8,7 +8,7 @@ if(!Pi::user()->getId()){
 }
 
 if (isset($root['active']) && empty($root['active'])) {
-    echo '<div class="well well-sm">' . __('Comment is disabled.') . '</div>';
+    echo '<div class="card card-body bg-light mb-3">' . __('Comment is disabled.') . '</div>';
     return;
 }
 
@@ -146,7 +146,7 @@ $form = Pi::service('comment')->getForm($formData, $options);
                     </div>
                     <?php echo $this->form()->closeTag(); ?>
                     <?php if (!$userId && !$guestApprove) { ?>
-                        <div class="hide well well-sm comment-login">
+                        <div class="hide card card-body bg-light mb-3 comment-login">
                             <?php $modalEnabled = Pi::user()->config('enable_modal'); ?>
                             <?php echo sprintf(__('Please <a href="%s" data-target="#loginRegisterModal" data-redirect-anchor="#pi-comment-lead-anchor" data-action="login" data-toggle="%s">login</a> to leave comments.'), $modalEnabled ? '#' : Pi::service('authentication')->getUrl('login', $uri), $modalEnabled ? 'modal' : ''); ?>
                         </div>

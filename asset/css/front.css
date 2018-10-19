@@ -31,9 +31,9 @@ div.media > .pull-left {
 }
 .manage-sidebar div.media > .pull-left {margin:0}
 
-img {
-    border-radius: 3px;
-}
+/*img {*/
+    /*border-radius: 3px;*/
+/*}*/
 /*textarea {
     border: 0;
     padding: 0;

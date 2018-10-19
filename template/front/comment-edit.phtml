@@ -33,12 +33,12 @@ if ($uid) {
             <?php if ($post) { ?>
                 <div class="clearfix">
                     <ul class="list-inline">
-                        <li class="pi-comment-user">
+                        <li class="list-inline-item pi-comment-user">
                             <a href="<?php echo $url; ?>" target="_blank" title="<?php echo $post['user']['name']; ?>" class="highlight">
                                 <?php echo $post['user']['name']; ?>
                             </a>
                         </li>
-                        <li class="pull-right muted pi-comment-time"><?php echo _date($post['time']); ?></li>
+                        <li class="list-inline-item pull-right muted pi-comment-time"><?php echo _date($post['time']); ?></li>
                     </ul>
                 </div>
                 <div class="pi-comment-desc">

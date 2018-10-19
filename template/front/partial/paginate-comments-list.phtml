@@ -32,7 +32,7 @@ EOT;
         </div>
         <div class="media-body">
             <ul class="list-inline">
-                <li class="pi-comment-user">
+                <li class="list-inline-item pi-comment-user">
                     <?php if ($post['uid'] > 0) { ?>
                         <a href="<?php echo $post['user']['url']; ?>" target="_blank" title="<?php echo $post['user']['name']; ?>" class="highlight">
                             <?php echo $post['user']['name']; ?>
@@ -41,7 +41,7 @@ EOT;
                         <?php echo $post['identity']; ?>
                     <?php } ?>
                 </li>
-                <li class="pull-right muted pi-comment-time"><?php echo _date($post['time']); ?></li>
+                <li class="list-inline-item pull-right muted pi-comment-time"><?php echo _date($post['time']); ?></li>
             </ul>
             <div class="pi-comment-desc">
                 <p>
@@ -108,7 +108,7 @@ EOT;
                 </div>
                 <div class="media-body">
                     <ul class="list-inline">
-                        <li class="pi-comment-user">
+                        <li class="list-inline-item pi-comment-user">
                             <?php if ($reply['uid'] > 0) { ?>
                                 <a href="<?php echo $reply['user']['url']; ?>" target="_blank" title="<?php echo $reply['user']['name']; ?>" class="highlight">
                                     <?php echo $reply['user']['name']; ?>
@@ -118,7 +118,7 @@ EOT;
                             <?php } ?>
                             <span>&nbsp;<?php echo $badge ?></span>
                         </li>
-                        <li class="pull-right muted pi-comment-time"><?php echo _date($reply['time']); ?></li>
+                        <li class="list-inline-item pull-right muted pi-comment-time"><?php echo _date($reply['time']); ?></li>
                     </ul>
                     <div class="pi-comment-desc">
                         <p>

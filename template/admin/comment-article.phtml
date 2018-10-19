@@ -30,29 +30,29 @@ $paginator = $comment['paginator'];
                 <div class="media-body">
                     <div style="font-size: 13px">
                         <ul class="list-inline">
-                            <li>
+                            <li class="list-inline-item">
                                 <a class="common-article-title" href="<?php echo $target['url']; ?>" target="_blank" title="<?php echo _escape($target['title']); ?>" style="margin: 0; font-weight: normal;">
                                     <?php echo _escape($target['title']); ?>
                                 </a>
                             </li>
-                            <li class="muted">&nbsp;-<span>
-                            <li>
+                            <li class="list-inline-item muted">&nbsp;-<span>
+                            <li class="list-inline-item">
                                 <a class="muted" href="<?php echo $target['user']['url']; ?>" target="_blank">
                                     <?php echo $target['user']['name']; ?>
                                 </a>
                             </li>
-                            <li class="pull-right muted pi-comment-time"><?php echo _date($target['time']); ?></li>
+                            <li class="list-inline-item pull-right muted pi-comment-time"><?php echo _date($target['time']); ?></li>
                         </ul>
                     </div>
                     <div class="pi-comment-desc">
                         <ul class="list-inline">
-                            <li class="muted pull-left"><?php _e('Last commented: '); ?></li>
-                            <li>
+                            <li class="list-inline-item muted pull-left"><?php _e('Last commented: '); ?></li>
+                            <li class="list-inline-item">
                                 <a class="highlight pull-left" href="<?php echo $target['comment_user']['url']; ?>" style="margin-left: 5px">
                                     <?php echo $target['comment_user']['name']; ?>
                                 </a>
                             </li>
-                            <li class="muted" style="margin-left: 5px">
+                            <li class="list-inline-item muted" style="margin-left: 5px">
                                 <?php echo sprintf(__(' at %s'), _date($target['comment_time'])); ?>
                             </li>
                         </ul>

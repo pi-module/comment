@@ -499,11 +499,11 @@ $(function() {
 
 $templateRating =<<<'EOT'
     <span class="item-rating inline-block">
-        <i class="fa %s" aria-hidden="true"></i>
-        <i class="fa %s" aria-hidden="true"></i>
-        <i class="fa %s" aria-hidden="true"></i>
-        <i class="fa %s" aria-hidden="true"></i>
-        <i class="fa %s" aria-hidden="true"></i>
+        <i class="%s" aria-hidden="true"></i>
+        <i class="%s" aria-hidden="true"></i>
+        <i class="%s" aria-hidden="true"></i>
+        <i class="%s" aria-hidden="true"></i>
+        <i class="%s" aria-hidden="true"></i>
     </span>
 EOT;
 
@@ -514,11 +514,11 @@ EOT;
             <div>
                 <?php  
                     $star = sprintf($templateRating, 
-                        isset($globalRatings[0]) && $globalRatings[0]['rating'] > 0 ? 'fa-star' : 'fa-star-o',
-                        isset($globalRatings[0]) && $globalRatings[0]['rating'] > 1 ? 'fa-star' : 'fa-star-o',
-                        isset($globalRatings[0]) && $globalRatings[0]['rating'] > 2 ? 'fa-star' : 'fa-star-o',
-                        isset($globalRatings[0]) && $globalRatings[0]['rating'] > 3 ? 'fa-star' : 'fa-star-o',
-                        isset($globalRatings[0]) && $globalRatings[0]['rating'] > 4 ? 'fa-star' : 'fa-star-o'
+                        isset($globalRatings[0]) && $globalRatings[0]['rating'] > 0 ? 'fas fa-star' : 'far fa-star',
+                        isset($globalRatings[0]) && $globalRatings[0]['rating'] > 1 ? 'fas fa-star' : 'far fa-star',
+                        isset($globalRatings[0]) && $globalRatings[0]['rating'] > 2 ? 'fas fa-star' : 'far fa-star',
+                        isset($globalRatings[0]) && $globalRatings[0]['rating'] > 3 ? 'fas fa-star' : 'far fa-star',
+                        isset($globalRatings[0]) && $globalRatings[0]['rating'] > 4 ? 'fas fa-star' : 'far fa-star'
                     );  
                 ?>
                 
@@ -537,7 +537,7 @@ EOT;
                             <?php } else { ?> 
                                 onclick="return loginForReview(this)" 
                             <?php } ?>>
-                                <span class="fa fa-square-o text-muted"></span> <span class="text-muted"><?php _e('Subscribe to the thread') ?></span>
+                                <span class="far fa-square text-muted"></span> <span class="text-muted"><?php _e('Subscribe to the thread') ?></span>
                             </a>
                         <?php } ?>    
                     <?php } ?>
@@ -552,12 +552,12 @@ EOT;
                         <div class="col-md-6 no-padding">
                             
                             <?php  
-                                $star = sprintf($templateRating, 
-                                    $rating['rating'] > 0 ? 'fa-star' : 'fa-star-o',
-                                    $rating['rating'] > 1 ? 'fa-star' : 'fa-star-o',
-                                    $rating['rating'] > 2 ? 'fa-star' : 'fa-star-o',
-                                    $rating['rating'] > 3 ? 'fa-star' : 'fa-star-o',
-                                    $rating['rating'] > 4 ? 'fa-star' : 'fa-star-o'
+                                $star = sprintf($templateRating,
+                                    $rating['rating'] > 0 ? 'fas fa-star' : 'far fa-star',
+                                    $rating['rating'] > 1 ? 'fas fa-star' : 'far fa-star',
+                                    $rating['rating'] > 2 ? 'fas fa-star' : 'far fa-star',
+                                    $rating['rating'] > 3 ? 'fas fa-star' : 'far fa-star',
+                                    $rating['rating'] > 4 ? 'fas fa-star' : 'far fa-star'
                                 );  
                             ?>
                             <div class="col-md-6 no-padding">
@@ -587,7 +587,7 @@ EOT;
                     <?php } else { ?> 
                         onclick="return loginForReview(this)" 
                     <?php } ?>>
-                        <span class="fa fa-square-o text-muted"></span> <span class="text-muted"><?php _e('Subscribe to the thread') ?></span>
+                        <span class="far fa-square text-muted"></span> <span class="text-muted"><?php _e('Subscribe to the thread') ?></span>
                     </a>
                 <?php } ?>    
             <?php } ?>

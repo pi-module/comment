@@ -56,11 +56,11 @@ $active = $comment['active'];
 <?php 
 $templateRating =<<<'EOT'
     <div class="rating">
-        <span class="fa %s"></span>
-        <span class="fa %s"></span>
-        <span class="fa %s"></span>
-        <span class="fa %s"></span>
-        <span class="fa %s"></span>
+        <span class="%s"></span>
+        <span class="%s"></span>
+        <span class="%s"></span>
+        <span class="%s"></span>
+        <span class="%s"></span>
     </div>
 EOT;
 ?>                                
@@ -68,11 +68,11 @@ EOT;
                                         $ratings = '';
                                         foreach ($post['rating'] as $id => $rating) {
                                         $star = sprintf($templateRating, 
-                                            $rating['rating'] >= 5 ? 'fa-star' : 'fa-star-o',
-                                            $rating['rating'] >= 4 ? 'fa-star' : 'fa-star-o',
-                                            $rating['rating'] >= 3 ? 'fa-star' : 'fa-star-o',
-                                            $rating['rating'] >= 2 ? 'fa-star' : 'fa-star-o',
-                                            $rating['rating'] >= 1 ? 'fa-star' : 'fa-star-o'
+                                            $rating['rating'] >= 5 ? 'fas fa-star' : 'far fa-star',
+                                            $rating['rating'] >= 4 ? 'fas fa-star' : 'fas fa-star',
+                                            $rating['rating'] >= 3 ? 'fas fa-star' : 'fas fa-star',
+                                            $rating['rating'] >= 2 ? 'fas fa-star' : 'fas fa-star',
+                                            $rating['rating'] >= 1 ? 'fas fa-star' : 'fas fa-star'
                                         );  
                                         $ratings .= '<div data-value="' . $rating['rating'] . '" data-for="rating-' . $id . '">' . $rating['type'] . ' : ';
                                         $ratings .=  $star;

@@ -2,11 +2,11 @@
 <?php 
 $templateRating = <<<'EOT'
     <div class="item-rating">
-        <i class="fa %s" aria-hidden="true"></i>
-        <i class="fa %s" aria-hidden="true"></i>
-        <i class="fa %s" aria-hidden="true"></i>
-        <i class="fa %s" aria-hidden="true"></i>
-        <i class="fa %s" aria-hidden="true"></i>
+        <i class="%s" aria-hidden="true"></i>
+        <i class="%s" aria-hidden="true"></i>
+        <i class="%s" aria-hidden="true"></i>
+        <i class="%s" aria-hidden="true"></i>
+        <i class="%s" aria-hidden="true"></i>
     </div>
 EOT;
 ?>
@@ -55,11 +55,11 @@ EOT;
                 $ratings = '';
                 foreach ($post['rating'] as $id => $rating) {
                     $star = sprintf($templateRating, 
-                        $rating['rating'] > 0 ? 'fa-star' : 'fa-star-o',
-                        $rating['rating'] > 1 ? 'fa-star' : 'fa-star-o',
-                        $rating['rating'] > 2 ? 'fa-star' : 'fa-star-o',
-                        $rating['rating'] > 3 ? 'fa-star' : 'fa-star-o',
-                        $rating['rating'] > 4 ? 'fa-star' : 'fa-star-o'
+                        $rating['rating'] > 0 ? 'fas fa-star' : 'far fa-star',
+                        $rating['rating'] > 1 ? 'fas fa-star' : 'far fa-star',
+                        $rating['rating'] > 2 ? 'fas fa-star' : 'far fa-star',
+                        $rating['rating'] > 3 ? 'fas fa-star' : 'far fa-star',
+                        $rating['rating'] > 4 ? 'fas fa-star' : 'far fa-star'
                     );  
                     $ratings .= '<div data-value="' . $rating['rating'] . '" data-for="rating-' . $id . '">' . $rating['type'] . ' : ';
                     $ratings .=  $star;
@@ -132,11 +132,11 @@ EOT;
                         $ratings = '';
                         foreach ($reply['rating'] as $id => $rating) {
                             $star = sprintf($templateRating, 
-                                $rating['rating'] > 0 ? 'fa-star' : 'fa-star-o',
-                                $rating['rating'] > 1 ? 'fa-star' : 'fa-star-o',
-                                $rating['rating'] > 2 ? 'fa-star' : 'fa-star-o',
-                                $rating['rating'] > 3 ? 'fa-star' : 'fa-star-o',
-                                $rating['rating'] > 4 ? 'fa-star' : 'fa-star-o'
+                                $rating['rating'] > 0 ? 'fas fa-star' : 'far fa-star',
+                                $rating['rating'] > 1 ? 'fas fa-star' : 'far fa-star',
+                                $rating['rating'] > 2 ? 'fas fa-star' : 'far fa-star',
+                                $rating['rating'] > 3 ? 'fas fa-star' : 'far fa-star',
+                                $rating['rating'] > 4 ? 'fas fa-star' : 'far fa-star'
                             );  
                             $ratings .= '<div data-value="' . $rating['rating'] . '" data-for="rating-' . $id . '">' . $rating['type'] . ' : ';
                             $ratings .=  $star;

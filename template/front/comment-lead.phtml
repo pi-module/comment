@@ -632,8 +632,8 @@ EOT;
                     $pageNumber = $count % 5 == 0 ? $count / 5  : ((int) ($count / 5))  +1;
                     if ($pageNumber > 1) {
                         for ($i = 1; $i <= $pageNumber; ++$i) { ?>
-                            <li class="<?php echo $i == $page ? 'active' : '' ?>">
-                                <a class="paginator" href="#" data-page="<?php echo $i ?>" data-type="<?php echo $review ? 'review' : 'comment' ?>">
+                            <li class="page-item <?php echo $i == $page ? 'active' : '' ?>">
+                                <a class="paginator page-link" href="#" data-page="<?php echo $i ?>" data-type="<?php echo $review ? 'review' : 'comment' ?>">
                                     <?php echo $i ?>
                                 </a>
                             </li>

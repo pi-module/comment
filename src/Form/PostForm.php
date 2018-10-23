@@ -162,10 +162,10 @@ class PostForm extends BaseForm
         
         if (!empty($this->ratings)) {
 $html =<<<'EOT'
-    <div class="col-md-8 no-padding">
+    <div class="col-md-4">
     <label><i class="text-danger" style="margin-right: 5px;" title="Requis">*</i>%s</label>
     </div>
-    <div class="col-md-4 no-padding">
+    <div class="col-md-8">
     
     <div class="rating" data-for="%s">
         <a href="#" data-value="5" class="fa my-star"></a>

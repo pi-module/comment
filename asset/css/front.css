@@ -260,7 +260,7 @@ a.pi-comment-count:hover {
 /* RATINGS */ 
 .rating {
    direction: rtl;
-   width:85px;
+   /*width:85px;*/
 }
 .rating span,
 .rating a {
@@ -270,7 +270,11 @@ a.pi-comment-count:hover {
    color:orange;
    
 }
-.rating a:before {content:"\f006"}
+.rating a:before {
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 400;
+    content:"\f005"
+}
 
 .rating a:hover,
 .rating a:focus,
@@ -290,7 +294,11 @@ a.pi-comment-count:hover {
 .rating span.active ~ span:before,
 .rating a.active ~ a:before,
 .rating a:hover ~ a:before,
-.rating a:focus ~ a:before {content:"\f005"}
+.rating a:focus ~ a:before {
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    content:"\f005"
+}
 
 
 .ratings div {
@@ -314,7 +322,7 @@ a.pi-comment-count:hover {
 
 .inline input {
     width:50%; 
-    margin-left:20px
+    /*margin-left:20px*/
 }
 
 /* COMMENT LIST */

@@ -527,7 +527,7 @@ EOT;
                     <strong>(<?php echo _number($count) ?: _number(0); ?>)</strong>
                 </h2>
                 &nbsp;<div class="inline-block global-ratings"><?php echo $star; ?></div> <?php echo isset($globalRatings[0]) && $globalRatings[0]['number'] >= 1 ? _number($globalRatings[0]['number']) : '' ?>
-                <div class="pull-right">
+                <div class="float-right">
                     <?php if (method_exists(Pi::api('comment', $caller), 'canonize')) { ?>
                         <?php if (Pi::user()->getId() > 0) { ?>
                             <input class="subscription" type="checkbox" <?php echo $subscribe ? 'CHECKED=CHECKED' : '' ?> /> <span class="text-muted"><?php _e('Subscribe to the thread') ?></span>

@@ -93,11 +93,11 @@ EOT;
         <div class="avatar-column text-center">
             <div> 
                 <?php if ($item['uid'] > 0) { ?>
-                    <a class="pull-left avatar-img-wrapper" href="<?php echo $item['user']['url']; ?>" target="_blank">
+                    <a class="float-left avatar-img-wrapper" href="<?php echo $item['user']['url']; ?>" target="_blank">
                         <?php echo $item['user']['avatar']; ?>
                     </a>
                 <?php } else { ?>
-                    <p class="pull-left avatar-img-wrapper">
+                    <p class="float-left avatar-img-wrapper">
                         <?php echo $item['user']['avatar']; ?>
                     </p>
                 <?php } ?>
@@ -237,11 +237,11 @@ EOT;
             <div class="fake-anchor" id="comment-<?php echo $reply['id']; ?>"></div>
             <div class="pi-comment-single media comment-item clearfix is-reply <?php echo'comment-' . strtolower($reply['writer']) ?>"   data-reply="<?php echo $reply['reply'] ?>" >
                 <?php if ($reply['uid'] > 0) { ?>
-                    <a class="pull-left avatar-img-wrapper" href="<?php echo $reply['user']['url']; ?>" target="_blank">
+                    <a class="float-left avatar-img-wrapper" href="<?php echo $reply['user']['url']; ?>" target="_blank">
                         <?php echo $reply['user']['avatar']; ?>
                     </a>
                 <?php } else { ?>
-                    <p class="pull-left avatar-img-wrapper">
+                    <p class="float-left avatar-img-wrapper">
                         <?php echo $reply['user']['avatar']; ?>
                     </p>
                 <?php } ?>

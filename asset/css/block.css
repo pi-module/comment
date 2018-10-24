@@ -11,7 +11,7 @@
 .pi-comment a.highlight {
     color: #0088cc;
 }
-.pi-comment div.media > .pull-left {
+.pi-comment div.media > .float-left {
     margin-right: 5px;
     margin-left: 5px;
 }

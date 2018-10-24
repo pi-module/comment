@@ -19,7 +19,7 @@ EOT;
         </div>
         <div class="col-md-10">
             <ul class="list-inline">
-                <li class="pull-right muted pi-comment-time"><?php echo _date($post['time']); ?></li>
+                <li class="float-right muted pi-comment-time"><?php echo _date($post['time']); ?></li>
             </ul>
             <div class="pi-comment-desc">
                 <p>
@@ -74,11 +74,11 @@ EOT;
             <div class="pi-comment-single media comment-item is-reply <?php echo'comment-' . strtolower($reply['writer']) ?>">
                  <div class="avatar-column">
                     <?php if ($reply['uid'] > 0) { ?>
-                        <a class="pull-left avatar-img-wrapper" href="<?php echo $reply['user']['url']; ?>">
+                        <a class="float-left avatar-img-wrapper" href="<?php echo $reply['user']['url']; ?>">
                             <?php echo Pi::avatar()->get($reply['uid'], 'large'); ?>
                         </a>
                     <?php } else { ?>
-                        <p class="pull-left avatar-img-wrapper">
+                        <p class="float-left avatar-img-wrapper">
                             <?php echo Pi::avatar()->get($reply['uid'], 'large'); ?>
                         </p>
                     <?php } ?>
@@ -96,7 +96,7 @@ EOT;
                             <?php } ?>
                             <span>&nbsp;<?php echo $badge ?></span>
                         </li>
-                        <li class="pull-right muted pi-comment-time"><?php echo _date($reply['time']); ?></li>
+                        <li class="float-right muted pi-comment-time"><?php echo _date($reply['time']); ?></li>
                     </ul>
                     <div class="pi-comment-desc">
                         <p>

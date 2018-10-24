@@ -55,7 +55,7 @@ $this->headStyle()->appendStyle($style);
         <?php echo sprintf(__('Comment reply to %s'), $post['user']['name']); ?>
     </h1>
     <div class="media">
-        <a class="pull-left" href="<?php echo $url; ?>">
+        <a class="float-left" href="<?php echo $url; ?>">
             <img class="media-object" src="<?php echo $avatar; ?>">
         </a>
         <div class="media-body">
@@ -67,7 +67,7 @@ $this->headStyle()->appendStyle($style);
                                 <?php echo $post['user']['name']; ?>
                             </a>
                         </li>
-                        <li class="list-inline-item pull-right muted pi-comment-time"><?php echo _date($post['time']); ?></li>
+                        <li class="list-inline-item float-right muted pi-comment-time"><?php echo _date($post['time']); ?></li>
                     </ul>
                 </div>
                 <div class="pi-comment-desc">

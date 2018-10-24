@@ -18,11 +18,11 @@ $post = $comment['post'];
     <h1 class="pi-comment-header"><?php _e('Comment detail'); ?></h1>
     <div class="media">
         <?php if ($post['uid'] > 0) { ?>
-            <a class="pull-left" href="<?php echo $post['user']['url']; ?>">
+            <a class="float-left" href="<?php echo $post['user']['url']; ?>">
                 <?php echo Pi::avatar()->get($post['uid'], 'medium'); ?>
             </a>
         <?php } else { ?>
-            <p class="pull-left">
+            <p class="float-left">
                 <?php echo Pi::avatar()->get($post['uid'], 'medium'); ?>
             </p>
         <?php } ?>
@@ -47,12 +47,12 @@ $post = $comment['post'];
                                     </a>
                                 </li>
                             <?php } ?>
-                            <li class="list-inline-item pull-right muted pi-comment-time"><?php echo _date($post['time']); ?></li>
+                            <li class="list-inline-item float-right muted pi-comment-time"><?php echo _date($post['time']); ?></li>
                         </ul>
                     </div>
                     <div class="pi-comment-desc">
                         <ul class="list-inline">
-                            <li class="list-inline-item muted pull-left"><?php _e('Commented on '); ?></li>
+                            <li class="list-inline-item muted float-left"><?php _e('Commented on '); ?></li>
                             <li class="list-inline-item">
                                 <a href="<?php echo $target['url']; ?>" title="<?php echo _escape($target['title']); ?>">
                                     <?php echo _escape($target['title']); ?>

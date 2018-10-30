@@ -309,7 +309,7 @@ a.pi-comment-count:hover {
 .my-star,
 .item-rating .fa-star,
 .item-rating .fa-star.active {color: orange;}
-.item-rating .far .fa-star {color:#ccc}
+.item-rating .far.fa-star {color:#ccc}
 
 /* POST FORM */
 .inline label {

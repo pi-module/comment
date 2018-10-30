@@ -508,10 +508,10 @@ $templateRating =<<<'EOT'
 EOT;
 
 ?>
-<div class="card bg-light mb-3 nodeco comments-lead">
+<div class="mb-3 nodeco comments-lead">
     <?php if ($review) { ?>
         <div class="row card-heading resume-ratings">
-            <div>
+            <div class="col-12">
                 <?php  
                     $star = sprintf($templateRating, 
                         isset($globalRatings[0]) && $globalRatings[0]['rating'] > 0 ? 'fas fa-star' : 'far fa-star',

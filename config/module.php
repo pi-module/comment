@@ -19,7 +19,7 @@ return array(
         'version'       => '1.3.9',
         'license'       => 'New BSD',
         'demo'          => 'http://demo.piengine.org',
-        'icon'          => 'fa-comment-o'
+        'icon'          => 'fa-comment'
     ),
     // Author information
     'author'    => array(

@@ -23,7 +23,9 @@ $badgeAdmin = Pi::service('config') -> get('badge_admin', 'comment');
                         <h1 class=""><?php echo __('All active comments ') . " ({$count})"; ?></h1>
                     </div>
                     <div class="card bg-light mb-3">
-                        <?php echo Pi::service('config') -> get('intro', 'comment') ?>
+                        <div class="card-body">
+                            <?php echo Pi::service('config') -> get('intro', 'comment') ?>
+                        </div>
                     </div>
                     <?php include $this->template('front/partial/paginate-comments-list.phtml'); ?>
 

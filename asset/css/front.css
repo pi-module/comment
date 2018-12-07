@@ -3,9 +3,9 @@
 }
 
 .pi-comment {
-    border: 1px solid #dddddd;
-    border-radius: 4px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.055);
+    /*border: 1px solid #dddddd;*/
+    /*border-radius: 4px;*/
+    /*box-shadow: 0 1px 3px rgba(0, 0, 0, 0.055);*/
     padding: 10px 15px;
     margin-bottom: 20px;
 }
@@ -327,8 +327,8 @@ a.pi-comment-count:hover {
 
 /* COMMENT LIST */
 .comment-item.is-reply {
-    margin-left:110px;
-    margin-right:50px;
+    /*margin-left:110px;*/
+    /*margin-right:50px;*/
 }
 
 .is-reply .avatar-img-wrapper img {

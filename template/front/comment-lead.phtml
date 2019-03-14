@@ -224,7 +224,7 @@ $(function() {
                 $(this).parent().parent().find('.commentText').attr('contenteditable', false);
                 var commentText = $(this).parent().parent().find('.commentText');
                 var initcontent = commentText.html();
-                var content = initcontent.replace(/\n/gi, '').replace(/\r\n/gi, '').replace(/<br>/gi, '\n').replace(/<br \/>/gi, '\n').replace(/<br\/>/gi, '\n');
+                var content = initcontent.replace(/<div><br><\/div>/gi, '<div><\/div>').replace(/<div>/gi, '').replace(/\r\n/gi, '').replace(/\n/gi, '').replace(/<\/div>/gi, '\n').replace(/<br>/gi, '\n').replace(/<br \/>/gi, '\n').replace(/<br\/>/gi, '\n');
                 content = decodeEntities(content);
                 var review = $(this).parent().hasClass('is-review') ? 1 : 0;
                 var id = $(this).data('id');

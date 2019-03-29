@@ -248,7 +248,8 @@ EOT;
                 ),
                 'attributes' => array(
                     'required' => true,
-                    'class' => "form-control"
+                    'class' => "form-control",
+                    'autocomplete' => 'off'
                     
                 )
             ));

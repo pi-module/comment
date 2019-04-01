@@ -229,7 +229,7 @@ a.pi-comment-count:hover {
 }
 
 .comment-item {
-  /*margin-top: 40px;*/
+  margin-top: 15px!important;
   z-index:10;
   position:relative;
 }
@@ -327,8 +327,8 @@ a.pi-comment-count:hover {
 
 /* COMMENT LIST */
 .comment-item.is-reply {
-    /*margin-left:110px;*/
-    /*margin-right:50px;*/
+    margin-left:110px;
+    margin-right:50px;
 }
 
 .is-reply .avatar-img-wrapper img {

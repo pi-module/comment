@@ -235,7 +235,7 @@ a.pi-comment-count:hover {
 }
 
 .comment-operation {
-    margin-bottom: 20px;
+    margin: 10px 0 20px 0;
 }
 
 .comment-operation a {

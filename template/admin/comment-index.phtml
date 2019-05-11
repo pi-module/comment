@@ -1,10 +1,10 @@
 <div class="row">
     <div class="col-md-6">
-        <div class="panel panel-default">
-            <div class="panel-heading">
+        <div class="card bg-light mb-3">
+            <div class="card-header">
                 <?php echo _a('Comment stats'); ?>
             </div>
-            <table class="table">
+            <table class="table table-responsive">
                 <tr>
                     <th><?php echo _a('Title'); ?>
                     <th><?php echo _a('Amounts'); ?>
@@ -24,8 +24,8 @@
                 <?php } ?>
             </table>
         </div>
-        <div class="panel panel-default">
-            <div class="panel-heading"><?php echo _a('Top posters'); ?></div>
+        <div class="card bg-light mb-3">
+            <div class="card-header"><?php echo _a('Top posters'); ?></div>
             <table class="table table-striped">
                 <tr>
                     <th></th>
@@ -48,8 +48,8 @@
                 <?php } ?>
             </table>
         </div>
-        <div class="panel panel-default">
-            <div class="panel-heading"><?php echo _a('Active comment posts by module'); ?></div>
+        <div class="card bg-light mb-3">
+            <div class="card-header"><?php echo _a('Active comment posts by module'); ?></div>
             <table class="table table-striped">
                 <tr>
                     <th><?php echo _a('Title'); ?></th>
@@ -75,9 +75,9 @@
         </div>
     </div>
     <div class="col-md-6">
-        <div class="panel panel-default">
-            <div class="panel-heading"><?php echo _a('Links'); ?></div>
-            <div class="panel-body">
+        <div class="card bg-light mb-3">
+            <div class="card-header"><?php echo _a('Links'); ?></div>
+            <div class="card-text">
                 <ul>
                     <?php foreach ($links as $name => $data) { ?>
                         <li>
@@ -89,8 +89,8 @@
                 </ul>
             </div>
         </div>
-        <div class="panel panel-default">
-            <div class="panel-heading"><?php echo _a('Most commented'); ?></div>
+        <div class="card bg-light mb-3">
+            <div class="card-header"><?php echo _a('Most commented'); ?></div>
             <table class="table table-striped">
                 <tr>
                     <th></th>

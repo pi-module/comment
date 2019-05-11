@@ -24,35 +24,35 @@ $paginator = $comment['paginator'];
     <div class="pi-comment-article pi-comment-list">
         <?php foreach ($targets as $root => $target) { ?>
             <div class="media">
-                <a class="pi-comment-count pull-left" href="<?php echo $target['comment_url']; ?>" target="_blank" title="<?php echo sprintf(__('%s comments'), $target['count']); ?>" target="_blank">
+                <a class="pi-comment-count float-left" href="<?php echo $target['comment_url']; ?>" target="_blank" title="<?php echo sprintf(__('%s comments'), $target['count']); ?>" target="_blank">
                     <?php echo $target['count']; ?>
                 </a>
                 <div class="media-body">
                     <div style="font-size: 13px">
                         <ul class="list-inline">
-                            <li>
+                            <li class="list-inline-item">
                                 <a class="common-article-title" href="<?php echo $target['url']; ?>" target="_blank" title="<?php echo _escape($target['title']); ?>" style="margin: 0; font-weight: normal;">
                                     <?php echo _escape($target['title']); ?>
                                 </a>
                             </li>
-                            <li class="muted">&nbsp;-<span>
-                            <li>
+                            <li class="list-inline-item muted">&nbsp;-<span>
+                            <li class="list-inline-item">
                                 <a class="muted" href="<?php echo $target['user']['url']; ?>" target="_blank">
                                     <?php echo $target['user']['name']; ?>
                                 </a>
                             </li>
-                            <li class="pull-right muted pi-comment-time"><?php echo _date($target['time']); ?></li>
+                            <li class="list-inline-item float-right muted pi-comment-time"><?php echo _date($target['time']); ?></li>
                         </ul>
                     </div>
                     <div class="pi-comment-desc">
                         <ul class="list-inline">
-                            <li class="muted pull-left"><?php _e('Last commented: '); ?></li>
-                            <li>
-                                <a class="highlight pull-left" href="<?php echo $target['comment_user']['url']; ?>" style="margin-left: 5px">
+                            <li class="list-inline-item muted float-left"><?php _e('Last commented: '); ?></li>
+                            <li class="list-inline-item">
+                                <a class="highlight float-left" href="<?php echo $target['comment_user']['url']; ?>" style="margin-left: 5px">
                                     <?php echo $target['comment_user']['name']; ?>
                                 </a>
                             </li>
-                            <li class="muted" style="margin-left: 5px">
+                            <li class="list-inline-item muted" style="margin-left: 5px">
                                 <?php echo sprintf(__(' at %s'), _date($target['comment_time'])); ?>
                             </li>
                         </ul>

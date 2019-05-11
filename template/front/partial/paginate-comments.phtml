@@ -5,9 +5,9 @@ $badgeAdmin = Pi::service('config') -> get('badge_admin', 'comment');
 $templateUserComment = <<<'EOT'
         <div class="media-heading" itemprop="creator" itemscope itemtype="https://schema.org/Person">
             <ul class="list-inline">
-                <li><a href="%s" target="_blank" itemprop="name">%s</a></li>
-                <li class="muted small gray">%s</li>
-                <li class="muted small">%s</li>
+                <li class="list-inline-item"><a href="%s" target="_blank" itemprop="name">%s</a></li>
+                <li class="list-inline-item muted small gray">%s</li>
+                <li class="list-inline-item muted small">%s</li>
             </ul>
         </div>
         <div>
@@ -25,9 +25,9 @@ $templateUserReview = <<<'EOT'
         <div class="small ratings">%s</div>
         <div class="media-heading" itemprop="author" itemscope itemtype="https://schema.org/Person">
             <ul class="list-inline no-margin-bottom">
-                <li><a href="%s" target="_blank"><span itemprop="name">%s</span></a></li>
-                <li class="muted small gray">%s</li>
-                <li class="muted small">%s</li>
+                <li class="list-inline-item"><a href="%s" target="_blank"><span itemprop="name">%s</span></a></li>
+                <li class="list-inline-item muted small gray">%s</li>
+                <li class="list-inline-item muted small">%s</li>
             </ul>
         </div>
         <div class="small gray time-experience clearfix" data-time="%s">
@@ -46,10 +46,10 @@ EOT;
 $templateGuest = <<<'EOT'
     <div class="media-heading" itemprop="creator" itemscope itemtype="https://schema.org/Person">
         <ul class="list-inline">
-            <li>%s</li>
-            <li class="muted small">%s</li>
-            <li class="muted small"><a href="%s" target="_blank"><i class="fa fa-external-link"></i></a></li>
-            <li class="muted small gray">%s</li>
+            <li class="list-inline-item">%s</li>
+            <li class="list-inline-item muted small">%s</li>
+            <li class="list-inline-item muted small"><a href="%s" target="_blank"><i class="fas fa-external-link-alt"></i></a></li>
+            <li class="list-inline-item muted small gray">%s</li>
         </ul>
     </div>
     <div>
@@ -60,11 +60,11 @@ EOT;
 
 $templateRating = <<<'EOT'
     <div class="item-rating">
-        <i class="fa %s" aria-hidden="true"></i>
-        <i class="fa %s" aria-hidden="true"></i>
-        <i class="fa %s" aria-hidden="true"></i>
-        <i class="fa %s" aria-hidden="true"></i>
-        <i class="fa %s" aria-hidden="true"></i>
+        <i class="%s" aria-hidden="true"></i>
+        <i class="%s" aria-hidden="true"></i>
+        <i class="%s" aria-hidden="true"></i>
+        <i class="%s" aria-hidden="true"></i>
+        <i class="%s" aria-hidden="true"></i>
     </div>
 EOT;
 ?>
@@ -93,11 +93,11 @@ EOT;
         <div class="avatar-column text-center">
             <div> 
                 <?php if ($item['uid'] > 0) { ?>
-                    <a class="pull-left avatar-img-wrapper" href="<?php echo $item['user']['url']; ?>" target="_blank">
+                    <a class="float-left avatar-img-wrapper" href="<?php echo $item['user']['url']; ?>" target="_blank">
                         <?php echo $item['user']['avatar']; ?>
                     </a>
                 <?php } else { ?>
-                    <p class="pull-left avatar-img-wrapper">
+                    <p class="float-left avatar-img-wrapper">
                         <?php echo $item['user']['avatar']; ?>
                     </p>
                 <?php } ?>
@@ -127,12 +127,12 @@ EOT;
                     $images = '<div class="gallery images clearfix" data-main_image="' . $item['main_image'] . '" data-additional_images="' . $item['additional_images'] . '">';
                     if ($item['main_image']) {
                         $images .= '<a href="' . Pi::url((string) Pi::api('doc','media')->getSingleLinkUrl($item['main_image'])->setConfigModule('guide')->thumb('large')) . '">'; 
-                        $images .= '<img class="img-responsive main_image" src="' . Pi::url((string) Pi::api('doc','media')->getSingleLinkUrl($item['main_image'])->setConfigModule('guide')->thumb('thumbnail')) . '" alt="" />';
+                        $images .= '<img class="img-fluid main_image" src="' . Pi::url((string) Pi::api('doc','media')->getSingleLinkUrl($item['main_image'])->setConfigModule('guide')->thumb('thumbnail')) . '" alt="" />';
                         $images .= '</a>';
                     }
                     foreach ($galleryImages as $key => $galleryImage) {
                         $images .= '<a href="' . $galleryImage['url'] . '" title="' .  $this->escape($galleryImage['title']) . '">';
-                        $images .= '<img class="img-responsive" src="' . $galleryImage['resized_url'] . '" alt="' . $this->escape($galleryImage['title']) . '" itemprop="image"/>';
+                        $images .= '<img class="img-fluid" src="' . $galleryImage['resized_url'] . '" alt="' . $this->escape($galleryImage['title']) . '" itemprop="image"/>';
                         $images .= '</a>';
                     }
                     $images .= '</div>';
@@ -140,11 +140,11 @@ EOT;
                     $ratings = '';
                     foreach ($item['rating'] as $id => $rating) {
                         $star = sprintf($templateRating, 
-                            $rating['rating'] > 0 ? 'fa-star' : 'fa-star-o',
-                            $rating['rating'] > 1 ? 'fa-star' : 'fa-star-o',
-                            $rating['rating'] > 2 ? 'fa-star' : 'fa-star-o',
-                            $rating['rating'] > 3 ? 'fa-star' : 'fa-star-o',
-                            $rating['rating'] > 4 ? 'fa-star' : 'fa-star-o'
+                            $rating['rating'] > 0 ? 'fas fa-star' : 'far fa-star',
+                            $rating['rating'] > 1 ? 'fas fa-star' : 'far fa-star',
+                            $rating['rating'] > 2 ? 'fas fa-star' : 'far fa-star',
+                            $rating['rating'] > 3 ? 'fas fa-star' : 'far fa-star',
+                            $rating['rating'] > 4 ? 'fas fa-star' : 'far fa-star'
                         );  
                         $ratings .= '<div data-value="' . $rating['rating'] . '" data-for="rating-' . $id . '">' . $rating['type'] . ' : ';
                         $ratings .=  $star;
@@ -191,20 +191,20 @@ EOT;
                 <?php if ($uid > 0 && $uid == $item['uid'] && $canEdit) { ?>
                     <?php if ($uid > 0 && $uid == $item['uid']) {
                         echo sprintf(
-                            '<a href="%s#comments" onclick="return confirm(\'%s\')"><span class="fa fa-close"></span> %s</a>',
+                            '<a href="%s#comments" onclick="return confirm(\'%s\')"><span class="fas fa-times"></span> %s</a>',
                             $this->url('comment', array('controller' => 'post', 'action' => 'delete', 'id' => $item['id'])),
                             __('Are you sure to delete this comment?'),
                             __('Delete')
                         );
                     } ?>
-                    <a href="#" class="edit" data-id="<?php echo $item['id'] ?>"><span class="fa fa-edit"></span> <?php _e('Edit') ?></a>
-                    <a href="#" class="hide validateedit" data-id="<?php echo $item['id'] ?>"><span class="fa fa-check"></span> <?php _e('Save') ?></a>
-                    <a href="#" class="hide canceledit"><span class="fa fa-close"></span> <?php _e('Cancel') ?></a>
+                    <a href="#" class="edit" data-id="<?php echo $item['id'] ?>"><span class="fas fa-edit"></span> <?php _e('Edit') ?></a>
+                    <a href="#" class="hide validateedit" data-id="<?php echo $item['id'] ?>"><span class="fas fa-check"></span> <?php _e('Save') ?></a>
+                    <a href="#" class="hide canceledit"><span class="fas fa-times"></span> <?php _e('Cancel') ?></a>
                     
                 <?php } ?> 
                 <?php if (Pi::user()->getId() > 0) { ?>
                     <?php if ($item['type'] == 'SIMPLE' || $owner || $admin || $item['uid'] == $uid) { ?>
-                        <a href="#" class="reply" data-reply="<?php echo $item['id'] ?>"><span class="fa fa-mail-reply"></span> <?php _e('Reply') ?></a>
+                        <a href="#" class="reply" data-reply="<?php echo $item['id'] ?>"><span class="fas fa-reply"></span> <?php _e('Reply') ?></a>
                     <?php } ?>
                 <?php } else { ?> 
                     <a href="#"
@@ -213,10 +213,10 @@ EOT;
                         <?php } else { ?> 
                             onclick="return loginForReview(this)" 
                         <?php } ?>>
-                        <span class="fa fa-mail-reply"></span> <?php _e('Reply') ?>
+                        <span class="fas fa-reply"></span> <?php _e('Reply') ?>
                     </a>
                 <?php } ?>
-                <a href="<?php echo Pi::url(Pi::api('api', 'comment')->getUrl('post', array('post' => $item['id']))) ?>" target="_blank"><span class="fa fa-share-alt"></span> <?php _e('Share') ?></a>
+                <a href="<?php echo Pi::url(Pi::api('api', 'comment')->getUrl('post', array('post' => $item['id']))) ?>" target="_blank"><span class="fas fa-share-alt"></span> <?php _e('Share') ?></a>
             </div>
             <?php include dirname(realpath(__FILE__)) .  '/../_reply-form.phtml' ?>
         </div>
@@ -237,11 +237,11 @@ EOT;
             <div class="fake-anchor" id="comment-<?php echo $reply['id']; ?>"></div>
             <div class="pi-comment-single media comment-item clearfix is-reply <?php echo'comment-' . strtolower($reply['writer']) ?>"   data-reply="<?php echo $reply['reply'] ?>" >
                 <?php if ($reply['uid'] > 0) { ?>
-                    <a class="pull-left avatar-img-wrapper" href="<?php echo $reply['user']['url']; ?>" target="_blank">
+                    <a class="float-left avatar-img-wrapper" href="<?php echo $reply['user']['url']; ?>" target="_blank">
                         <?php echo $reply['user']['avatar']; ?>
                     </a>
                 <?php } else { ?>
-                    <p class="pull-left avatar-img-wrapper">
+                    <p class="float-left avatar-img-wrapper">
                         <?php echo $reply['user']['avatar']; ?>
                     </p>
                 <?php } ?>
@@ -279,19 +279,19 @@ EOT;
                         <?php if ($uid > 0 && $uid == $reply['uid'] && $canEdit) { ?>
                              <?php if ($uid > 0 && $uid == $reply['uid']) {
                                 echo sprintf(
-                                    '<a href="%s#comments" onclick="return confirm(\'%s\')"><span class="fa fa-close"></span> %s</a>',
+                                    '<a href="%s#comments" onclick="return confirm(\'%s\')"><span class="fas fa-times"></span> %s</a>',
                                     $this->url('comment', array('controller' => 'post', 'action' => 'delete', 'id' => $reply['id'])),
                                     __('Are you sure to delete this comment?'),
                                     __('Delete')
                                 );
                             } ?>
-                            <a href="#" class="edit" data-id="<?php echo $reply['id'] ?>"><span class="fa fa-close"></span> <?php _e('Edit') ?></a>
-                            <a href="#" class="hide validateedit" data-id="<?php echo $reply['id'] ?>" data-reply="<?php echo $reply['reply'] ?>"><span class="fa fa-check"></span> <?php _e('Save') ?></a>
-                            <a href="#" class="hide canceledit"><span class="fa fa-close"></span> <?php _e('Cancel') ?></a>
+                            <a href="#" class="edit" data-id="<?php echo $reply['id'] ?>"><span class="fas fa-times"></span> <?php _e('Edit') ?></a>
+                            <a href="#" class="hide validateedit" data-id="<?php echo $reply['id'] ?>" data-reply="<?php echo $reply['reply'] ?>"><span class="fas fa-check"></span> <?php _e('Save') ?></a>
+                            <a href="#" class="hide canceledit"><span class="fas fa-times"></span> <?php _e('Cancel') ?></a>
                         <?php } ?>
                         <?php if (Pi::user()->getId() > 0) { ?>
                             <?php if ($item['type'] == 'SIMPLE' || $owner || $admin || $item['uid'] == $uid) { ?>
-                                <a href="#" class="reply" data-reply="<?php echo $reply['reply'] ?>"><span class="fa fa-mail-reply"></span> <?php _e('Reply') ?></a>
+                                <a href="#" class="reply" data-reply="<?php echo $reply['reply'] ?>"><span class="fas fa-reply"></span> <?php _e('Reply') ?></a>
                             <?php } ?>
                         <?php } else { ?> 
                             <a href="#"
@@ -300,10 +300,10 @@ EOT;
                                 <?php } else { ?> 
                                     onclick="return loginForReview(this)" 
                                 <?php } ?>>
-                                <span class="fa fa-mail-reply"></span> <?php _e('Reply') ?>
+                                <span class="fas fa-reply"></span> <?php _e('Reply') ?>
                             </a>
                         <?php } ?>
-                        <a href="<?php echo Pi::url(Pi::api('api', 'comment')->getUrl('post', array('post' => $reply['id']))) ?>" target="_blank"><span class="fa fa-share-alt"></span> <?php _e('Share') ?></a>
+                        <a href="<?php echo Pi::url(Pi::api('api', 'comment')->getUrl('post', array('post' => $reply['id']))) ?>" target="_blank"><span class="fas fa-share-alt"></span> <?php _e('Share') ?></a>
                     </div>
                     <?php include dirname(realpath(__FILE__)) .  '/../_reply-form.phtml' ?>
                 </div>

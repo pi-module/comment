@@ -224,7 +224,7 @@ $(function() {
                 $(this).parent().parent().find('.commentText').attr('contenteditable', false);
                 var commentText = $(this).parent().parent().find('.commentText');
                 var initcontent = commentText.html();
-                var content = initcontent.replace(/\n/gi, '').replace(/\r\n/gi, '').replace(/<br>/gi, '\n').replace(/<br \/>/gi, '\n').replace(/<br\/>/gi, '\n');
+                var content = initcontent.replace(/<div><br><\/div>/gi, '<div><\/div>').replace(/<div>/gi, '').replace(/\r\n/gi, '').replace(/\n/gi, '').replace(/<\/div>/gi, '\n').replace(/<br>/gi, '\n').replace(/<br \/>/gi, '\n').replace(/<br\/>/gi, '\n');
                 content = decodeEntities(content);
                 var review = $(this).parent().hasClass('is-review') ? 1 : 0;
                 var id = $(this).data('id');
@@ -426,7 +426,7 @@ $(function() {
          clearTimeout(popoverTimeoutHandle);
         var content = '<?php _e("Please login for write a review") ?>';
         var loginLinkLabel = "<?php _e('login/register') ?>";
-        content += '<div class="text-center"><button onclick="$(\'.popover-active\').popover(\'hide\')" type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#loginRegisterModal">'+loginLinkLabel+'</button></div>';
+        content += '<div class="text-center"><button onclick="$(\'.popover-active\').popover(\'hide\')" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#loginRegisterModal">'+loginLinkLabel+'</button></div>';
         var link = $(elem);
         
         link.not('.popover-active').addClass('popover-active').popover({
@@ -499,35 +499,35 @@ $(function() {
 
 $templateRating =<<<'EOT'
     <span class="item-rating inline-block">
-        <i class="fa %s" aria-hidden="true"></i>
-        <i class="fa %s" aria-hidden="true"></i>
-        <i class="fa %s" aria-hidden="true"></i>
-        <i class="fa %s" aria-hidden="true"></i>
-        <i class="fa %s" aria-hidden="true"></i>
+        <i class="%s" aria-hidden="true"></i>
+        <i class="%s" aria-hidden="true"></i>
+        <i class="%s" aria-hidden="true"></i>
+        <i class="%s" aria-hidden="true"></i>
+        <i class="%s" aria-hidden="true"></i>
     </span>
 EOT;
 
 ?>
-<div class="panel panel-default nodeco comments-lead">
+<div class="mb-3 nodeco comments-lead">
     <?php if ($review) { ?>
-        <div class="row panel-heading resume-ratings">
-            <div>
+        <div class="row card-heading resume-ratings">
+            <div class="col-12">
                 <?php  
                     $star = sprintf($templateRating, 
-                        isset($globalRatings[0]) && $globalRatings[0]['rating'] > 0 ? 'fa-star' : 'fa-star-o',
-                        isset($globalRatings[0]) && $globalRatings[0]['rating'] > 1 ? 'fa-star' : 'fa-star-o',
-                        isset($globalRatings[0]) && $globalRatings[0]['rating'] > 2 ? 'fa-star' : 'fa-star-o',
-                        isset($globalRatings[0]) && $globalRatings[0]['rating'] > 3 ? 'fa-star' : 'fa-star-o',
-                        isset($globalRatings[0]) && $globalRatings[0]['rating'] > 4 ? 'fa-star' : 'fa-star-o'
+                        isset($globalRatings[0]) && $globalRatings[0]['rating'] > 0 ? 'fas fa-star' : 'far fa-star',
+                        isset($globalRatings[0]) && $globalRatings[0]['rating'] > 1 ? 'fas fa-star' : 'far fa-star',
+                        isset($globalRatings[0]) && $globalRatings[0]['rating'] > 2 ? 'fas fa-star' : 'far fa-star',
+                        isset($globalRatings[0]) && $globalRatings[0]['rating'] > 3 ? 'fas fa-star' : 'far fa-star',
+                        isset($globalRatings[0]) && $globalRatings[0]['rating'] > 4 ? 'fas fa-star' : 'far fa-star'
                     );  
                 ?>
                 
-                <h2 class="panel-title inline-block">
+                <h2 class="card-title inline-block">
                     <?php _e('All comments '); ?>
                     <strong>(<?php echo _number($count) ?: _number(0); ?>)</strong>
                 </h2>
                 &nbsp;<div class="inline-block global-ratings"><?php echo $star; ?></div> <?php echo isset($globalRatings[0]) && $globalRatings[0]['number'] >= 1 ? _number($globalRatings[0]['number']) : '' ?>
-                <div class="pull-right">
+                <div class="float-right">
                     <?php if (method_exists(Pi::api('comment', $caller), 'canonize')) { ?>
                         <?php if (Pi::user()->getId() > 0) { ?>
                             <input class="subscription" type="checkbox" <?php echo $subscribe ? 'CHECKED=CHECKED' : '' ?> /> <span class="text-muted"><?php _e('Subscribe to the thread') ?></span>
@@ -537,7 +537,7 @@ EOT;
                             <?php } else { ?> 
                                 onclick="return loginForReview(this)" 
                             <?php } ?>>
-                                <span class="fa fa-square-o text-muted"></span> <span class="text-muted"><?php _e('Subscribe to the thread') ?></span>
+                                <span class="far fa-square text-muted"></span> <span class="text-muted"><?php _e('Subscribe to the thread') ?></span>
                             </a>
                         <?php } ?>    
                     <?php } ?>
@@ -552,12 +552,12 @@ EOT;
                         <div class="col-md-6 no-padding">
                             
                             <?php  
-                                $star = sprintf($templateRating, 
-                                    $rating['rating'] > 0 ? 'fa-star' : 'fa-star-o',
-                                    $rating['rating'] > 1 ? 'fa-star' : 'fa-star-o',
-                                    $rating['rating'] > 2 ? 'fa-star' : 'fa-star-o',
-                                    $rating['rating'] > 3 ? 'fa-star' : 'fa-star-o',
-                                    $rating['rating'] > 4 ? 'fa-star' : 'fa-star-o'
+                                $star = sprintf($templateRating,
+                                    $rating['rating'] > 0 ? 'fas fa-star' : 'far fa-star',
+                                    $rating['rating'] > 1 ? 'fas fa-star' : 'far fa-star',
+                                    $rating['rating'] > 2 ? 'fas fa-star' : 'far fa-star',
+                                    $rating['rating'] > 3 ? 'fas fa-star' : 'far fa-star',
+                                    $rating['rating'] > 4 ? 'fas fa-star' : 'far fa-star'
                                 );  
                             ?>
                             <div class="col-md-6 no-padding">
@@ -572,8 +572,8 @@ EOT;
             </div>
         </div>
     <?php } else { ?>
-        <div class="row panel-heading">
-            <h2 class="panel-title inline-block">
+        <div class="card-heading">
+            <h2 class="card-title inline-block">
                 <?php _e('All comments'); ?>
                 <strong>(<?php echo _number($count) ?: _number(0); ?>)</strong>
             </h2>
@@ -587,7 +587,7 @@ EOT;
                     <?php } else { ?> 
                         onclick="return loginForReview(this)" 
                     <?php } ?>>
-                        <span class="fa fa-square-o text-muted"></span> <span class="text-muted"><?php _e('Subscribe to the thread') ?></span>
+                        <span class="far fa-square text-muted"></span> <span class="text-muted"><?php _e('Subscribe to the thread') ?></span>
                     </a>
                 <?php } ?>    
             <?php } ?>
@@ -618,7 +618,7 @@ EOT;
         </div>
     <?php } ?>
 
-    <div class="panel-body" itemscope itemtype="https://schema.org/UserComments">
+    <div class="card-body" itemscope itemtype="https://schema.org/UserComments">
 
         <?php include realpath(__FILE__) . './../_post-form.phtml' ?>
 
@@ -632,8 +632,8 @@ EOT;
                     $pageNumber = $count % 5 == 0 ? $count / 5  : ((int) ($count / 5))  +1;
                     if ($pageNumber > 1) {
                         for ($i = 1; $i <= $pageNumber; ++$i) { ?>
-                            <li class="<?php echo $i == $page ? 'active' : '' ?>">
-                                <a class="paginator" href="#" data-page="<?php echo $i ?>" data-type="<?php echo $review ? 'review' : 'comment' ?>">
+                            <li class="page-item <?php echo $i == $page ? 'active' : '' ?>">
+                                <a class="paginator page-link" href="#" data-page="<?php echo $i ?>" data-type="<?php echo $review ? 'review' : 'comment' ?>">
                                     <?php echo $i ?>
                                 </a>
                             </li>

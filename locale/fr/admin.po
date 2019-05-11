@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Pi-comment\n"
-"POT-Creation-Date: 2017-10-24 18:39+0200\n"
-"PO-Revision-Date: 2017-10-24 18:40+0200\n"
+"POT-Creation-Date: 2019-01-21 16:07+0100\n"
+"PO-Revision-Date: 2019-01-21 16:07+0100\n"
 "Last-Translator: Marc Desrousseaux\n"
 "Language-Team: Marc Desrousseaux\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.4\n"
+"X-Generator: Poedit 2.2.1\n"
 "X-Poedit-KeywordsList: _a;_t\n"
 "X-Poedit-Basepath: ../..\n"
 "X-Poedit-SourceCharset: UTF-8\n"
@@ -115,51 +115,55 @@ msgstr "Pour les auteurs"
 msgid "For administrators"
 msgstr "Pour les administrateurs"
 
-#: config/config.php:43
+#: config/config.php:42
+msgid "Load by ajax"
+msgstr "Charger en ajax"
+
+#: config/config.php:49
 msgid "Auto approve submission"
 msgstr "Auto-approuver les soumissions"
 
-#: config/config.php:50
+#: config/config.php:56
 msgid "Guest can send comment"
 msgstr "Les invités peuvent commenter"
 
-#: config/config.php:57
+#: config/config.php:63
 msgid "Content format"
 msgstr "Format de contenu"
 
-#: config/config.php:62
+#: config/config.php:68
 msgid "Plain text"
 msgstr "Plein Texte"
 
-#: config/config.php:63
+#: config/config.php:69
 msgid "Markdown"
 msgstr "Markdown"
 
-#: config/config.php:64
+#: config/config.php:70
 msgid "HTML"
 msgstr "HTML"
 
-#: config/config.php:74
+#: config/config.php:80
 msgid "Options for text format"
 msgstr "Options de format texte"
 
-#: config/config.php:79
+#: config/config.php:85
 msgid "Enable tag link"
 msgstr "Activer le liens Tags"
 
-#: config/config.php:80
+#: config/config.php:86
 msgid "Enable username link"
 msgstr "Activer le lien UserName"
 
-#: config/config.php:81
+#: config/config.php:87
 msgid "Enable URL link"
 msgstr "Activer le lien URL"
 
-#: config/config.php:88
+#: config/config.php:94
 msgid "Trust domain"
 msgstr "Domaine de confiance"
 
-#: config/config.php:89
+#: config/config.php:95
 msgid ""
 "Separe domains by a comma. Trust domains urls are dofollow, otherwise non "
 "trust domains urls are rel=nofollow. Mydomain.com filters any subdomain or "
@@ -175,33 +179,33 @@ msgstr ""
 "nofollow. Mettre une étoile * si vous voulez déclarer toutes les urls comme "
 "de confiance (dofollow)."
 
-#: config/config.php:94
+#: config/config.php:100
 msgid "Time to edit/delete "
 msgstr "Limite de temps pour Edition/Suppression"
 
-#: config/config.php:95
+#: config/config.php:101
 msgid "Time to edit/delete a comment, in second"
 msgstr "Durée laissée pour éditer/supprimer un commentaire, en secondes"
 
-#: config/config.php:101
+#: config/config.php:107
 msgid "Date & Time format "
 msgstr "Format Date et Heure"
 
-#: config/config.php:102
+#: config/config.php:108
 msgid ""
 "Indicate here the desired Date & Time format (PHP way - for instance d/m/Y H:"
 "i)"
 msgstr "Indiquer ici le format Date et Heure (méthode PHO - exemple d/m/Y H:i)"
 
-#: config/config.php:107
+#: config/config.php:113
 msgid "URL for admin badge"
 msgstr "URL pour le badge admin"
 
-#: config/config.php:112
+#: config/config.php:118
 msgid "Intro for Index Page"
 msgstr "Intro pour la page Index"
 
-#: config/config.php:113
+#: config/config.php:119
 msgid "Text displayed on top of Index Page Comment List"
 msgstr "Texte affiché au dessus de la liste des Commentaires sur la page Index"
 
@@ -280,12 +284,8 @@ msgid "Rating types"
 msgstr "Type d'avis"
 
 #: config/user.php:20
-msgid "Comment posts by me"
-msgstr "Mes commentaires"
-
-#: config/user.php:26
-msgid "Comment posts on my articles"
-msgstr "Commentaires sur mes articles"
+msgid "Reviews & Comments"
+msgstr "Avis et Commentaires"
 
 #: src/Controller/Admin/IndexController.php:23
 #, php-format
@@ -540,6 +540,12 @@ msgstr "Type d'utilisateur, numéro ou identité"
 #: template/admin/comment-user.phtml:19
 msgid "Submit"
 msgstr "Valider"
+
+#~ msgid "Comment posts by me"
+#~ msgstr "Mes commentaires"
+
+#~ msgid "Comment posts on my articles"
+#~ msgstr "Commentaires sur mes articles"
 
 #~ msgid "Intro"
 #~ msgstr "Intro"

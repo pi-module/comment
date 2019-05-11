@@ -1,10 +1,10 @@
 <?php
 /**
- * Pi Engine (http://pialog.org)
+ * Pi Engine (http://piengine.org)
  *
- * @link            http://code.pialog.org for the Pi Engine source repository
- * @copyright       Copyright (c) Pi Engine http://pialog.org
- * @license         http://pialog.org/license.txt BSD 3-Clause License
+ * @link            http://code.piengine.org for the Pi Engine source repository
+ * @copyright       Copyright (c) Pi Engine http://piengine.org
+ * @license         http://piengine.org/license.txt BSD 3-Clause License
  */
 
 namespace Module\Comment\Form;
@@ -162,10 +162,10 @@ class PostForm extends BaseForm
         
         if (!empty($this->ratings)) {
 $html =<<<'EOT'
-    <div class="col-md-8 no-padding">
+    <div class="col-md-4">
     <label><i class="text-danger" style="margin-right: 5px;" title="Requis">*</i>%s</label>
     </div>
-    <div class="col-md-4 no-padding">
+    <div class="col-md-8">
     
     <div class="rating" data-for="%s">
         <a href="#" data-value="5" class="fa my-star"></a>
@@ -248,7 +248,8 @@ EOT;
                 ),
                 'attributes' => array(
                     'required' => true,
-                    'class' => "form-control"
+                    'class' => "form-control",
+                    'autocomplete' => 'off'
                     
                 )
             ));

@@ -26,23 +26,23 @@ if ($uid) {
         <div class="alert alert-danger"><?php echo _escape($comment['message']); ?></div>
     <?php } ?>
     <div class="media">
-        <a class="pull-left" href="<?php echo $url; ?>">
+        <a class="float-left" href="<?php echo $url; ?>">
            <?php echo $post['user']['avatar']; ?>
         </a>
         <div class="media-body">
             <?php if ($post) { ?>
                 <div class="clearfix">
                     <ul class="list-inline">
-                        <li class="pi-comment-user">
+                        <li class="list-inline-item pi-comment-user">
                             <a href="<?php echo $url; ?>" target="_blank" title="<?php echo $post['user']['name']; ?>" class="highlight">
                                 <?php echo $post['user']['name']; ?>
                             </a>
                         </li>
-                        <li class="pull-right muted pi-comment-time"><?php echo _date($post['time']); ?></li>
+                        <li class="list-inline-item float-right muted pi-comment-time"><?php echo _date($post['time']); ?></li>
                     </ul>
                 </div>
                 <div class="pi-comment-desc">
-                    <span class="muted pull-left"><?php _e('Commented on '); ?>&nbsp;</span>
+                    <span class="muted float-left"><?php _e('Commented on '); ?>&nbsp;</span>
                     <a class="highlight" href="<?php echo Pi::url(Pi::api('api', 'comment')->getUrl('post', array('post' => $post['id']))) ?>" title="<?php echo _escape($target['title']); ?>">
                         <?php echo $target['title']; ?>
                     </a>

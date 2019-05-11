@@ -3,9 +3,9 @@
 }
 
 .pi-comment {
-    border: 1px solid #dddddd;
-    border-radius: 4px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.055);
+    /*border: 1px solid #dddddd;*/
+    /*border-radius: 4px;*/
+    /*box-shadow: 0 1px 3px rgba(0, 0, 0, 0.055);*/
     padding: 10px 15px;
     margin-bottom: 20px;
 }
@@ -25,15 +25,15 @@ a.highlight {
 .pi-comment-form {
     margin-top: 15px;
 }
-div.media > .pull-left {
+div.media > .float-left {
     margin-right: 5px;
     margin-left: 5px;
 }
-.manage-sidebar div.media > .pull-left {margin:0}
+.manage-sidebar div.media > .float-left {margin:0}
 
-img {
-    border-radius: 3px;
-}
+/*img {*/
+    /*border-radius: 3px;*/
+/*}*/
 /*textarea {
     border: 0;
     padding: 0;
@@ -229,13 +229,13 @@ a.pi-comment-count:hover {
 }
 
 .comment-item {
-  /*margin-top: 40px;*/
+  margin-top: 15px!important;
   z-index:10;
   position:relative;
 }
 
 .comment-operation {
-    margin-bottom: 20px;
+    margin: 10px 0 20px 0;
 }
 
 .comment-operation a {
@@ -260,7 +260,7 @@ a.pi-comment-count:hover {
 /* RATINGS */ 
 .rating {
    direction: rtl;
-   width:85px;
+   /*width:85px;*/
 }
 .rating span,
 .rating a {
@@ -270,7 +270,11 @@ a.pi-comment-count:hover {
    color:orange;
    
 }
-.rating a:before {content:"\f006"}
+.rating a:before {
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 400;
+    content:"\f005"
+}
 
 .rating a:hover,
 .rating a:focus,
@@ -290,7 +294,11 @@ a.pi-comment-count:hover {
 .rating span.active ~ span:before,
 .rating a.active ~ a:before,
 .rating a:hover ~ a:before,
-.rating a:focus ~ a:before {content:"\f005"}
+.rating a:focus ~ a:before {
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    content:"\f005"
+}
 
 
 .ratings div {
@@ -301,7 +309,7 @@ a.pi-comment-count:hover {
 .my-star,
 .item-rating .fa-star,
 .item-rating .fa-star.active {color: orange;}
-.item-rating .fa-star-o {color:#ccc}
+.item-rating .far.fa-star {color:#ccc}
 
 /* POST FORM */
 .inline label {
@@ -314,7 +322,7 @@ a.pi-comment-count:hover {
 
 .inline input {
     width:50%; 
-    margin-left:20px
+    /*margin-left:20px*/
 }
 
 /* COMMENT LIST */
@@ -426,7 +434,7 @@ input.subscription {
 .comment-operation a {color:#999}
 .comment-operation a:hover {color:#337ab7}
 
-.resume-ratings .pull-right {margin-top:5px}
+.resume-ratings .float-right {margin-top:5px}
 
 #pi-comment.userSection .container {width:auto;max-width:none}
 

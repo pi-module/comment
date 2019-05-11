@@ -18,11 +18,11 @@ $post = $comment['post'];
     <h1 class="pi-comment-header"><?php _e('Comment detail'); ?></h1>
     <div class="media">
         <?php if ($post['uid'] > 0) { ?>
-            <a class="pull-left" href="<?php echo $post['user']['url']; ?>">
+            <a class="float-left" href="<?php echo $post['user']['url']; ?>">
                 <?php echo Pi::avatar()->get($post['uid'], 'medium'); ?>
             </a>
         <?php } else { ?>
-            <p class="pull-left">
+            <p class="float-left">
                 <?php echo Pi::avatar()->get($post['uid'], 'medium'); ?>
             </p>
         <?php } ?>
@@ -31,7 +31,7 @@ $post = $comment['post'];
                 <div class="pi-comment-single">
                     <div class="clearfix ">
                         <ul class="list-inline">
-                            <li class="pi-comment-user">
+                            <li class="list-inline-item pi-comment-user">
                                 <?php if ($post['uid'] > 0) { ?>
                                     <a href="<?php echo $post['user']['url']; ?>" target="_blank" title="<?php echo $post['user']['name']; ?>" class="highlight">
                                         <?php echo $post['user']['name']; ?>
@@ -41,19 +41,19 @@ $post = $comment['post'];
                                 <?php } ?>
                             </li>
                             <?php if ($post['reply']) { ?>
-                                <li style="font-size: 14px"><?php _e('In reply to:'); ?></li>
-                                <li style="font-size: 14px"><a class="highlight" href="<?php echo Pi::service('comment')->getUrl('post', array('post' => $post['reply'])); ?>" target="_blank" title="<?php _e('Click to open'); ?>">
+                                <li class="list-inline-item" style="font-size: 14px"><?php _e('In reply to:'); ?></li>
+                                <li class="list-inline-item" style="font-size: 14px"><a class="highlight" href="<?php echo Pi::service('comment')->getUrl('post', array('post' => $post['reply'])); ?>" target="_blank" title="<?php _e('Click to open'); ?>">
                                         <?php echo sprintf(__('Comment #%d'), $post['reply']); ?>
                                     </a>
                                 </li>
                             <?php } ?>
-                            <li class="pull-right muted pi-comment-time"><?php echo _date($post['time']); ?></li>
+                            <li class="list-inline-item float-right muted pi-comment-time"><?php echo _date($post['time']); ?></li>
                         </ul>
                     </div>
                     <div class="pi-comment-desc">
                         <ul class="list-inline">
-                            <li class="muted pull-left"><?php _e('Commented on '); ?></li>
-                            <li>
+                            <li class="list-inline-item muted float-left"><?php _e('Commented on '); ?></li>
+                            <li class="list-inline-item">
                                 <a href="<?php echo $target['url']; ?>" title="<?php echo _escape($target['title']); ?>">
                                     <?php echo _escape($target['title']); ?>
                                 </a>
@@ -67,23 +67,23 @@ $post = $comment['post'];
 <?php 
 $templateRating =<<<'EOT'
     <div class="rating">
-        <span class="fa %s"></span>
-        <span class="fa %s"></span>
-        <span class="fa %s"></span>
-        <span class="fa %s"></span>
-        <span class="fa %s"></span>
+        <span class="%s"></span>
+        <span class="%s"></span>
+        <span class="%s"></span>
+        <span class="%s"></span>
+        <span class="%s"></span>
     </div>
 EOT;
 ?>                                
                                     <?php
                                         $ratings = '';
                                         foreach ($comment['ratings'] as $id => $rating) {
-                                        $star = sprintf($templateRating, 
-                                            $rating['rating'] == 5 ? 'fa-star' : 'fa-star-o',
-                                            $rating['rating'] == 4 ? 'fa-star' : 'fa-star-o',
-                                            $rating['rating'] == 3 ? 'fa-star' : 'fa-star-o',
-                                            $rating['rating'] == 2 ? 'fa-star' : 'fa-star-o',
-                                            $rating['rating'] == 1 ? 'fa-star' : 'fa-star-o'
+                                        $star = sprintf($templateRating,
+                                            $rating['rating'] == 5 ? 'fas fa-star' : 'far fa-star',
+                                            $rating['rating'] == 4 ? 'fas fa-star' : 'far fa-star',
+                                            $rating['rating'] == 3 ? 'fas fa-star' : 'far fa-star',
+                                            $rating['rating'] == 2 ? 'fas fa-star' : 'far fa-star',
+                                            $rating['rating'] == 1 ? 'fas fa-star' : 'far fa-star'
                                             );  
                                         $ratings .= '<div data-value="' . $rating['rating'] . '" data-for="rating-' . $id . '">' . $comment['ratings_type'][$rating['rating_type']] . ' : ';
                                         $ratings .=  $star;
@@ -107,7 +107,7 @@ EOT;
                         <div class="pi-comment-operation">
                             <ul class="list-inline">
                                 <?php foreach ($post['operations'] as $operation => $optData) { ?>
-                                    <li class="operation muted">
+                                    <li class="list-inline-item operation muted">
                                         <a href="<?php echo $optData['url']; ?>"<?php echo 'delete' == $operation ? sprintf(' onclick="return confirm(\'%s\')"', __('Are you sure to delete this comment?')) : ''; ?>>
                                             <?php echo _escape($optData['title']); ?>
                                         </a>

@@ -20,19 +20,18 @@ $badgeAdmin = Pi::service('config') -> get('badge_admin', 'comment');
                 <?php include $this->templateModule('front/user-profile-sidebar.phtml', 'user'); ?>
             </div>
             <div class="col-md-9">
-       
-            <?php if ($posts) { ?>
-                <div class="pi-comment-lead pi-comment-list my">
-                    <div class="page-header">
-                        <h1 class=""><?php echo __('All active comments ') . " ({$count})"; ?></h1>
+                <?php if ($posts) { ?>
+                    <div class="pi-comment-lead pi-comment-list my">
+                        <div class="page-header">
+                            <h1 class=""><?php echo __('All active comments ') . " ({$count})"; ?></h1>
+                        </div>
+                        <?php include $this->template('front/partial/paginate-comments-list-my.phtml'); ?>
+
+
                     </div>
-                    <?php include $this->template('front/partial/paginate-comments-list-my.phtml'); ?>
-
-
-                </div>
-            <?php } else { ?>
-                <div class="pi-comment-none"><?php _e('No comments available yet.'); ?></div>
-            <?php } ?>
+                <?php } else { ?>
+                    <div class="pi-comment-none"><?php _e('No comments available yet.'); ?></div>
+                <?php } ?>
         </div>
     </div>
 <?php

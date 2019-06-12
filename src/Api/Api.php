@@ -2085,4 +2085,40 @@ class Api extends AbstractApi
             'paginator' => $paginator,
         );
     }
+
+    /**
+     * GetRedirectUrl
+     *
+     * @param $post
+     *
+     * @return string
+     */
+    public function getRedirectUrl($post)
+    {
+        $where = array(
+            'active' => 1,
+            'reply' => 0,
+            'root' => $post['root'],
+            'type' => $post['type'] == 'REVIEW' ? 'REVIEW' : 'SIMPLE'
+        );
+
+        $select = Pi::model('post', 'comment')->select()->where($where)->order('id desc');
+        $posts = Pi::model('post', 'comment')->selectWith($select);
+
+        $count = 0;
+        $perpage = Pi::service('config')->get('leading_limit', 'comment') ?: 5;
+
+        foreach ($posts as $apost) {
+            if ($apost['id'] == $post['id']) {
+                break;
+            }
+            $count++;
+
+        }
+        $page = ((int)($count / $perpage)) + 1;
+        $target = Pi::api('api', 'comment')->getTarget($post['root']);
+        $type = $post['type'] == 'REVIEW' ? 'review' : 'comment';
+
+        return $target['url'] . '#' . $type . '/' . $page . '/' . $post['id'];
+    }
 }

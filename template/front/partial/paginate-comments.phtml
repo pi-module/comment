@@ -207,14 +207,14 @@ EOT;
                         <a href="#" class="reply" data-reply="<?php echo $item['id'] ?>"><span class="fas fa-reply"></span> <?php _e('Reply') ?></a>
                     <?php } ?>
                 <?php } else { ?> 
-                    <a href="#"
+                    <button type="button" class="btn btn-link"
                         <?php if(Pi::user()->config('enable_modal')) { ?> 
                             data-action="login" data-toggle="modal" data-target="#loginRegisterModal" 
                         <?php } else { ?> 
                             onclick="return loginForReview(this)" 
                         <?php } ?>>
                         <span class="fas fa-reply"></span> <?php _e('Reply') ?>
-                    </a>
+                    </button>
                 <?php } ?>
                 <a href="<?php echo Pi::url(Pi::api('api', 'comment')->getUrl('post', array('post' => $item['id']))) ?>" target="_blank"><span class="fas fa-share-alt"></span> <?php _e('Share') ?></a>
             </div>
@@ -294,14 +294,14 @@ EOT;
                                 <a href="#" class="reply" data-reply="<?php echo $reply['reply'] ?>"><span class="fas fa-reply"></span> <?php _e('Reply') ?></a>
                             <?php } ?>
                         <?php } else { ?> 
-                            <a href="#"
+                            <button type="button" class="btn btn-link"
                                 <?php if(Pi::user()->config('enable_modal')) { ?> 
                                     data-action="login" data-toggle="modal" data-target="#loginRegisterModal" 
                                 <?php } else { ?> 
                                     onclick="return loginForReview(this)" 
                                 <?php } ?>>
                                 <span class="fas fa-reply"></span> <?php _e('Reply') ?>
-                            </a>
+                            </button>
                         <?php } ?>
                         <a href="<?php echo Pi::url(Pi::api('api', 'comment')->getUrl('post', array('post' => $reply['id']))) ?>" target="_blank"><span class="fas fa-share-alt"></span> <?php _e('Share') ?></a>
                     </div>

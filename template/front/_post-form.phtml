@@ -149,19 +149,19 @@ $form = Pi::service('comment')->getForm($formData, $options);
                         <div class="hide card bg-light mb-3 comment-login">
                             <div class="card-body">
                                 <?php $modalEnabled = Pi::user()->config('enable_modal'); ?>
-                                <?php echo sprintf(__('Please <a href="%s" data-target="#loginRegisterModal" data-redirect-anchor="#pi-comment-lead-anchor" data-action="login" data-toggle="%s">login</a> to leave comments.'), $modalEnabled ? '#' : Pi::service('authentication')->getUrl('login', $uri), $modalEnabled ? 'modal' : ''); ?>
+                                <?php if($modalEnabled) : ?>
+                                    <?php echo __('Please <button type="button" data-target="#loginRegisterModal" data-redirect-anchor="#pi-comment-lead-anchor" data-action="login" data-toggle="modal">login</a> to leave comments.'); ?>
+                                <?php else : ?>
+                                    <?php echo __('Please <a href="%s" data-redirect-anchor="#pi-comment-lead-anchor">login</a> to leave comments.', Pi::service('authentication')->getUrl('login', $uri)); ?>
+                                <?php endif; ?>
                             </div>
                         </div>
                     <?php } ?>
                 </div>
 
-
-
                 <?php // Review form in a modale ?>
                 <?php if ($review) { ?>
-
             </div>
-
         </div>
     </div>
 </div>

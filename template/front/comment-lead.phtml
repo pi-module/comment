@@ -532,13 +532,13 @@ EOT;
                         <?php if (Pi::user()->getId() > 0) { ?>
                             <input class="subscription" type="checkbox" <?php echo $subscribe ? 'CHECKED=CHECKED' : '' ?> /> <span class="text-muted"><?php _e('Subscribe to the thread') ?></span>
                         <?php } else { ?>
-                            <a class="nodeco" href="#" <?php if(Pi::user()->config('enable_modal')) { ?> 
+                            <button type="button" class="btn btn-link nodeco" <?php if(Pi::user()->config('enable_modal')) { ?>
                                 data-action="login" data-toggle="modal" data-target="#loginRegisterModal" 
                             <?php } else { ?> 
                                 onclick="return loginForReview(this)" 
                             <?php } ?>>
                                 <span class="far fa-square text-muted"></span> <span class="text-muted"><?php _e('Subscribe to the thread') ?></span>
-                            </a>
+                            </button>
                         <?php } ?>    
                     <?php } ?>
                 </div>
@@ -582,13 +582,13 @@ EOT;
                 <?php if (Pi::user()->getId() > 0) { ?>
                     <input class="subscription" type="checkbox" <?php echo $subscribe ? 'CHECKED=CHECKED' : '' ?> /> <span class="text-muted"><?php _e('Subscribe to the thread') ?></span>
                 <?php } else { ?>
-                    <a class="nodeco" href="#" <?php if(Pi::user()->config('enable_modal')) { ?> 
+                    <button type="button" class="btn btn-link nodeco" <?php if(Pi::user()->config('enable_modal')) { ?>
                         data-action="login" data-toggle="modal" data-target="#loginRegisterModal" 
                     <?php } else { ?> 
                         onclick="return loginForReview(this)" 
                     <?php } ?>>
                         <span class="far fa-square text-muted"></span> <span class="text-muted"><?php _e('Subscribe to the thread') ?></span>
-                    </a>
+                    </button>
                 <?php } ?>    
             <?php } ?>
         </div>
@@ -599,19 +599,19 @@ EOT;
             <div class="write-review clearfix text-center">
                 <?php if (Pi::user()->getId() > 0) { ?>
                     <?php if($owner) { ?>
-                        <a href="#" onclick="return ownerReview(this)"><?php _e("Write a review") ?></a>
+                        <button type="button" class="btn btn-link" onclick="return ownerReview(this)"><?php _e("Write a review") ?></button>
                     <?php } else { ?>
-                        <a href="#" class="show-modal"><?php _e("Write a review") ?></a>
+                        <button type="button" class="btn btn-link show-modal"><?php _e("Write a review") ?></button>
                     <?php } ?>
                 <?php } else { ?>
-                    <a href="#"
+                    <button type="button" class="btn btn-link"
                         <?php if(Pi::user()->config('enable_modal')) { ?> 
                             data-action="login" data-toggle="modal" data-target="#loginRegisterModal" 
                         <?php } else { ?> 
                             onclick="return loginForReview(this)" 
                         <?php } ?>>
                         <?php _e("Write a review") ?>
-                    </a>
+                    </button>
                     
                 <?php } ?>  
             </div>
@@ -637,7 +637,6 @@ EOT;
                                     <?php echo $i ?>
                                 </a>
                             </li>
-                            
                      <?php
                         }  
                     } 

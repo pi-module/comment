@@ -11,7 +11,7 @@ namespace Module\Comment\Api;
 
 use Pi;
 use Pi\Application\Api\AbstractComment;
-use Zend\Mvc\Router\RouteMatch;
+use Laminas\Mvc\Router\RouteMatch;
 
 /**
  * Custom comment target callback handler and locator

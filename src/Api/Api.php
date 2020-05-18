@@ -15,7 +15,7 @@ use Pi\Db\Sql\Where;
 use Pi\Db\RowGateway\RowGateway;
 use Module\Comment\Form\PostForm;
 use Module\Comment\Form\ReplyForm;
-use Zend\Mvc\Router\RouteMatch;
+use Laminas\Mvc\Router\RouteMatch;
 use Pi\Paginator\Paginator;
 
 /**
@@ -1549,8 +1549,8 @@ class Api extends AbstractApi
                 $extraModel = Pi::model('extra', 'event');
                 $eventTimeTable = Pi::model("event_time", 'event')->getTable();
 
-                $selectPost->join(array('event' => $newsModel->getTable()), new \Zend\Db\Sql\Expression('root.type = "event" AND root.item = event.id AND event.status = 1'), array(), \Zend\Db\Sql\Select::JOIN_LEFT);
-                $selectPost->join(array('extra' => $extraModel->getTable()), new \Zend\Db\Sql\Expression('event.id = extra.id'), array(), \Zend\Db\Sql\Select::JOIN_LEFT);
+                $selectPost->join(array('event' => $newsModel->getTable()), new \Laminas\Db\Sql\Expression('root.type = "event" AND root.item = event.id AND event.status = 1'), array(), \Laminas\Db\Sql\Select::JOIN_LEFT);
+                $selectPost->join(array('extra' => $extraModel->getTable()), new \Laminas\Db\Sql\Expression('event.id = extra.id'), array(), \Laminas\Db\Sql\Select::JOIN_LEFT);
                 $selectPost->join(array('event_time' => $eventTimeTable), 'event_time.event = extra.id', array(), 'left');
 
                 /**
@@ -1582,19 +1582,19 @@ class Api extends AbstractApi
         //Find main_image
         if ($mainImage) {
             $selects = array();
-            $sql = new\Zend\Db\Sql\Sql(Pi::db()->getAdapter());
+            $sql = new\Laminas\Db\Sql\Sql(Pi::db()->getAdapter());
             
             if (Pi::service('module')->isActive('guide')) {
                 $idsByModule['guide'][] = -1;
                 $itemTable = Pi::model('item', 'guide')->getTable();
-                $selectItem = $sql->select()->from($itemTable)->columns(array('id', 'module' => new \Zend\Db\Sql\Expression('"guide"'), 'main_image'))->where(array(new \Zend\Db\Sql\Predicate\In('id', $idsByModule['guide'])));;
+                $selectItem = $sql->select()->from($itemTable)->columns(array('id', 'module' => new \Laminas\Db\Sql\Expression('"guide"'), 'main_image'))->where(array(new \Laminas\Db\Sql\Predicate\In('id', $idsByModule['guide'])));;
                 $selects[] = $selectItem; 
             }
             
             if (Pi::service('module')->isActive('news')) {
                 $idsByModule['news'][] = -1;
                 $newsTable = Pi::model('story', 'news')->getTable();
-                $selectNews = $sql->select()->from($newsTable)->columns(array('id', 'module' => new \Zend\Db\Sql\Expression('"news"'),'main_image'))->where(array(new \Zend\Db\Sql\Predicate\In('id', $idsByModule['news'] + $idsByModule['event'])));;
+                $selectNews = $sql->select()->from($newsTable)->columns(array('id', 'module' => new \Laminas\Db\Sql\Expression('"news"'),'main_image'))->where(array(new \Laminas\Db\Sql\Predicate\In('id', $idsByModule['news'] + $idsByModule['event'])));;
                 
                 $selects[] = $selectNews;
             }
@@ -1616,7 +1616,7 @@ class Api extends AbstractApi
 
         // Find replies
         if (count($ids)) {
-            $select->where(array(new \Zend\Db\Sql\Predicate\In('post.reply', $ids)));
+            $select->where(array(new \Laminas\Db\Sql\Predicate\In('post.reply', $ids)));
             $rowset = Pi::db()->query($select);
             if ($rowset && count($rowset)) {
                 
@@ -1661,7 +1661,7 @@ class Api extends AbstractApi
             array('rating_type_id' => 'id', 'type'),
             'left'
         )->group('post_rating.id')
-        ->where(new \Zend\Db\Sql\Predicate\In(addslashes('post.id'), $ids));
+        ->where(new \Laminas\Db\Sql\Predicate\In(addslashes('post.id'), $ids));
         $rowset = Pi::db()->query($select);
         foreach ($rowset as $row) {
             $post = (array) $row;

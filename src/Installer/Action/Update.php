@@ -11,7 +11,7 @@ namespace   Module\Comment\Installer\Action;
 
 use Pi\Application\Installer\Action\Update as BasicUpdate;
 use Module\Comment\Installer\Schema;
-use Zend\EventManager\Event;
+use Laminas\EventManager\Event;
 
 /**
  * Module update handler

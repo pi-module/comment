@@ -10,7 +10,7 @@
 namespace Module\Comment\Form;
 
 use Pi;
-use Zend\InputFilter\InputFilter;
+use Laminas\InputFilter\InputFilter;
 
 /**
  * Filter of Rating Type

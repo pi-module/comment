@@ -441,7 +441,7 @@ class PostController extends ActionController
         // find next comment 
         $nextComment == null;
         if ($post['reply']) {
-            $select = Pi::model('post', 'comment')->select()->where(array('active' => 1, 'reply' => $post['reply'], new \Zend\Db\Sql\Predicate\Expression('id < ' . $post['id'])))->order('id DESC');
+            $select = Pi::model('post', 'comment')->select()->where(array('active' => 1, 'reply' => $post['reply'], new \Laminas\Db\Sql\Predicate\Expression('id < ' . $post['id'])))->order('id DESC');
             $row = Pi::model('post', 'comment')->selectWith($select)->current();
             if ($row == null) {
                 $nextComment = $post['reply'];
@@ -449,7 +449,7 @@ class PostController extends ActionController
                 $nextComment = $row['id'];
             }
         } else {
-           $select = Pi::model('post', 'comment')->select()->where(array('active' => 1, 'reply' => 0, 'type' => $post['type'], new \Zend\Db\Sql\Predicate\Expression('id > ' . $post['id'])))->order('id');
+           $select = Pi::model('post', 'comment')->select()->where(array('active' => 1, 'reply' => 0, 'type' => $post['type'], new \Laminas\Db\Sql\Predicate\Expression('id > ' . $post['id'])))->order('id');
            $row = Pi::model('post', 'comment')->selectWith($select)->current();
            if ($row != null) {
                 $nextComment = $row['id'];

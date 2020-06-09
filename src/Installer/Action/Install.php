@@ -13,7 +13,7 @@ use Pi;
 use Pi\Application\Installer\Action\Install as BasicInstall;
 //use Pi\Application\Installer\Module as ModuleInstaller;
 use Pi\Application\Installer\Resource\Comment as CommentResource;
-use Zend\EventManager\Event;
+use Laminas\EventManager\Event;
 
 class Install extends BasicInstall
 {

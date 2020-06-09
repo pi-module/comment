@@ -10,7 +10,7 @@
 namespace Module\Comment\Form;
 
 use Pi;
-use Zend\InputFilter\InputFilter;
+use Laminas\InputFilter\InputFilter;
 use Module\System\Validator\UserEmail as UserEmailValidator;
 
 class ReplyFilter extends InputFilter
